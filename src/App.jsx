@@ -1,12 +1,14 @@
 import './App.css'
 
-function App() {
+import { Button } from "@/components/ui/button"
 
+function App() {
   return (
-    <>
-    <div className='text-center text-xl pt-10 bg-gradient-to-br from-blue-500 to-indigo-700'>Hello</div>
-    </>
+    <div className="flex flex-col items-center justify-center min-h-screen">
+      <Button>Click me</Button>
+    </div>
   )
 }
 
 export default App
+
