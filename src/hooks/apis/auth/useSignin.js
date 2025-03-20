@@ -11,6 +11,7 @@ export const useSignin = () => {
     mutateAsync: signinMutation
   } = useMutation({
     mutationFn: signInRequest,
+
     onSuccess: (response) => {
       console.log('Successfully signed in', response);
 
@@ -29,7 +30,7 @@ export const useSignin = () => {
       console.error('Failed to sign in hello', error);
       toast({
         title: 'Failed to sign in',
-        message: error.message || 'Something went wrong',
+        message: error?.message || 'Something went wrong',
         type: 'error'
       });
     }

@@ -20,7 +20,7 @@ export const useSignup = () => {
       });
     },
     onError: (error) => {
-      console.error('Failed to sign up', error);
+      console.error('Failed to sign up hhh', error);
       toast({
         title: 'Failed to sign up',
         message: error?.message || 'Something went wrong',

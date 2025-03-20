@@ -25,7 +25,7 @@ export const Signincard = ({ signinForm, setSigninForm, onSigninFormSubmit, vali
         {error && (
           <div className="bg-destructive/15 p-4 rounded-md flex items-center gap-x-2 text-sm text-destructive mb-6">
             <TriangleAlert className="size-5" />
-            <p>{error}</p>
+            <p>{typeof error === 'object' ? JSON.stringify(error?.message) : error}</p>
           </div>
         )}
 
@@ -61,7 +61,7 @@ export const Signincard = ({ signinForm, setSigninForm, onSigninFormSubmit, vali
           />
 
           <Button className="w-full" disabled={isPending} size="lg" type="submit">
-            Sign In
+            {isPending ? 'Signing in...' : 'Sign In'}
           </Button>
         </form>
 

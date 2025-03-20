@@ -41,7 +41,14 @@ export const SignupCard = ({ signupForm, setSignupForm, validationError, onSignu
       </CardHeader>
       <CardContent>
         <form className="space-y-3" noValidate onSubmit={onSignupFormSubmit}>
-          <Input placeholder="Email" required onChange={(e) => setSignupForm({ ...signupForm, email: e.target.value })} />
+          <Input
+            placeholder="Email"
+            required
+            onChange={(e) => setSignupForm({ ...signupForm, email: e.target.value })}
+            value={signupForm.email}
+            type="text"
+            disabled={isPending}
+          />
           <Input
             placeholder="Your username"
             required
@@ -67,7 +74,7 @@ export const SignupCard = ({ signupForm, setSignupForm, validationError, onSignu
             disabled={isPending}
           />
           <Button disabled={isPending} size="lg" type="submit" className="w-full">
-            Sign Up
+            {isPending ? 'Signing up...' : 'Sign Up'}
           </Button>
         </form>
 
