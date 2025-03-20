@@ -66,7 +66,7 @@ export const SignupCard = ({ signupForm, setSignupForm, validationError, onSignu
             type="password"
             disabled={isPending}
           />
-          <Button disabled={false} size="lg" type="submit" className="w-full">
+          <Button disabled={isPending} size="lg" type="submit" className="w-full">
             Sign Up
           </Button>
         </form>
