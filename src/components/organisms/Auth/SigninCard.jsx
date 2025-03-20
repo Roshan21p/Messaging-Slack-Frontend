@@ -1,11 +1,5 @@
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle
-} from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { useState } from 'react';
@@ -33,9 +27,7 @@ export const Signincard = () => {
             required
             type="email"
             value={signinForm.email}
-            onChange={(e) =>
-              setSigninForm({ ...signinForm, email: e.target.value })
-            }
+            onChange={(e) => setSigninForm({ ...signinForm, email: e.target.value })}
           />
 
           <Input
@@ -44,9 +36,7 @@ export const Signincard = () => {
             required
             type="password"
             value={signinForm.password}
-            onChange={(e) =>
-              setSigninForm({ ...signinForm, password: e.target.value })
-            }
+            onChange={(e) => setSigninForm({ ...signinForm, password: e.target.value })}
           />
 
           <Button className="w-full" disabled={false} size="lg" type="submit">
@@ -58,10 +48,7 @@ export const Signincard = () => {
 
         <p className="text-s text-muted-foreground mt-4">
           Do not have an account ?{' '}
-          <span
-            className="text-sky-600 hover:underline cursor-pointer"
-            onClick={() => navigate('/auth/signup')}
-          >
+          <span className="text-sky-600 hover:underline cursor-pointer" onClick={() => navigate('/auth/signup')}>
             Sign Up
           </span>
         </p>
