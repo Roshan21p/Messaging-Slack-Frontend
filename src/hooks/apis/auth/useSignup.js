@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { signUpRequest } from '@/apis/auth';
-import { useToast } from '@/components/ui/use-toast';
+import { useToast } from '@/hooks/use-toast';
 
 export const useSignup = () => {
   const { toast } = useToast();
