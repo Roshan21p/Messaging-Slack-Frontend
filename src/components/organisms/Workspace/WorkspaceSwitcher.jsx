@@ -49,7 +49,7 @@ export const WorkspaceSwitcher = () => {
                         onClick={() => navigate(`/workspaces/${workspace._id}`)}
                         key={workspace._id}
                      >
-                        <p className='truncate'>{workspace?.name}</p>
+                        <p className="truncate">{workspace?.name}</p>
                      </DropdownMenuItem>
                   );
                })
