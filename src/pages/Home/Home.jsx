@@ -16,7 +16,7 @@ export const Home = () => {
     if (workspaces?.data?.length === 0 || !workspaces) {
       console.log('No workspaces found, creating one');
     } else {
-      navigate(`/workspaces/${workspaces.data[0]._id}`);
+      navigate(`/workspaces/${workspaces[0]._id}`);
     }
   }, [isFetching, workspaces, navigate]);
   return (

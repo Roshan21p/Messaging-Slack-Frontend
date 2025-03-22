@@ -38,7 +38,7 @@ export const AppRoutes = () => {
       />
 
       <Route
-        path="/workspaces/:workspacsId"
+        path="/workspaces/:workspaceId"
         element={
           <ProtectedRoute>
             <WorkspaceLayout>Workspace</WorkspaceLayout>
