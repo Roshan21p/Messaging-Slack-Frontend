@@ -7,14 +7,14 @@ import { Modals } from './components/organisms/Modals/Modals';
 const queryClient = new QueryClient();
 
 function App() {
-  return (
-    <QueryClientProvider client={queryClient}>
-      <AppContextProvider>
-        <AppRoutes />
-        <Modals />
-      </AppContextProvider>
-    </QueryClientProvider>
-  );
+   return (
+      <QueryClientProvider client={queryClient}>
+         <AppContextProvider>
+            <AppRoutes />
+            <Modals />
+         </AppContextProvider>
+      </QueryClientProvider>
+   );
 }
 
 export default App;

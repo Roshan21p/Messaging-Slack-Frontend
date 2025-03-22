@@ -6,32 +6,32 @@ import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import react from 'eslint-plugin-react';
 
 export default [
-  { ignores: ['dist'] },
-  {
-    files: ['**/*.{js,jsx}'],
-    languageOptions: {
-      ecmaVersion: 2020,
-      globals: globals.browser,
-      parserOptions: {
-        ecmaVersion: 'latest',
-        ecmaFeatures: { jsx: true },
-        sourceType: 'module'
+   { ignores: ['dist'] },
+   {
+      files: ['**/*.{js,jsx}'],
+      languageOptions: {
+         ecmaVersion: 2020,
+         globals: globals.browser,
+         parserOptions: {
+            ecmaVersion: 'latest',
+            ecmaFeatures: { jsx: true },
+            sourceType: 'module'
+         }
+      },
+      plugins: {
+         react,
+         'simple-import-sort': simpleImportSort,
+         'react-hooks': reactHooks,
+         'react-refresh': reactRefresh
+      },
+      rules: {
+         ...js.configs.recommended.rules,
+         ...reactHooks.configs.recommended.rules,
+         'no-unused-vars': ['warn', { varsIgnorePattern: '^[A-Z_]' }],
+         'react-refresh/only-export-components': 'off',
+         semi: ['error', 'always'],
+         quotes: ['error', 'single'],
+         'react/prop-types': 'off'
       }
-    },
-    plugins: {
-      react,
-      'simple-import-sort': simpleImportSort,
-      'react-hooks': reactHooks,
-      'react-refresh': reactRefresh
-    },
-    rules: {
-      ...js.configs.recommended.rules,
-      ...reactHooks.configs.recommended.rules,
-      'no-unused-vars': ['warn', { varsIgnorePattern: '^[A-Z_]' }],
-      'react-refresh/only-export-components': 'off',
-      semi: ['error', 'always'],
-      quotes: ['error', 'single'],
-      'react/prop-types': 'off'
-    }
-  }
+   }
 ];
