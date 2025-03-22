@@ -28,6 +28,7 @@
       "react": "^19.0.0",
       "react-dom": "^19.0.0",
       "react-icons": "^5.5.0",
+      "react-resizable-panels": "^2.1.7",
       "react-router-dom": "^7.4.0",
       "sonner": "^2.0.1",
       "tailwind-merge": "^3.0.2",
@@ -35,11 +36,11 @@
       "tw-animate-css": "^1.2.4"
    },
    "devDependencies": {
-      "@eslint/js": "^9.21.0",
+      "@eslint/js": "^9.23.0",
       "@types/react": "^19.0.10",
       "@types/react-dom": "^19.0.4",
       "@vitejs/plugin-react": "^4.3.4",
-      "eslint": "^9.22.0",
+      "eslint": "^9.23.0",
       "eslint-plugin-react": "^7.37.4",
       "eslint-plugin-react-hooks": "^5.2.0",
       "eslint-plugin-react-refresh": "^0.4.19",
