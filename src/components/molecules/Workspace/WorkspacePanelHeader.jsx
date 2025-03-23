@@ -9,19 +9,22 @@ import {
 import { useAuth } from '@/hooks/context/useAuth';
 import { useWorkspacePreferencesModal } from '@/hooks/context/useWorkspacePreferencesModal';
 import { ChevronDownCircle, ListFilterIcon, SquarePenIcon } from 'lucide-react';
+import { useEffect } from 'react';
 
 export const WorkspacePanelHeader = ({ workspace }) => {
    const workspaceMembers = workspace?.members;
 
    const { auth } = useAuth();
 
-   const { setOpenPreferences, setInitialValue } = useWorkspacePreferencesModal();
+   const { setOpenPreferences, setInitialValue, setWorkspace } = useWorkspacePreferencesModal();
 
    const isLoggedInUserAdminOfWorkspace = workspaceMembers?.find(
       (member) => member?.memberId?._id === auth?.user?._id && member.role === 'admin'
    );
 
-   console.log('isLoggedInUserAdminOfWorkspace', isLoggedInUserAdminOfWorkspace);
+   useEffect(() => {
+      setWorkspace(workspace);
+   }, []);
 
    return (
       <div className="flex items-center justify-between px-4 h-[50px] gap-0.5">

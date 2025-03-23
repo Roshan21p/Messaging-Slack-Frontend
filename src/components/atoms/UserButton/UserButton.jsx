@@ -8,7 +8,7 @@ import {
 import { useAuth } from '@/hooks/context/useAuth';
 import { useCreateWorkspaceModal } from '@/hooks/context/useCreateWorkspaceModal';
 import { useToast } from '@/hooks/use-toast';
-import { LogOutIcon, PencilIcon, SettingsIcon } from 'lucide-react';
+import { HomeIcon, LogOutIcon, PencilIcon, SettingsIcon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export const UserButton = () => {
@@ -40,6 +40,10 @@ export const UserButton = () => {
             </Avatar>
          </DropdownMenuTrigger>
          <DropdownMenuContent>
+            <DropdownMenuItem onClick={() => navigate('/home')}>
+               <HomeIcon className="size-4 mr-2 h-10" />
+               Home
+            </DropdownMenuItem>
             <DropdownMenuItem onClick={openWorkspaceCreateModal}>
                <PencilIcon className="size-4 mr-2 h-10" />
                Create Workspace

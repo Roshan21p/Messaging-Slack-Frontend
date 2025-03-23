@@ -20,6 +20,10 @@ export const WorkspacePanel = () => {
       return (
          <div className="flex flex-col gap-y-2 h-full items-center justify-center text-white">
             <AlertTriangleIcon className=" size-6 mx-auto mt-2 text-red-600" />
+            <h2 className="text-3xl font-bold text-gray-800 mb-2">No Workspaces Found</h2>
+            <p className="text-lg text-white mb-6">
+               You haven't created any workspaces yet. Start by creating your first one!
+            </p>
          </div>
       );
    }

@@ -27,7 +27,6 @@ export const fetchWorkspaceRequest = async ({ token }) => {
             'x-access-token': token
          }
       });
-      console.log('Response in fetch workspace request', response);
       return response?.data?.data;
    } catch (error) {
       console.error('Error in fetch worspace request', error);
@@ -56,7 +55,6 @@ export const deleteWorkspaceRequest = async ({ workspaceId, token }) => {
             'x-access-token': token
          }
       });
-
       return response?.data?.data;
    } catch (error) {
       console.log('Error in deleting workspace request', error);
