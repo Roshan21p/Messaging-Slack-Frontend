@@ -62,7 +62,7 @@ export const deleteWorkspaceRequest = async ({ workspaceId, token }) => {
    }
 };
 
-export const updateWorkspaceRequest = async ({ workspaceId, name, token }) => {
+export const updateWorkspaceRequest = async ({ workspaceId, name, token }) => {   
    try {
       const response = await axios.put(
          `/workspaces/${workspaceId}`,

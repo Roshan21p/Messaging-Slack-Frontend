@@ -1,9 +1,11 @@
 import { updateWorkspaceRequest } from '@/apis/workspaces';
 import { useAuth } from '@/hooks/context/useAuth';
+import { useToast } from '@/hooks/use-toast';
 import { useMutation } from '@tanstack/react-query';
 
 export const useUpdateWorkspace = (workspaceId) => {
    const { auth } = useAuth();
+   const { toast } = useToast();
 
    const {
       isPending,
@@ -11,12 +13,21 @@ export const useUpdateWorkspace = (workspaceId) => {
       error,
       mutateAsync: updateWorkspaceMutation
    } = useMutation({
-      mutationFn: (name) => updateWorkspaceRequest({ workspaceId, name, token }),
+      mutationFn: (name) => updateWorkspaceRequest({ workspaceId, name, token: auth?.token }),
       onSuccess: () => {
-         console.log('Workspace updated successfully');
+         toast({
+            title: 'Workspace Updated Successfully',
+            message: 'Your workspace has been updated to the latest changes.',
+            type: 'success'
+         });
       },
       onError: (error) => {
          console.log('Error in updating workspace', error);
+         toast({
+            title: 'Failed to Update Workspace',
+            message: error?.message || 'An unexpected error occurred. Please try again later.',
+            type: 'error'
+         });
       }
    });
 
