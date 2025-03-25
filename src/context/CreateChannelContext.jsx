@@ -1,6 +1,6 @@
 import { createContext, useState } from 'react';
 
-const CreateChannelContext = new createContext();
+const CreateChannelContext = createContext();
 
 export const CreateChannelContextProvider = ({ children }) => {
    const [openCreateChannelModal, setOpenCreateChannelModal] = useState(false);

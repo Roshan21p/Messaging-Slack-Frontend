@@ -12,7 +12,7 @@ export const WorkspacePanelSection = ({ children, label, onIconClick }) => {
             <Button
                onClick={() => setOpen(!open)}
                variant="transparent"
-               className="p-0.5 text-sm size- text-[#f9edffcc]"
+               className="p-0.5 text-sm size- text-[#f9edffcc] cursor-pointer"
             >
                {open ? <FaCaretDown className="size-4" /> : <FaCaretRight className="size-4" />}
             </Button>
@@ -29,7 +29,7 @@ export const WorkspacePanelSection = ({ children, label, onIconClick }) => {
                   variant="primary"
                   size="sm"
                   onClick={onIconClick}
-                  className="text-[#f9edffcc] transition opacity ml-auto p-0.5 text-sm size-6 hover:bg-slack-dark"
+                  className="text-[#f9edffcc] transition opacity ml-auto p-1 text-sm size-6 hover:bg-slack-dark"
                >
                   <PlusIcon className="size-4 text-[#f9edffcc] cursor-pointer" />
                </Button>

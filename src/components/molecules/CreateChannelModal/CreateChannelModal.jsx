@@ -1,11 +1,25 @@
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import {
+   Dialog,
+   DialogClose,
+   DialogContent,
+   DialogFooter,
+   DialogHeader,
+   DialogTitle
+} from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
+import { useAddChannelToWorkspace } from '@/hooks/apis/workspaces/useAddChannelToWorkspace';
 import { useCreateChannelModal } from '@/hooks/context/useCreateChannelModal';
+import { useCurrentWorkspace } from '@/hooks/context/useCurrentWorkspace';
+import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 
 export const CreateChannelModal = () => {
+   const queryClient = useQueryClient();
+
    const { openCreateChannelModal, setOpenCreateChannelModal } = useCreateChannelModal();
+   const { addChannelToWorkspaceMutation } = useAddChannelToWorkspace();
+   const { currentWorkspace } = useCurrentWorkspace();
 
    const [channelName, setChannelName] = useState('');
 
@@ -13,8 +27,15 @@ export const CreateChannelModal = () => {
       setOpenCreateChannelModal(false);
    }
 
-   function handleFormSubmit(e) {
+   async function handleFormSubmit(e) {
       e.preventDefault();
+
+      await addChannelToWorkspaceMutation({
+         workspaceId: currentWorkspace?._id,
+         channelName: channelName
+      });
+
+      queryClient.invalidateQueries(`fetchWorkspaceById-${currentWorkspace?._id}`);
    }
 
    return (
@@ -33,9 +54,13 @@ export const CreateChannelModal = () => {
                   placeholder="Channel Name e.g. team-announcments"
                />
 
-               <div className="flex justify-end mt-4">
-                  <Button>Create Channel</Button>
-               </div>
+               <DialogFooter>
+                  <DialogClose>
+                     <div className="flex justify-end mt-4">
+                        <Button>Create Channel</Button>
+                     </div>
+                  </DialogClose>
+               </DialogFooter>
             </form>
          </DialogContent>
       </Dialog>
