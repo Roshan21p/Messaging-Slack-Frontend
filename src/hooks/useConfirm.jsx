@@ -40,10 +40,12 @@ export const useConfirm = ({ title, message }) => {
 
                <DialogFooter>
                   <DialogClose>
-                     <Button onClick={handleClose} variant="secondary" >
+                     <Button onClick={handleClose} variant="secondary">
                         Cancel
                      </Button>
-                     <Button onClick={handleConfirm} className="cursor-pointer">Confirm</Button>
+                     <Button onClick={handleConfirm} className="cursor-pointer">
+                        Confirm
+                     </Button>
                   </DialogClose>
                </DialogFooter>
             </DialogContent>

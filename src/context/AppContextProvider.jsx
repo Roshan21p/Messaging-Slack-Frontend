@@ -10,5 +10,4 @@ export const AppContextProvider = combineContext(
    CreateWorkspaceContextProvider,
    WorkspacePreferencesModalContextProvider,
    CreateChannelContextProvider
-
 );
