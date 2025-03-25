@@ -22,7 +22,7 @@ export const WorkspaceSwitcher = () => {
    return (
       <DropdownMenu>
          <DropdownMenuTrigger>
-            <Button className="size-9 relative overflow-hidden bg-[#ABABAD] hover:bg-[#ABABAD]/80 font-semibold text-slate-800 text-xl">
+            <Button className="size-9 relative overflow-hidden bg-[#ABABAD] hover:bg-[#ABABAD]/80 font-semibold text-slate-800 text-xl cursor-pointer">
                {isFetching ? (
                   <Loader className="size-5 animate-spin" />
                ) : (

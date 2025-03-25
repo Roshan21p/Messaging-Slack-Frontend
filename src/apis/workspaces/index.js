@@ -27,9 +27,10 @@ export const fetchWorkspaceRequest = async ({ token }) => {
             'x-access-token': token
          }
       });
+
       return response?.data?.data;
    } catch (error) {
-      console.error('Error in fetch worspace request', error);
+      console.error('Error in fetch workspace request', error);
       throw error?.response?.data || error?.message;
    }
 };
@@ -43,7 +44,7 @@ export const fetchWorkspaceDetailsRequest = async ({ workspaceId, token }) => {
       });
       return response?.data?.data;
    } catch (error) {
-      console.log('Error in fetching workspace details request', error);
+      console.log('Error in fetching workspace details request', error, error?.response?.data);
       throw error?.response?.data || error?.message;
    }
 };
@@ -62,7 +63,7 @@ export const deleteWorkspaceRequest = async ({ workspaceId, token }) => {
    }
 };
 
-export const updateWorkspaceRequest = async ({ workspaceId, name, token }) => {   
+export const updateWorkspaceRequest = async ({ workspaceId, name, token }) => {
    try {
       const response = await axios.put(
          `/workspaces/${workspaceId}`,

@@ -1,10 +1,11 @@
 import { fetchWorkspaceRequest } from '@/apis/workspaces';
 import { useAuth } from '@/hooks/context/useAuth';
+import { useToast } from '@/hooks/use-toast';
 import { useQuery } from '@tanstack/react-query';
 
 export const useFetchWorkspace = () => {
    const { auth } = useAuth();
-
+   const { toast } = useToast();
    const {
       isFetching,
       isSuccess,
@@ -13,7 +14,16 @@ export const useFetchWorkspace = () => {
    } = useQuery({
       queryFn: () => fetchWorkspaceRequest({ token: auth?.token }),
       queryKey: ['fetchWorkspaces'],
-      staleTime: 30000
+      staleTime: 30000,
+      retry: 1,
+      retryOnMount: true,
+      throwOnError: (error) => {
+         toast({
+            title: 'Failed to Fetch Workspace Details',
+            message: error?.message || 'An unexpected error occurred. Please try again.',
+            type: 'error'
+         });
+      }
    });
 
    return {

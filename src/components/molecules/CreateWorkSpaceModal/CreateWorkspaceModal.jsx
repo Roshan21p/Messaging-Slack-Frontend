@@ -56,7 +56,9 @@ export const CreateWorkspaceModal = () => {
                />
 
                <div className="flex justify-end mt-5">
-                  <Button disabled={isPending}>Create workspace</Button>
+                  <Button disabled={isPending} className="cursor-pointer">
+                     Create workspace
+                  </Button>
                </div>
             </form>
          </DialogContent>
