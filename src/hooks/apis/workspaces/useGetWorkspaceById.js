@@ -18,8 +18,6 @@ export const useGetWorkspaceById = (id) => {
       retryOnMount: true
    });
 
-   console.log('hello', error);
-
    return {
       isFetching,
       isSuccess,
