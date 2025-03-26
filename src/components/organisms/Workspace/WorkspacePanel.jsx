@@ -41,7 +41,7 @@ export const WorkspacePanel = () => {
    return (
       <div className="flex flex-col h-full bg-slack-medium">
          <WorkspacePanelHeader workspace={workspace} />
-         <div>
+         <div className="flex flex-col px-2 mt-2">
             <SideBarItem
                label="Threads"
                icon={MessageSquareTextIcon}
