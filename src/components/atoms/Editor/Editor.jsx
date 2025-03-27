@@ -5,15 +5,19 @@ import { useEffect, useRef, useState } from 'react';
 import { PiTextAa } from 'react-icons/pi';
 
 import { Button } from '@/components/ui/button';
+import { Hint } from '../Hint/Hint';
+import { ImageIcon } from 'lucide-react';
 
-export const Editor = ({
-   variant = 'create',
-   onSubmit,
-   onCancel,
-   placeholder,
-   disabled,
-   defaultValue
-}) => {
+export const Editor = (
+   {
+      //    variant = 'create',
+      //    onSubmit,
+      //    onCancel,
+      //    placeholder,
+      //    disabled,
+      //    defaultValue
+   }
+) => {
    const [text, setText] = useState('');
    const [isToolbarVisible, setIsToolbarVisible] = useState(false);
 
@@ -44,7 +48,7 @@ export const Editor = ({
          modules: {
             toolbar: [
                ['bold', 'italic', 'underline', 'strike'],
-               ['link', 'image'],
+               ['link'],
                [{ list: 'ordered' }, { list: 'bullet' }],
                ['clean']
             ],
@@ -82,15 +86,29 @@ export const Editor = ({
             <div className="h-full ql-custom" ref={containerRef} />
 
             <div className="flex px-2 pb-2 ">
-               <Button
-                  size="iconSm"
-                  variant="ghost"
-                  disabled={false}
-                  onClick={toggleToolbar}
-                  className="cursor-pointer"
-               >
-                  <PiTextAa className="size-4" />
-               </Button>
+               <Hint label={isToolbarVisible ? 'Show toolbar' : 'Hide toolbar'} side='bottom' align='center'>
+                  <Button
+                     size="iconSm"
+                     variant="ghost"
+                     disabled={false}
+                     onClick={toggleToolbar}
+                     className="cursor-pointer"
+                  >
+                     <PiTextAa className="size-4" />
+                  </Button>
+               </Hint>
+
+               <Hint label="Image">
+                  <Button
+                     size="iconSm"
+                     variant="ghost"
+                     disabled={false}
+                     onClick={() => {}}
+                     className="cursor-pointer"
+                  >
+                     <ImageIcon className="size-4" />
+                  </Button>
+               </Hint>
             </div>
          </div>
 
