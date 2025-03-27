@@ -15,7 +15,7 @@ export const useFetchWorkspace = () => {
       queryFn: () => fetchWorkspaceRequest({ token: auth?.token }),
       queryKey: ['fetchWorkspaces'],
       staleTime: 30000,
-      retry: 1,
+      retry: 2,
       retryOnMount: true,
       throwOnError: (error) => {
          toast({

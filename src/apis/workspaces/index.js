@@ -132,3 +132,26 @@ export const joinWorkspaceRequest = async ({ workspaceId, joinCode, token }) => 
       throw error?.response?.data || error?.message;
    }
 };
+
+export const updateChannelToWorkspaceRequest = async ({
+   workspaceId,
+   channelId,
+   channelName,
+   token
+}) => {
+   try {
+      const response = await axios.put(
+         `/workspaces/${workspaceId}/channel/${channelId}`,
+         { channelName },
+         {
+            headers: {
+               'x-access-token': token
+            }
+         }
+      );
+      return response?.data?.data;
+   } catch (error) {
+      console.log('Error in update channel to workspace request', error);
+      throw error?.response?.data || error?.message;
+   }
+};
