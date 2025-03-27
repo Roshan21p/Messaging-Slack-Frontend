@@ -1,7 +1,6 @@
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 export const Hint = ({ align, side, label, children }) => {
-    
    return (
       <TooltipProvider>
          <Tooltip delayDuration={50}>

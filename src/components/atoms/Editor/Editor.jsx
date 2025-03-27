@@ -22,11 +22,9 @@ export const Editor = (
    const [isToolbarVisible, setIsToolbarVisible] = useState(false);
 
    const containerRef = useRef(); // Stores the container where the Quill editor is mounted and required to initialize the editor
-   //    const submitRef = useRef();
-   //    const disabledRef = useRef();
+
    const defaultValueRef = useRef();
    const quillRef = useRef(); // Stores the Quill instance
-   // const placeholderRef = useRef(); // Stores the placeholder text
 
    function toggleToolbar() {
       setIsToolbarVisible(!isToolbarVisible);
@@ -44,7 +42,6 @@ export const Editor = (
 
       const options = {
          theme: 'snow',
-         //  placeholder: placeholder.current,
          modules: {
             toolbar: [
                ['bold', 'italic', 'underline', 'strike'],
@@ -86,7 +83,11 @@ export const Editor = (
             <div className="h-full ql-custom" ref={containerRef} />
 
             <div className="flex px-2 pb-2 ">
-               <Hint label={isToolbarVisible ? 'Show toolbar' : 'Hide toolbar'} side='bottom' align='center'>
+               <Hint
+                  label={isToolbarVisible ? 'Show toolbar' : 'Hide toolbar'}
+                  side="bottom"
+                  align="center"
+               >
                   <Button
                      size="iconSm"
                      variant="ghost"
