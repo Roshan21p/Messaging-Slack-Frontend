@@ -18,7 +18,6 @@ export const WorkspacePanel = () => {
 
    const { isFetching, isSuccess, workspace } = useGetWorkspaceById(workspaceId);
    const { setOpenCreateChannelModal } = useCreateChannelModal();
-   console.log('workspace', workspace);
 
    if (isFetching) {
       return (
@@ -82,6 +81,7 @@ export const WorkspacePanel = () => {
                      key={item?.memberId?._id}
                      label={item?.memberId?.username}
                      id={item?.memberId?._id}
+                     variant="active"
                      image={item?.memberId?.avatar}
                   />
                );

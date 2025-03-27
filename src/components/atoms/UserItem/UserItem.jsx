@@ -18,7 +18,7 @@ const userItemVariants = cva(
    }
 );
 
-export const UserItem = ({ id, label = 'member', variant = 'active', image }) => {
+export const UserItem = ({ id, label = 'member', variant = 'default', image }) => {
    const { currentWorkspace: workspace } = useCurrentWorkspace();
 
    return (
