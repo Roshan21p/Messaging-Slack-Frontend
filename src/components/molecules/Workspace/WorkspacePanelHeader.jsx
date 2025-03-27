@@ -71,7 +71,7 @@ export const WorkspacePanelHeader = ({ workspace }) => {
                            className="cursor-pointer py-2"
                            onClick={() => setOpenInviteModal(true)}
                         >
-                           Invite prople to {workspace?.name}
+                           Invite people to {workspace?.name}
                         </DropdownMenuItem>
                      </>
                   )}
