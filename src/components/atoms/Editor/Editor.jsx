@@ -18,7 +18,6 @@ export const Editor = (
       //    defaultValue
    }
 ) => {
-   const [text, setText] = useState('');
    const [isToolbarVisible, setIsToolbarVisible] = useState(false);
 
    const containerRef = useRef(); // Stores the container where the Quill editor is mounted and required to initialize the editor
@@ -50,7 +49,7 @@ export const Editor = (
                ['clean']
             ],
             keyboard: {
-               blindings: {
+               bindings: {
                   enter: {
                      key: 'Enter',
                      handler: () => {
@@ -78,13 +77,13 @@ export const Editor = (
    }, []);
 
    return (
-      <div className="flex flex-col mt-9">
+      <div className="flex flex-col">
          <div className="flex flex-col border border-slate-300 rounded-md overflow-hidden focus-within:shadow-sm focus-within:border-slate-400 bg-white">
             <div className="h-full ql-custom" ref={containerRef} />
 
-            <div className="flex px-2 pb-2 ">
+            <div className="flex gap-4 px-2 pb-2 z-[5]">
                <Hint
-                  label={isToolbarVisible ? 'Show toolbar' : 'Hide toolbar'}
+                  label={!isToolbarVisible ? 'Show toolbar' : 'Hide toolbar'}
                   side="bottom"
                   align="center"
                >
@@ -95,7 +94,7 @@ export const Editor = (
                      onClick={toggleToolbar}
                      className="cursor-pointer"
                   >
-                     <PiTextAa className="size-4" />
+                     <PiTextAa className="size-4 m-0" />
                   </Button>
                </Hint>
 
@@ -107,7 +106,7 @@ export const Editor = (
                      onClick={() => {}}
                      className="cursor-pointer"
                   >
-                     <ImageIcon className="size-4" />
+                     <ImageIcon className="size-4 m-0" />
                   </Button>
                </Hint>
             </div>
