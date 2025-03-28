@@ -19,6 +19,7 @@ export const ChatInput = () => {
             workspaceId: currentWorkspace?._id
          },
          (data) => {
+            // this is a cb fun for Acknowledgement
             console.log('Message sent', data);
          }
       );

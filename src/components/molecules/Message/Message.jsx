@@ -19,7 +19,7 @@ export const Message = ({ authorImage, authorName, createdAt, body }) => {
                   <button className="font-bold text-primary hover:underline">{authorName}</button>
                   <span>&nbsp;&nbsp;</span>
                   <button className="text-xs text-muted-foreground hover:underline">
-                     {createdAt}
+                     {createdAt || 'Just Now'}
                   </button>
                </div>
 
