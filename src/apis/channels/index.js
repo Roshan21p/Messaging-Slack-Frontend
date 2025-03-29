@@ -15,7 +15,6 @@ export const getChannelById = async ({ channelId, token }) => {
 };
 
 export const getPaginatedMessages = async ({ channelId, limit, offset, token }) => {
-
    try {
       console.log('Fetching messages');
       const response = await axios.get(`/messages/${channelId}`, {

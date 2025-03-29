@@ -3,6 +3,7 @@ import { ChatInput } from '@/components/molecules/ChatInput/ChatInput';
 import { Message } from '@/components/molecules/Message/Message';
 import { useGetChannelById } from '@/hooks/apis/channels/useGetChannelById';
 import { useGetChannelMessages } from '@/hooks/apis/channels/useGetChannelMessages';
+import { useChannelMessages } from '@/hooks/context/useChannelMessages';
 import { useSocket } from '@/hooks/context/useSocket';
 import { Loader2Icon, TriangleAlertIcon } from 'lucide-react';
 import { useEffect } from 'react';
@@ -12,10 +13,15 @@ export const Channel = () => {
    const { channelId } = useParams();
 
    const { isFetching, isError, channelDetails } = useGetChannelById(channelId);
+   const { messageList, setMessageList } = useChannelMessages();
 
    const { joinChannel } = useSocket();
 
-   const { messages } = useGetChannelMessages(channelId);
+   const { messages, isSuccess } = useGetChannelMessages(channelId);
+
+   useEffect(() => {
+      setMessageList([]);
+   }, [channelId]);
 
    useEffect(() => {
       if (!isFetching && !isError) {
@@ -23,6 +29,13 @@ export const Channel = () => {
       }
       console.log('messages', messages);
    }, [isFetching, isError, joinChannel, channelId]);
+
+   useEffect(() => {
+      if (isSuccess) {
+         console.log('Channel Messages fetched');
+         setMessageList([...messages].reverse());
+      }
+   }, [isSuccess, messages, setMessageList, channelId]);
 
    if (isFetching) {
       return (
@@ -45,7 +58,7 @@ export const Channel = () => {
       <div className="flex flex-col h-full">
          <ChannelHeader name={channelDetails?.name} />
 
-         {messages?.map((message) => {
+         {messageList?.map((message) => {
             return (
                <Message
                   key={message?._id}

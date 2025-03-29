@@ -5,13 +5,18 @@ import { useQuery } from '@tanstack/react-query';
 export const useGetChannelMessages = (channelId) => {
    const { auth } = useAuth();
 
-   const { isFetched, isError, error, data, isSuccess } = useQuery({
+   console.log('channel hello', channelId);
+
+   const { isFetching, isError, error, data, isSuccess } = useQuery({
       queryFn: () => getPaginatedMessages({ channelId, limit: 10, offset: 0, token: auth?.token }),
-      queryKey: ['getPaginatedMessages']
+      queryKey: ['getPaginatedMessages', channelId],
+      staleTime: 0,
+      retry: 1,
+      retryOnMount: true
    });
 
    return {
-      isFetched,
+      isFetching,
       isError,
       error,
       messages: data,
