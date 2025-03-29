@@ -6,7 +6,7 @@ import { useGetChannelMessages } from '@/hooks/apis/channels/useGetChannelMessag
 import { useChannelMessages } from '@/hooks/context/useChannelMessages';
 import { useSocket } from '@/hooks/context/useSocket';
 import { Loader2Icon, TriangleAlertIcon } from 'lucide-react';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 
 export const Channel = () => {
@@ -19,20 +19,27 @@ export const Channel = () => {
 
    const { messages, isSuccess } = useGetChannelMessages(channelId);
 
+   const messageContainerListRef = useRef(null);
+
+
    useEffect(() => {
       setMessageList([]);
    }, [channelId]);
+
+   useEffect(() => {      
+      if(messageContainerListRef.current){
+         messageContainerListRef.current.scrollTop = messageContainerListRef.current.scrollHeight;
+      }
+   }, [messageList])
 
    useEffect(() => {
       if (!isFetching && !isError) {
          joinChannel(channelId);
       }
-      console.log('messages', messages);
    }, [isFetching, isError, joinChannel, channelId]);
 
    useEffect(() => {
       if (isSuccess) {
-         console.log('Channel Messages fetched');
          setMessageList([...messages].reverse());
       }
    }, [isSuccess, messages, setMessageList, channelId]);
@@ -58,6 +65,11 @@ export const Channel = () => {
       <div className="flex flex-col h-full">
          <ChannelHeader name={channelDetails?.name} />
 
+            {/* We need to make sure that below div is scrollable for the messages */}
+         <div 
+         className='flex-6 overflow-y-auto p-5 gap-y-2'
+            ref={messageContainerListRef}
+         >
          {messageList?.map((message) => {
             return (
                <Message
@@ -69,7 +81,8 @@ export const Channel = () => {
                />
             );
          })}
-         <div className="flex-1" />
+         </div>
+         <div className="flex-0.5" />
          <ChatInput />
       </div>
    );

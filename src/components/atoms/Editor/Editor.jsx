@@ -10,12 +10,7 @@ import { Hint } from '../Hint/Hint';
 import { ImageIcon } from 'lucide-react';
 
 export const Editor = ({
-   //    variant = 'create',
-   onSubmit
-   //    onCancel,
-   //    placeholder,
-   //    disabled,
-   //    defaultValue
+   onSubmit,
 }) => {
    const [isToolbarVisible, setIsToolbarVisible] = useState(false);
 
