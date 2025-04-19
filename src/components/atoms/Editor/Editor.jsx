@@ -9,9 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Hint } from '../Hint/Hint';
 import { ImageIcon } from 'lucide-react';
 
-export const Editor = ({
-   onSubmit,
-}) => {
+export const Editor = ({ onSubmit }) => {
    const [isToolbarVisible, setIsToolbarVisible] = useState(false);
 
    const containerRef = useRef(); // Stores the container where the Quill editor is mounted and required to initialize the editor

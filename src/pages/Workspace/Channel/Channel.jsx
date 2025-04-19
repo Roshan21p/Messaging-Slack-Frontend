@@ -21,16 +21,15 @@ export const Channel = () => {
 
    const messageContainerListRef = useRef(null);
 
-
    useEffect(() => {
       setMessageList([]);
    }, [channelId]);
 
-   useEffect(() => {      
-      if(messageContainerListRef.current){
+   useEffect(() => {
+      if (messageContainerListRef.current) {
          messageContainerListRef.current.scrollTop = messageContainerListRef.current.scrollHeight;
       }
-   }, [messageList])
+   }, [messageList]);
 
    useEffect(() => {
       if (!isFetching && !isError) {
@@ -65,22 +64,20 @@ export const Channel = () => {
       <div className="flex flex-col h-full">
          <ChannelHeader name={channelDetails?.name} />
 
-            {/* We need to make sure that below div is scrollable for the messages */}
-         <div 
-         className='flex-6 overflow-y-auto p-5 gap-y-2'
-            ref={messageContainerListRef}
-         >
-         {messageList?.map((message) => {
-            return (
-               <Message
-                  key={message?._id}
-                  body={message?.body}
-                  authorImage={message?.senderId?.avatar}
-                  authorName={message?.senderId?.username}
-                  createdAt={message?.createdAt}
-               />
-            );
-         })}
+         {/* We need to make sure that below div is scrollable for the messages */}
+         <div className="flex-6 overflow-y-auto p-5 gap-y-2" ref={messageContainerListRef}>
+            {messageList?.map((message) => {
+               return (
+                  <Message
+                     key={message?._id}
+                     body={message?.body}
+                     authorImage={message?.senderId?.avatar}
+                     authorName={message?.senderId?.username}
+                     createdAt={message?.createdAt}
+                     image={message.image}
+                  />
+               );
+            })}
          </div>
          <div className="flex-0.5" />
          <ChatInput />

@@ -8,7 +8,7 @@ const SocketContext = createContext();
 export const SocketContextProvider = ({ children }) => {
    const [currentChannel, setCurrentChannel] = useState(null);
    const { messageList, setMessageList } = useChannelMessages();
-   
+
    const socket = io(import.meta.env.VITE_BACKEND_SOCKET_URL);
    socket.on('NewMessageReceived', (data) => {
       setMessageList([...messageList, data]);
