@@ -21,6 +21,8 @@ export const Channel = () => {
 
    const messageContainerListRef = useRef(null);
 
+   console.log('messageList', messageList);
+
    useEffect(() => {
       setMessageList([]);
    }, [channelId]);
@@ -74,7 +76,7 @@ export const Channel = () => {
                      authorImage={message?.senderId?.avatar}
                      authorName={message?.senderId?.username}
                      createdAt={message?.createdAt}
-                     image={message.image}
+                     image={message?.image}
                   />
                );
             })}
