@@ -15,7 +15,7 @@ export const Channel = () => {
    const { isFetching, isError, channelDetails } = useGetChannelById(channelId);
    const { messageList, setMessageList } = useChannelMessages();
 
-   const { joinChannel } = useSocket();
+   const { joinChannel, leaveChannel } = useSocket();
 
    const { messages, isSuccess } = useGetChannelMessages(channelId);
 
@@ -34,10 +34,20 @@ export const Channel = () => {
    }, [messageList]);
 
    useEffect(() => {
+      let hasJoined = false;
+
       if (!isFetching && !isError) {
          joinChannel(channelId);
+         hasJoined = true;
       }
-   }, [isFetching, isError, joinChannel, channelId]);
+
+       // Cleanup function to leave channel
+       return () => {
+         if (hasJoined && channelId) {
+            leaveChannel(channelId);
+         }
+      };
+   }, [isFetching, isError, joinChannel, leaveChannel, channelId]);
 
    useEffect(() => {
       if (isSuccess) {

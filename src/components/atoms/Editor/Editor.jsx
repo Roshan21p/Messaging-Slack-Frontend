@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Hint } from '../Hint/Hint';
 import { ImageIcon, XIcon } from 'lucide-react';
 
-export const Editor = ({ onSubmit }) => {
+export const Editor = ({ onSubmit,disabled }) => {
    const [isToolbarVisible, setIsToolbarVisible] = useState(false);
 
    const [image, setImage] = useState(null);
@@ -143,7 +143,7 @@ export const Editor = ({ onSubmit }) => {
                         setImage(null);
                         imageInputRef.current.value = '';
                      }}
-                     disabled={false}
+                     disabled={disabled}
                   >
                      <MdSend className="size-4" />
                   </Button>
