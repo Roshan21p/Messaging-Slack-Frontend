@@ -78,7 +78,6 @@ export const ChatInput = () => {
             onSubmit={handleSubmit}
             onCancel={() => {}}
             disabled={isUploading}
-            defaultValue=""
          />
       </div>
    );

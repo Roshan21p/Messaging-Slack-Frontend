@@ -15,12 +15,16 @@ export const useGetChannelById = (channelId) => {
    } = useQuery({
       queryFn: () => getChannelById({ channelId, token: auth?.token }),
       queryKey: [`get-channel-${channelId}`],
+      enabled: !!auth?.token, // only fetch when token is available
       retry: 1,
       retryOnMount: true,
       throwOnError: (error) => {
          toast({
             title: 'Failed to Fetch channel Details',
-            message: error?.message || 'An unexpected error occurred. Please try again.',
+            message:
+               error?.data?.message ||
+               error?.message ||
+               'An unexpected error occurred. Please try again.',
             type: 'error'
          });
       }

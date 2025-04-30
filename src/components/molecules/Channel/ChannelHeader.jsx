@@ -33,7 +33,7 @@ export const ChannelHeader = ({ name }) => {
       <div className="bg-white border-b h-[50px] flex items-center justify-between px-4 overflow-hidden">
          {/* Left Section: Channel name + Edit button */}
          <div className="flex flex-col sm:items-center  sm:flex-row sm:gap-x-2 ">
-         <div className="flex items-center gap-x-2">
+            <div className="flex items-center gap-x-2">
                {/* Show channel name for all users */}
                <span className="text-lg font-semibold"># {name}</span>
 
@@ -70,22 +70,20 @@ export const ChannelHeader = ({ name }) => {
                )}
             </div>
 
-   {/* Mobile view: online users under channel name */}
-   {onlineUsers > 1 && (
-      <div className="sm:hidden flex items-center gap-1 text-xs text-gray-500 pl-3">
-      <span className='text-green-500'>{onlineUsers-1} online</span>
-   </div>
-   )}
-   </div>
+            {/* Mobile view: online users under channel name */}
+            {onlineUsers > 1 && (
+               <div className="sm:hidden flex items-center gap-1 text-xs text-gray-500 pl-3">
+                  <span className="text-green-500">{onlineUsers - 1} online</span>
+               </div>
+            )}
+         </div>
 
-   {/* Right Section (Desktop only): online users */}
-   {onlineUsers > 1 && (
-      <div className="hidden sm:flex items-center gap-1  text-gray-600">
-      <span className='text-green-500'>{onlineUsers-1} online</span>
-      </div>
-   )}
-
-           
+         {/* Right Section (Desktop only): online users */}
+         {onlineUsers > 1 && (
+            <div className="hidden sm:flex items-center gap-1  text-gray-600">
+               <span className="text-green-500">{onlineUsers - 1} online</span>
+            </div>
+         )}
 
          {/* Edit Modal */}
          <EditChannelModal

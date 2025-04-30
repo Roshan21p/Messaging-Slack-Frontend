@@ -3,16 +3,20 @@ import { ChatInput } from '@/components/molecules/ChatInput/ChatInput';
 import { Message } from '@/components/molecules/Message/Message';
 import { useGetChannelById } from '@/hooks/apis/channels/useGetChannelById';
 import { useGetChannelMessages } from '@/hooks/apis/channels/useGetChannelMessages';
+import { useAuth } from '@/hooks/context/useAuth';
 import { useChannelMessages } from '@/hooks/context/useChannelMessages';
 import { useSocket } from '@/hooks/context/useSocket';
 import { Loader2Icon, TriangleAlertIcon } from 'lucide-react';
 import { useEffect, useRef } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export const Channel = () => {
    const { channelId } = useParams();
+   const navigate = useNavigate();
 
-   const { isFetching, isError, channelDetails } = useGetChannelById(channelId);
+   const { logout } = useAuth();
+
+   const { isFetching, isError, channelDetails, error } = useGetChannelById(channelId);
    const { messageList, setMessageList } = useChannelMessages();
 
    const { joinChannel, leaveChannel } = useSocket();
@@ -34,6 +38,15 @@ export const Channel = () => {
    }, [messageList]);
 
    useEffect(() => {
+      console.log('logout', isFetching, isError, error);
+
+      if (!isFetching && isError && error) {
+         if (error.status === 403) {
+            logout();
+            navigate('/auth/signin');
+         }
+      }
+
       let hasJoined = false;
 
       if (!isFetching && !isError) {

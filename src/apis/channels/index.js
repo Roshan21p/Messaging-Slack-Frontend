@@ -10,7 +10,7 @@ export const getChannelById = async ({ channelId, token }) => {
       return response?.data?.data;
    } catch (error) {
       console.log('Error in getChannelByIdRequest', error);
-      throw error?.response?.data || error?.message;
+      throw error?.response || error?.message;
    }
 };
 
