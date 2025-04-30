@@ -16,36 +16,36 @@ export const ChatInput = () => {
 
    async function handleSubmit({ body, image }) {
       let toastId;
-   
+
       try {
          console.log(body, image);
          let fileUrl = null;
-   
+
          if (image) {
             toastId = toast.loading('Uploading image...');
             setIsUploading(true); // Start loading
-   
+
             const generateSignedUrl = await queryClient.fetchQuery({
                queryKey: ['getGenerateSignedUrl'],
                queryFn: () => getGenerateSignedUrl({ token: auth?.token })
             });
-   
+
             console.log('Generated Signed URL:', generateSignedUrl);
-   
+
             const formData = new FormData();
             formData.append('file', image);
             formData.append('timestamp', generateSignedUrl.timestamp);
             formData.append('signature', generateSignedUrl.signature);
             formData.append('api_key', import.meta.env.VITE_CLOUDINARY_API_KEY);
-   
+
             const cloudinaryResponse = await uploadImageToCloudinaryGeneratesignedUrl(formData);
             console.log('Cloudinary Upload Success:', cloudinaryResponse);
-   
+
             fileUrl = cloudinaryResponse?.data?.secure_url;
-   
+
             toast.success('Image uploaded!', { id: toastId });
          }
-   
+
          socket?.emit(
             'NewMessage',
             {
@@ -66,11 +66,11 @@ export const ChatInput = () => {
          } else {
             toast.error('Something went wrong!');
          }
-      }finally {
+      } finally {
          setIsUploading(false); // End loading
       }
    }
-   
+
    return (
       <div className="px-5 w-full">
          <Editor

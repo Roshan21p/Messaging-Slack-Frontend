@@ -41,8 +41,8 @@ export const Channel = () => {
          hasJoined = true;
       }
 
-       // Cleanup function to leave channel
-       return () => {
+      // Cleanup function to leave channel
+      return () => {
          if (hasJoined && channelId) {
             leaveChannel(channelId);
          }

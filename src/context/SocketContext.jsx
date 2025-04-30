@@ -6,6 +6,7 @@ const SocketContext = createContext();
 
 export const SocketContextProvider = ({ children }) => {
    const [currentChannel, setCurrentChannel] = useState(null);
+   const [onlineUsers, setOnlineUsers] = useState(0);
    const { messageList, setMessageList } = useChannelMessages();
 
    const socketRef = useRef(null);
@@ -20,7 +21,6 @@ export const SocketContextProvider = ({ children }) => {
       socketRef.current.on('NewMessageReceived', (data) => {
          setMessageList((prev) => [...prev, data]);
       });
-      
 
       return () => {
          socketRef.current.disconnect();
@@ -33,20 +33,27 @@ export const SocketContextProvider = ({ children }) => {
       socketRef.current.emit('JoinChannel', { channelId }, (data) => {
          console.log('Successfully joined the channel', data);
          setCurrentChannel(data?.data?.channelId);
+         setOnlineUsers(data?.data?.users);
       });
-   };
+   }
 
    function leaveChannel(channelId) {
-      if(!socketRef.current || !channelId) return;
+      if (!socketRef.current || !channelId) return;
 
       socketRef.current.emit('LeaveChannel', { channelId }, (data) => {
          console.log('Successfully left the channel:', data);
-      })
+      });
    }
 
    return (
       <SocketContext.Provider
-         value={{ socket: socketRef.current, joinChannel, leaveChannel, currentChannel }}
+         value={{
+            socket: socketRef.current,
+            joinChannel,
+            leaveChannel,
+            currentChannel,
+            onlineUsers
+         }}
       >
          {children}
       </SocketContext.Provider>

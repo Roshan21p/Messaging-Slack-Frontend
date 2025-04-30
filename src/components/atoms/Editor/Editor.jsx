@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Hint } from '../Hint/Hint';
 import { ImageIcon, XIcon } from 'lucide-react';
 
-export const Editor = ({ onSubmit,disabled }) => {
+export const Editor = ({ onSubmit, disabled }) => {
    const [isToolbarVisible, setIsToolbarVisible] = useState(false);
 
    const [image, setImage] = useState(null);
@@ -97,7 +97,7 @@ export const Editor = ({ onSubmit,disabled }) => {
 
             <div className="flex gap-4 px-2 pb-2 z-[5]">
                <Hint
-                  label={!isToolbarVisible ? 'Show toolbar' : 'Hide toolbar'}
+                  label={!isToolbarVisible ? 'Hide toolbar' : 'Show toolbar'}
                   side="bottom"
                   align="center"
                >
