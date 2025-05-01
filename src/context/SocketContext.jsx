@@ -6,6 +6,7 @@ const SocketContext = createContext();
 
 export const SocketContextProvider = ({ children }) => {
    const [currentChannel, setCurrentChannel] = useState(null);
+   const [typingUsers, setTypingUsers] = useState([]);
    const [onlineUsers, setOnlineUsers] = useState(0);
    const { messageList, setMessageList } = useChannelMessages();
 
@@ -25,7 +26,41 @@ export const SocketContextProvider = ({ children }) => {
       return () => {
          socketRef.current.disconnect();
       };
-   }, []);
+   }, [currentChannel]);
+
+   useEffect(() => {
+      if (!socketRef.current) return;
+
+      console.log("hello");
+      
+   
+      const handleTyping = ({ channelId, username }) => {
+         
+         if(channelId === currentChannel) {
+            setTypingUsers((prev) => {
+               if (!prev.includes(username)) return [...prev, username];
+               return prev;
+            });
+         }
+        
+      };
+   
+      const handleStopTyping = ({ channelId, username }) => {
+         if(channelId === currentChannel){
+            setTypingUsers((prev) => prev.filter((user) => user !== username));
+         }
+      };
+   
+      socketRef.current.on('typing', handleTyping);
+      socketRef.current.on('stop_typing', handleStopTyping);
+   
+      return () => {
+         socketRef.current.off('typing', handleTyping);
+         socketRef.current.off('stop_typing', handleStopTyping);
+         setTypingUsers([]);
+      };
+   }, [currentChannel]); 
+   
 
    function joinChannel(channelId) {
       if (!socketRef.current) return;
@@ -45,6 +80,15 @@ export const SocketContextProvider = ({ children }) => {
       });
    }
 
+   function emitTyping( channelId, username){
+      socketRef.current?.emit('typing', { channelId, username });
+   }
+
+   function emitStopTyping( channelId, username){
+      socketRef.current?.emit('stop_typing', { channelId, username });
+   }
+
+
    return (
       <SocketContext.Provider
          value={{
@@ -52,7 +96,10 @@ export const SocketContextProvider = ({ children }) => {
             joinChannel,
             leaveChannel,
             currentChannel,
-            onlineUsers
+            onlineUsers,
+            emitTyping,
+            emitStopTyping,
+            typingUsers,
          }}
       >
          {children}

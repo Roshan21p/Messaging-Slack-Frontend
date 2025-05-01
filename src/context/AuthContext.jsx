@@ -27,23 +27,6 @@ export const AuthContextProvider = ({ children }) => {
          });
       }
 
-      const handleStorageChange = (event) => {
-         if (event.key === 'token' && !event.newValue) {
-            // Token was manually removed
-            setAuth({
-               user: null,
-               token: null,
-               isLoading: false
-            });
-            console.log('Token removed manually - user logged out');
-         }
-      };
-
-      window.addEventListener('storage', handleStorageChange);
-
-      return () => {
-         window.removeEventListener('storage', handleStorageChange);
-      };
    }, []);
 
    async function logout() {

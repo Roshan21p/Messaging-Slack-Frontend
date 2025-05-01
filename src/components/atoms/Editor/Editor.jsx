@@ -8,17 +8,24 @@ import { MdSend } from 'react-icons/md';
 import { Button } from '@/components/ui/button';
 import { Hint } from '../Hint/Hint';
 import { ImageIcon, XIcon } from 'lucide-react';
+import { useAuth } from '@/hooks/context/useAuth';
+import { useSocket } from '@/hooks/context/useSocket';
 
 export const Editor = ({ onSubmit, disabled }) => {
    const [isToolbarVisible, setIsToolbarVisible] = useState(false);
 
    const [image, setImage] = useState(null);
+   const [isTyping, setIsTyping] = useState(false);
 
    const containerRef = useRef(); // Stores the container where the Quill editor is mounted and required to initialize the editor
 
    const defaultValueRef = useRef();
    const quillRef = useRef(); // Stores the Quill instance
    const imageInputRef = useRef(null);
+   const typingTimeout = useRef(null);
+
+   const { auth } = useAuth();
+   const { emitTyping, emitStopTyping, currentChannel } = useSocket();
 
    function toggleToolbar() {
       setIsToolbarVisible(!isToolbarVisible);
@@ -27,6 +34,32 @@ export const Editor = ({ onSubmit, disabled }) => {
          toolbar.classList.toggle('hidden');
       }
    }
+
+
+   function handleTyping() {
+      if (!currentChannel || !auth?.user?.username) return; // 🔒 avoid emitting with undefined channelId
+
+
+      // Emit only when user starts typing
+      if(!isTyping) {
+         setIsTyping(true);
+         emitTyping(currentChannel, auth?.user?.username);
+      }
+
+      // Clear the existing timeout
+      if(typingTimeout.current){
+         clearTimeout(typingTimeout.current);
+      }
+
+   
+      // Set new timeout to emit stop typing
+      typingTimeout.current = setTimeout(() => {
+         setIsTyping(false);
+         emitStopTyping(currentChannel, auth?.user?.username);
+      }, 1000);
+   };
+   
+
    useEffect(() => {
       if (!containerRef.current) return; // if containerRef is not initialized, return
 
@@ -65,11 +98,22 @@ export const Editor = ({ onSubmit, disabled }) => {
 
       const quill = new Quill(editorContainer, options);
 
+
       quillRef.current = quill;
       quillRef.current.focus();
 
       quill.setContents(defaultValueRef.current);
-   }, []);
+
+       // ✅ Attach the typing handler AFTER quill is initialized
+          quill.on('text-change', handleTyping);
+
+      return () => {
+         quill.off('text-change', handleTyping);
+         clearTimeout(typingTimeout.current);
+      };
+
+  
+   }, [currentChannel]);
 
    return (
       <div className="flex flex-col">
@@ -139,6 +183,12 @@ export const Editor = ({ onSubmit, disabled }) => {
                      onClick={() => {
                         const messageContent = JSON.stringify(quillRef.current?.getContents());
                         onSubmit({ body: messageContent, image });
+
+                         // Stop typing after message is sent
+                       emitStopTyping(currentChannel, auth?.user?.username);
+                       setIsTyping(false); // Reset typing state
+
+
                         quillRef.current?.setText('');
                         setImage(null);
                         imageInputRef.current.value = '';

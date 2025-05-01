@@ -25,7 +25,18 @@ export const Channel = () => {
 
    const messageContainerListRef = useRef(null);
 
+   const { typingUsers } = useSocket();
+   const { auth } = useAuth();
+
+   const typingUsersToShow = typingUsers.filter(
+      (user) => user !== auth?.user?.username
+   );
+
+
    console.log('messageList', messageList);
+
+   console.log("typingUsers",typingUsers);
+   
 
    useEffect(() => {
       setMessageList([]);
@@ -38,7 +49,6 @@ export const Channel = () => {
    }, [messageList]);
 
    useEffect(() => {
-      console.log('logout', isFetching, isError, error);
 
       if (!isFetching && isError && error) {
          if (error.status === 403) {
@@ -104,6 +114,21 @@ export const Channel = () => {
                );
             })}
          </div>
+
+         {typingUsersToShow.length > 0 && (
+   <div className="text-xs px-20 pb-2 text-green-600 flex items-center gap-2 animate-pulse">
+      <span className="font-medium">
+         {typingUsersToShow.join(', ')} {typingUsersToShow.length === 1 ? 'is typing' : 'are typing'}
+      </span>
+      <span className="flex space-x-1">
+         <span className="h-1.5 w-1.5 bg-green-600 rounded-full animate-bounce [animation-delay:-0.3s]" />
+         <span className="h-1.5 w-1.5 bg-green-600 rounded-full animate-bounce [animation-delay:-0.15s]" />
+         <span className="h-1.5 w-1.5 bg-green-600 rounded-full animate-bounce" />
+      </span>
+   </div>
+)}
+
+
          <div className="flex-0.5" />
          <ChatInput />
       </div>

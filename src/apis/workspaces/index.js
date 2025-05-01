@@ -31,7 +31,7 @@ export const fetchWorkspaceRequest = async ({ token }) => {
       return response?.data?.data;
    } catch (error) {
       console.error('Error in fetch workspace request', error);
-      throw error?.response?.data || error?.message;
+      throw error?.response || error?.message;
    }
 };
 

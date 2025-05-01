@@ -36,7 +36,7 @@ export const SigninContainer = () => {
       if (isSuccess) {
          setTimeout(() => {
             navigate('/home');
-         }, 1000);
+         }, 2000);
       }
    }, [isSuccess, navigate]);
 
