@@ -28,15 +28,11 @@ export const Channel = () => {
    const { typingUsers } = useSocket();
    const { auth } = useAuth();
 
-   const typingUsersToShow = typingUsers.filter(
-      (user) => user !== auth?.user?.username
-   );
-
+   const typingUsersToShow = typingUsers.filter((user) => user !== auth?.user?.username);
 
    console.log('messageList', messageList);
 
-   console.log("typingUsers",typingUsers);
-   
+   console.log('typingUsers', typingUsers);
 
    useEffect(() => {
       setMessageList([]);
@@ -48,29 +44,28 @@ export const Channel = () => {
       }
    }, [messageList]);
 
+   // Handle errors & auth
    useEffect(() => {
-
-      if (!isFetching && isError && error) {
-         if (error.status === 403) {
-            logout();
-            navigate('/auth/signin');
-         }
+      if (!isFetching && isError && error?.status === 403) {
+         logout();
+         navigate('/auth/signin');
       }
+   }, [isFetching, isError, error, logout, navigate]);
 
-      let hasJoined = false;
-
-      if (!isFetching && !isError) {
-         joinChannel(channelId);
-         hasJoined = true;
-      }
-
-      // Cleanup function to leave channel
+   useEffect(() => {
+      // Leave the previous channel before joining new one
       return () => {
-         if (hasJoined && channelId) {
+         if (channelId) {
             leaveChannel(channelId);
          }
       };
-   }, [isFetching, isError, joinChannel, leaveChannel, channelId]);
+   }, [channelId]);
+
+   useEffect(() => {
+      if (!isFetching && !isError && channelId) {
+         joinChannel(channelId);
+      }
+   }, [channelId, isFetching, isError]);
 
    useEffect(() => {
       if (isSuccess) {
@@ -116,18 +111,18 @@ export const Channel = () => {
          </div>
 
          {typingUsersToShow.length > 0 && (
-   <div className="text-xs px-20 pb-2 text-green-600 flex items-center gap-2 animate-pulse">
-      <span className="font-medium">
-         {typingUsersToShow.join(', ')} {typingUsersToShow.length === 1 ? 'is typing' : 'are typing'}
-      </span>
-      <span className="flex space-x-1">
-         <span className="h-1.5 w-1.5 bg-green-600 rounded-full animate-bounce [animation-delay:-0.3s]" />
-         <span className="h-1.5 w-1.5 bg-green-600 rounded-full animate-bounce [animation-delay:-0.15s]" />
-         <span className="h-1.5 w-1.5 bg-green-600 rounded-full animate-bounce" />
-      </span>
-   </div>
-)}
-
+            <div className="text-xs px-20 pb-2 text-green-600 flex items-center gap-2 animate-pulse">
+               <span className="font-medium">
+                  {typingUsersToShow.join(', ')}{' '}
+                  {typingUsersToShow.length === 1 ? 'is typing' : 'are typing'}
+               </span>
+               <span className="flex space-x-1">
+                  <span className="h-1.5 w-1.5 bg-green-600 rounded-full animate-bounce [animation-delay:-0.3s]" />
+                  <span className="h-1.5 w-1.5 bg-green-600 rounded-full animate-bounce [animation-delay:-0.15s]" />
+                  <span className="h-1.5 w-1.5 bg-green-600 rounded-full animate-bounce" />
+               </span>
+            </div>
+         )}
 
          <div className="flex-0.5" />
          <ChatInput />

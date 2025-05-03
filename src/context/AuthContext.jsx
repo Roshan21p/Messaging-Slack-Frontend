@@ -26,7 +26,6 @@ export const AuthContextProvider = ({ children }) => {
             isLoading: false
          });
       }
-
    }, []);
 
    async function logout() {

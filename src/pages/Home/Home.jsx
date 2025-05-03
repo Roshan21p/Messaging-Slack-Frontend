@@ -13,7 +13,6 @@ export const Home = () => {
    const { setOpenCreateWorkspaceModal } = useCreateWorkspaceModal();
 
    useEffect(() => {
-      
       if (isFetching) return;
 
       console.log('Workspaces downloaded is', workspaces, error);

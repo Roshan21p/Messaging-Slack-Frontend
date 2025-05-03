@@ -35,33 +35,29 @@ export const Editor = ({ onSubmit, disabled }) => {
       }
    }
 
+   // function handleTyping() {
+   //    if (!currentChannel || !auth?.user?.username) return; // 🔒 avoid emitting with undefined channelId
 
-   function handleTyping() {
-      if (!currentChannel || !auth?.user?.username) return; // 🔒 avoid emitting with undefined channelId
+   //    // Emit only when user starts typing
+   //    if(!isTyping) {
+   //       setIsTyping(true);
+   //       emitTyping(currentChannel, auth?.user?.username);
+   //    }
 
+   //    // Clear the existing timeout
+   //    if(typingTimeout.current){
+   //       clearTimeout(typingTimeout.current);
+   //    }
 
-      // Emit only when user starts typing
-      if(!isTyping) {
-         setIsTyping(true);
-         emitTyping(currentChannel, auth?.user?.username);
-      }
-
-      // Clear the existing timeout
-      if(typingTimeout.current){
-         clearTimeout(typingTimeout.current);
-      }
-
-   
-      // Set new timeout to emit stop typing
-      typingTimeout.current = setTimeout(() => {
-         setIsTyping(false);
-         emitStopTyping(currentChannel, auth?.user?.username);
-      }, 1000);
-   };
-   
+   //    // Set new timeout to emit stop typing
+   //    typingTimeout.current = setTimeout(() => {
+   //       setIsTyping(false);
+   //       emitStopTyping(currentChannel, auth?.user?.username);
+   //    }, 1000);
+   // };
 
    useEffect(() => {
-      if (!containerRef.current) return; // if containerRef is not initialized, return
+      if (!containerRef.current || quillRef.current) return; // if containerRef is not initialized, return
 
       const container = containerRef.current; // get the container element
 
@@ -98,22 +94,45 @@ export const Editor = ({ onSubmit, disabled }) => {
 
       const quill = new Quill(editorContainer, options);
 
-
       quillRef.current = quill;
       quillRef.current.focus();
 
       quill.setContents(defaultValueRef.current);
+   }, []);
 
-       // ✅ Attach the typing handler AFTER quill is initialized
-          quill.on('text-change', handleTyping);
+   // ✅ Attach the typing handler AFTER Quill is initialized
+   useEffect(() => {
+      if (!quillRef.current) return;
+
+      // Attach the typing event handler
+      const quill = quillRef.current;
+      const handleTyping = () => {
+         if (!isTyping) {
+            setIsTyping(true);
+            emitTyping(currentChannel, auth?.user?.username);
+         }
+
+         // Clear the existing timeout
+         if (typingTimeout.current) {
+            clearTimeout(typingTimeout.current);
+         }
+
+         // Set new timeout to emit stop typing
+         typingTimeout.current = setTimeout(() => {
+            setIsTyping(false);
+            emitStopTyping(currentChannel, auth?.user?.username);
+         }, 1000);
+      };
+
+      // Attach the event listener
+      quill.on('text-change', handleTyping);
 
       return () => {
+         // Clean up the event listener on unmount or channel change
          quill.off('text-change', handleTyping);
          clearTimeout(typingTimeout.current);
       };
-
-  
-   }, [currentChannel]);
+   }, [currentChannel]); // Run this effect when `currentChannel` changes
 
    return (
       <div className="flex flex-col">
@@ -184,10 +203,9 @@ export const Editor = ({ onSubmit, disabled }) => {
                         const messageContent = JSON.stringify(quillRef.current?.getContents());
                         onSubmit({ body: messageContent, image });
 
-                         // Stop typing after message is sent
-                       emitStopTyping(currentChannel, auth?.user?.username);
-                       setIsTyping(false); // Reset typing state
-
+                        // Stop typing after message is sent
+                        emitStopTyping(currentChannel, auth?.user?.username);
+                        setIsTyping(false); // Reset typing state
 
                         quillRef.current?.setText('');
                         setImage(null);

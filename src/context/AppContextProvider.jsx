@@ -9,9 +9,9 @@ import { SocketContextProvider } from './SocketContext';
 import { ChannelMessagesProvider } from './ChannelMessages';
 
 export const AppContextProvider = combineContext(
+   AuthContextProvider,
    ChannelMessagesProvider,
    SocketContextProvider,
-   AuthContextProvider,
    WorkspaceContextProvider,
    CreateWorkspaceContextProvider,
    WorkspacePreferencesModalContextProvider,

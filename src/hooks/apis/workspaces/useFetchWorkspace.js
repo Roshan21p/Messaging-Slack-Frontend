@@ -21,8 +21,10 @@ export const useFetchWorkspace = () => {
       throwOnError: (error) => {
          toast({
             title: 'Failed to Fetch Workspace Details',
-            message: error?.data?.message ||
-            error?.message || 'An unexpected error occurred. Please try again.',
+            message:
+               error?.data?.message ||
+               error?.message ||
+               'An unexpected error occurred. Please try again.',
             type: 'error'
          });
       }
