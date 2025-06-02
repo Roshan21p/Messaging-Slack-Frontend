@@ -3,6 +3,7 @@ import { UserItem } from '@/components/atoms/UserItem/UserItem';
 import { WorkspacePanelHeader } from '@/components/molecules/Workspace/WorkspacePanelHeader';
 import { WorkspacePanelSection } from '@/components/molecules/Workspace/WorkspacePanelSection';
 import { useGetWorkspaceById } from '@/hooks/apis/workspaces/useGetWorkspaceById';
+import { useAuth } from '@/hooks/context/useAuth';
 import { useCreateChannelModal } from '@/hooks/context/useCreateChannelModal';
 import {
    AlertTriangleIcon,
@@ -18,6 +19,7 @@ export const WorkspacePanel = () => {
 
    const { isFetching, isSuccess, workspace } = useGetWorkspaceById(workspaceId);
    const { setOpenCreateChannelModal } = useCreateChannelModal();
+   const { auth } = useAuth();
 
    if (isFetching) {
       return (
@@ -75,17 +77,19 @@ export const WorkspacePanel = () => {
          </WorkspacePanelSection>
 
          <WorkspacePanelSection label="Direct messages" onIconClick={() => {}}>
-            {workspace?.members?.map((item) => {
-               return (
-                  <UserItem
-                     key={item?.memberId?._id}
-                     label={item?.memberId?.username}
-                     id={item?.memberId?._id}
-                     variant="active"
-                     image={item?.memberId?.avatar}
-                  />
-               );
-            })}
+            {workspace?.members
+               ?.filter((item) => item?.memberId?.username !== auth?.user?.username)
+               ?.map((item) => {
+                  return (
+                     <UserItem
+                        key={item?.memberId?._id}
+                        label={item?.memberId?.username}
+                        id={item?.memberId?._id}
+                        variant="active"
+                        image={item?.memberId?.avatar}
+                     />
+                  );
+               })}
          </WorkspacePanelSection>
       </div>
    );

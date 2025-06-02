@@ -34,7 +34,7 @@ export const ChannelHeader = ({ name }) => {
          {/* Left Section: Channel name + Edit button */}
          <div className="flex flex-col sm:items-center  sm:flex-row sm:gap-x-2 ">
             <div className="flex items-center gap-x-2">
-               {/* Show channel name for all users */}
+               {/* Show channel name */}
                <span className="text-lg font-semibold"># {name}</span>
 
                {/* Only show dropdown if admin */}

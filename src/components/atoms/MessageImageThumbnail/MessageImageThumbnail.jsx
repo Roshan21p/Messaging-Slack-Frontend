@@ -9,7 +9,7 @@ export const MessageImageThumbnail = ({ url }) => {
             </div>
          </DialogTrigger>
 
-         <DialogContent className="max-w-[850px] border-non bg-transparent p-0 shadow-none">
+         <DialogContent className="max-w-[850px] border-none bg-transparent p-0 shadow-none">
             <img src={url} className="rounded-md object-cover size-full" />
          </DialogContent>
       </Dialog>

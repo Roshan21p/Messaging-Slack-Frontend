@@ -8,6 +8,7 @@ import { Home } from '@/pages/Home/Home';
 import { WorkspaceLayout } from './pages/Workspace/Layout';
 import { JoinPage } from './pages/Workspace/JoinPage';
 import { Channel } from './pages/Workspace/Channel/Channel';
+import { DirectMessage } from './pages/Workspace/DirectMessage/DirectMessage';
 
 export const AppRoutes = () => {
    return (
@@ -54,6 +55,17 @@ export const AppRoutes = () => {
                <ProtectedRoute>
                   <WorkspaceLayout>
                      <Channel />
+                  </WorkspaceLayout>
+               </ProtectedRoute>
+            }
+         />
+
+         <Route
+            path="/workspaces/:workspaceId/members/:id"
+            element={
+               <ProtectedRoute>
+                  <WorkspaceLayout>
+                     <DirectMessage />
                   </WorkspaceLayout>
                </ProtectedRoute>
             }

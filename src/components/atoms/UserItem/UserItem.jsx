@@ -27,7 +27,7 @@ export const UserItem = ({ id, label = 'member', variant = 'default', image }) =
             <Avatar>
                <AvatarImage src={image} className="rounded-md" />
                <AvatarFallback className="rounded-md bg-sky-500 text-white">
-                  {label.charAt(0).toUpperCase()}
+                  {label?.charAt(0).toUpperCase()}
                </AvatarFallback>
             </Avatar>
             <span>{label}</span>
