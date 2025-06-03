@@ -2,9 +2,9 @@ import { useCurrentWorkspace } from '@/hooks/context/useCurrentWorkspace';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
-export const DirectMessageHeader = ({ userId }) => {
+export const DirectMessageHeader = ({ name }) => {
    const { currentWorkspace: workspace } = useCurrentWorkspace();
-   const userData = workspace?.members?.find((member) => member?.memberId?._id === userId);
+   const userData = workspace?.members?.find((member) => member?.memberId?.username === name);
 
    if (!userData) {
       return null; // or a loading state

@@ -1,26 +1,26 @@
-import { getChannelById } from '@/apis/channels';
+import { getUserByUsername } from '@/apis/auth';
 import { useAuth } from '@/hooks/context/useAuth';
 import { useToast } from '@/hooks/use-toast';
 import { useQuery } from '@tanstack/react-query';
 
-export const useGetChannelById = (channelId) => {
+export const useGetByUsername = ({ username, id }) => {
    const { auth } = useAuth();
    const { toast } = useToast();
 
    const {
       isFetching,
+      isSuccess,
       isError,
       error,
-      data: channelDetails
+      data: userDetails
    } = useQuery({
-      queryFn: () => getChannelById({ channelId, token: auth?.token }),
-      queryKey: [`get-channel-${channelId}`],
-      enabled: !!auth?.token, // only fetch when token is available
-      retry: 1,
-      retryOnMount: true,
+      queryFn: () => getUserByUsername({ username, id, token: auth?.token }),
+      queryKey: [`get-user-${username}`],
+      enabled: !!auth?.token,
+
       throwOnError: (error) => {
          toast({
-            title: 'Failed to Fetch channel details',
+            title: 'Failed to Fetch the user details',
             message:
                error?.data?.message ||
                error?.message ||
@@ -33,7 +33,8 @@ export const useGetChannelById = (channelId) => {
    return {
       isFetching,
       isError,
+      isSuccess,
       error,
-      channelDetails
+      userDetails
    };
 };

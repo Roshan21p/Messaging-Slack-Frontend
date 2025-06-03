@@ -18,19 +18,19 @@ const userItemVariants = cva(
    }
 );
 
-export const UserItem = ({ id, label = 'member', variant = 'default', image }) => {
+export const UserItem = ({ id, username = 'member', variant = 'default', image }) => {
    const { currentWorkspace: workspace } = useCurrentWorkspace();
 
    return (
       <Button className={cn(userItemVariants({ variant }))} variant="transparent" size="sm" asChild>
-         <Link to={`/workspaces/${workspace?._id}/members/${id}`}>
+         <Link to={`/workspaces/${workspace?._id}/members/${id}/${username}`}>
             <Avatar>
                <AvatarImage src={image} className="rounded-md" />
                <AvatarFallback className="rounded-md bg-sky-500 text-white">
-                  {label?.charAt(0).toUpperCase()}
+                  {username?.charAt(0).toUpperCase()}
                </AvatarFallback>
             </Avatar>
-            <span>{label}</span>
+            <span>{username}</span>
          </Link>
       </Button>
    );

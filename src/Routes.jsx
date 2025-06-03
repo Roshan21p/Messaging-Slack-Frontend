@@ -61,7 +61,7 @@ export const AppRoutes = () => {
          />
 
          <Route
-            path="/workspaces/:workspaceId/members/:id"
+            path="/workspaces/:workspaceId/members/:id/:username"
             element={
                <ProtectedRoute>
                   <WorkspaceLayout>

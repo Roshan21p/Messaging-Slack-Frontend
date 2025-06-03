@@ -28,3 +28,18 @@ export const signInRequest = async ({ email, password }) => {
       throw error?.response?.data || error?.message;
    }
 };
+
+export const getUserByUsername = async ({ username, id, token }) => {
+   try {
+      const response = await axios.get(`/users/username/${id}/${username}`, {
+         headers: {
+            'x-access-token': token
+         }
+      });
+
+      return response?.data?.data;
+   } catch (error) {
+      console.log('Error in getUserByUsername', error);
+      throw error?.response || error?.message;
+   }
+};

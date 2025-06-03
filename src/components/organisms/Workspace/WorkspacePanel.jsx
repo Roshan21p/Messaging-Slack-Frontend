@@ -83,7 +83,7 @@ export const WorkspacePanel = () => {
                   return (
                      <UserItem
                         key={item?.memberId?._id}
-                        label={item?.memberId?.username}
+                        username={item?.memberId?.username}
                         id={item?.memberId?._id}
                         variant="active"
                         image={item?.memberId?.avatar}
