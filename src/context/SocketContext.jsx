@@ -50,6 +50,7 @@ export const SocketContextProvider = ({ children }) => {
       if (!socketRef.current) return;
 
       const handleTyping = ({ roomId, username }) => {
+
          if (roomId === currentChannel || roomId === currentRoomId) {
             setTypingUsers((prev) => {
                if (!prev.includes(username)) return [...prev, username];
@@ -59,7 +60,7 @@ export const SocketContextProvider = ({ children }) => {
       };
 
       const handleStopTyping = ({ roomId, username }) => {
-         if (roomId === currentChannel) {
+         if (roomId === currentChannel || roomId === currentRoomId) {
             setTypingUsers((prev) => prev.filter((user) => user !== username));
          }
       };
@@ -84,7 +85,6 @@ export const SocketContextProvider = ({ children }) => {
          if (roomId === currentChannel) {
             setOnlineUsers(count);
          } else if (roomId === currentRoomId) {
-            console.log('currentRoomId', currentRoomId, roomId);
             setOnlineUsers(count);
          }
       };
@@ -105,6 +105,7 @@ export const SocketContextProvider = ({ children }) => {
          console.log('Successfully joined the channel', data);
          setCurrentChannel(data?.data?.roomId);
          setOnlineUsers(data?.data?.users);
+         setCurrentRoomId(null);
       });
    }
 
@@ -114,6 +115,7 @@ export const SocketContextProvider = ({ children }) => {
 
       socketRef.current?.emit('LeaveChannel', { channelId }, (data) => {
          console.log('Successfully left the channel:', data);
+         setCurrentRoomId(null);
       });
    }
 
@@ -132,6 +134,8 @@ export const SocketContextProvider = ({ children }) => {
          console.log('Successfully joined the JoinDmRoom', data);
          setCurrentRoomId(data?.data?.roomId);
          setOnlineUsers(data?.data?.users);
+         setCurrentChannel(null);
+
       });
    }
 
@@ -141,6 +145,7 @@ export const SocketContextProvider = ({ children }) => {
 
       socketRef.current?.emit('LeaveDmRoom', { roomId }, (data) => {
          console.log('Successfully left the LeaveDmRoom:', data);
+         setCurrentChannel(null);
       });
    }
 

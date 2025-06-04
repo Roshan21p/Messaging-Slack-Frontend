@@ -23,8 +23,6 @@ export const ChannelHeader = ({ name }) => {
    const workspaceMembers = workspace?.members;
    const { auth } = useAuth();
 
-   console.log('online', onlineUsers);
-
    const isLoggedInUserAdminOfWorkspace = workspaceMembers?.some(
       (member) => member?.memberId?._id === auth?.user?._id && member.role === 'admin'
    );

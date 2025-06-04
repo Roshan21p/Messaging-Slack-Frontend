@@ -110,8 +110,10 @@ export const Editor = ({ onSubmit, disabled }) => {
          if (!isTyping) {
             setIsTyping(true);
             if (currentChannel) {
+               console.log("current",currentChannel, currentRoomId)
                emitTyping(currentChannel, auth?.user?.username);
             } else {
+               console.log("current1", currentRoomId)
                emitTyping(currentRoomId, auth?.user?.username);
             }
          }

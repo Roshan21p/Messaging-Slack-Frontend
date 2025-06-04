@@ -6,6 +6,8 @@ import { useSocket } from '@/hooks/context/useSocket';
 export const DirectMessageHeader = ({ name }) => {
    const { currentWorkspace: workspace } = useCurrentWorkspace();
 
+   console.log("name",name)
+
    const { onlineUsers } = useSocket();
 
    const userData = workspace?.members?.find((member) => member?.memberId?.username === name);

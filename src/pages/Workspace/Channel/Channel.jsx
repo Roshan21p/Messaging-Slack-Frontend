@@ -30,10 +30,6 @@ export const Channel = () => {
 
    const typingUsersToShow = typingUsers.filter((user) => user !== auth?.user?.username);
 
-   console.log('messageList', messageList);
-
-   console.log('typingUsers', typingUsers);
-
    useEffect(() => {
       setMessageList([]);
    }, [channelId]);
