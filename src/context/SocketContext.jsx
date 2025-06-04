@@ -7,6 +7,7 @@ const SocketContext = createContext();
 
 export const SocketContextProvider = ({ children }) => {
    const [currentChannel, setCurrentChannel] = useState(null);
+   const [currentRoomId, setCurrentRoomId] = useState(null);
    const [typingUsers, setTypingUsers] = useState([]);
    const [onlineUsers, setOnlineUsers] = useState(0);
    const { messageList, setMessageList } = useChannelMessages();
@@ -15,10 +16,15 @@ export const SocketContextProvider = ({ children }) => {
    const socketRef = useRef(null);
 
    useEffect(() => {
-      if (!auth?.user?._id || socketRef.current) return;
+      if (!auth?.user?._id) return;
+
+      if (socketRef.current) {
+         socketRef.current.disconnect();
+      }
+
       socketRef.current = io(import.meta.env.VITE_BACKEND_SOCKET_URL, {
          auth: {
-            userId: auth?.user?._id
+            userId: auth.user._id
          }
       });
 
@@ -31,7 +37,11 @@ export const SocketContextProvider = ({ children }) => {
       });
 
       return () => {
-         socketRef.current.disconnect();
+         if (socketRef.current) {
+            socketRef.current.off('NewMessageReceived');
+            socketRef.current.disconnect();
+            socketRef.current = null;
+         }
       };
    }, [auth?.user?._id]);
 
@@ -39,8 +49,8 @@ export const SocketContextProvider = ({ children }) => {
    useEffect(() => {
       if (!socketRef.current) return;
 
-      const handleTyping = ({ channelId, username }) => {
-         if (channelId === currentChannel) {
+      const handleTyping = ({ roomId, username }) => {
+         if (roomId === currentChannel || roomId === currentRoomId) {
             setTypingUsers((prev) => {
                if (!prev.includes(username)) return [...prev, username];
                return prev;
@@ -48,8 +58,8 @@ export const SocketContextProvider = ({ children }) => {
          }
       };
 
-      const handleStopTyping = ({ channelId, username }) => {
-         if (channelId === currentChannel) {
+      const handleStopTyping = ({ roomId, username }) => {
+         if (roomId === currentChannel) {
             setTypingUsers((prev) => prev.filter((user) => user !== username));
          }
       };
@@ -58,18 +68,23 @@ export const SocketContextProvider = ({ children }) => {
       socketRef.current.on('UserStopTyping', handleStopTyping);
 
       return () => {
-         socketRef.current.off('UserTyping', handleTyping);
-         socketRef.current.off('UserStopTyping', handleStopTyping);
-         setTypingUsers([]);
+         if (socketRef.current) {
+            socketRef.current.off('UserTyping', handleTyping);
+            socketRef.current.off('UserStopTyping', handleStopTyping);
+            setTypingUsers([]);
+         }
       };
-   }, [currentChannel]);
+   }, [currentChannel, currentRoomId]);
 
    // Handle online users
    useEffect(() => {
-      if (!socketRef.current || !currentChannel) return;
+      if (!socketRef.current) return;
 
-      const handleOnlineUsers = ({ channelId, count }) => {
-         if (channelId === currentChannel) {
+      const handleOnlineUsers = ({ roomId, count }) => {
+         if (roomId === currentChannel) {
+            setOnlineUsers(count);
+         } else if (roomId === currentRoomId) {
+            console.log('currentRoomId', currentRoomId, roomId);
             setOnlineUsers(count);
          }
       };
@@ -77,16 +92,18 @@ export const SocketContextProvider = ({ children }) => {
       socketRef.current.on('OnlineUsers', handleOnlineUsers);
 
       return () => {
-         socketRef.current.off('OnlineUsers', handleOnlineUsers);
+         if (socketRef.current) {
+            socketRef.current.off('OnlineUsers', handleOnlineUsers);
+         }
       };
-   }, [currentChannel]);
+   }, [currentChannel, currentRoomId]);
 
    function joinChannel(channelId) {
       if (!socketRef.current) return;
 
       socketRef.current.emit('JoinChannel', { channelId }, (data) => {
          console.log('Successfully joined the channel', data);
-         setCurrentChannel(data?.data?.channelId);
+         setCurrentChannel(data?.data?.roomId);
          setOnlineUsers(data?.data?.users);
       });
    }
@@ -100,12 +117,31 @@ export const SocketContextProvider = ({ children }) => {
       });
    }
 
-   function emitTyping(channelId, username) {
-      socketRef.current?.emit('UserTyping', { channelId, username });
+   function emitTyping(roomId, username) {
+      socketRef.current?.emit('UserTyping', { roomId, username });
    }
 
-   function emitStopTyping(channelId, username) {
-      socketRef.current?.emit('UserStopTyping', { channelId, username });
+   function emitStopTyping(roomId, username) {
+      socketRef.current?.emit('UserStopTyping', { roomId, username });
+   }
+
+   function joinDmRoom(roomId) {
+      if (!socketRef.current) return;
+
+      socketRef.current.emit('JoinDmRoom', { roomId }, (data) => {
+         console.log('Successfully joined the JoinDmRoom', data);
+         setCurrentRoomId(data?.data?.roomId);
+         setOnlineUsers(data?.data?.users);
+      });
+   }
+
+   function leaveDmRoom(roomId) {
+      if (!socketRef.current) return;
+      console.log('leave');
+
+      socketRef.current?.emit('LeaveDmRoom', { roomId }, (data) => {
+         console.log('Successfully left the LeaveDmRoom:', data);
+      });
    }
 
    return (
@@ -118,7 +154,10 @@ export const SocketContextProvider = ({ children }) => {
             onlineUsers,
             emitTyping,
             emitStopTyping,
-            typingUsers
+            typingUsers,
+            joinDmRoom,
+            leaveDmRoom,
+            currentRoomId
          }}
       >
          {children}

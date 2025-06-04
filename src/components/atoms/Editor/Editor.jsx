@@ -25,7 +25,7 @@ export const Editor = ({ onSubmit, disabled }) => {
    const typingTimeout = useRef(null);
 
    const { auth } = useAuth();
-   const { emitTyping, emitStopTyping, currentChannel } = useSocket();
+   const { emitTyping, emitStopTyping, currentChannel, currentRoomId } = useSocket();
 
    function toggleToolbar() {
       setIsToolbarVisible(!isToolbarVisible);
@@ -109,7 +109,11 @@ export const Editor = ({ onSubmit, disabled }) => {
       const handleTyping = () => {
          if (!isTyping) {
             setIsTyping(true);
-            emitTyping(currentChannel, auth?.user?.username);
+            if (currentChannel) {
+               emitTyping(currentChannel, auth?.user?.username);
+            } else {
+               emitTyping(currentRoomId, auth?.user?.username);
+            }
          }
 
          // Clear the existing timeout
@@ -120,7 +124,11 @@ export const Editor = ({ onSubmit, disabled }) => {
          // Set new timeout to emit stop typing
          typingTimeout.current = setTimeout(() => {
             setIsTyping(false);
-            emitStopTyping(currentChannel, auth?.user?.username);
+            if (currentChannel) {
+               emitStopTyping(currentChannel, auth?.user?.username);
+            } else {
+               emitStopTyping(currentRoomId, auth?.user?.username);
+            }
          }, 1000);
       };
 

@@ -1,9 +1,13 @@
 import { useCurrentWorkspace } from '@/hooks/context/useCurrentWorkspace';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { useSocket } from '@/hooks/context/useSocket';
 
 export const DirectMessageHeader = ({ name }) => {
    const { currentWorkspace: workspace } = useCurrentWorkspace();
+
+   const { onlineUsers } = useSocket();
+
    const userData = workspace?.members?.find((member) => member?.memberId?.username === name);
 
    if (!userData) {
@@ -57,7 +61,21 @@ export const DirectMessageHeader = ({ name }) => {
                   {username.charAt(0).toUpperCase() + username.slice(1).toLowerCase()}
                </span>
             </div>
+
+            {/* Mobile view: online users under channel name */}
+            {onlineUsers > 1 && (
+               <div className="sm:hidden flex items-center gap-1 text-xs text-gray-500 pl-3">
+                  <span className="text-green-500">{onlineUsers - 1} online</span>
+               </div>
+            )}
          </div>
+
+         {/* Right Section (Desktop only): online users */}
+         {onlineUsers > 1 && (
+            <div className="hidden sm:flex items-center gap-1  text-gray-600">
+               <span className="text-green-500">{onlineUsers - 1} online</span>
+            </div>
+         )}
       </div>
    );
 };

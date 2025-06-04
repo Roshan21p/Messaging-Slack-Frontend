@@ -9,7 +9,7 @@ import { toast } from 'sonner';
 
 export const ChatInput = () => {
    const { auth } = useAuth();
-   const { socket, currentChannel } = useSocket();
+   const { socket, currentChannel, currentRoomId } = useSocket();
    const { currentWorkspace } = useCurrentWorkspace();
    const queryClient = useQueryClient();
    const [isUploading, setIsUploading] = useState(false);
@@ -50,6 +50,7 @@ export const ChatInput = () => {
             'NewMessage',
             {
                channelId: currentChannel,
+               roomId: currentRoomId,
                body,
                image: fileUrl,
                senderId: auth?.user?._id,
