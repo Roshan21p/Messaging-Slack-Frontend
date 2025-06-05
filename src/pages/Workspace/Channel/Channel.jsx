@@ -88,7 +88,7 @@ export const Channel = () => {
 
    return (
       <div className="flex flex-col h-full">
-         <ChannelHeader name={channelDetails?.name} />
+         <ChannelHeader name={channelDetails?.name} className="fixed top-0" />
 
          {/* We need to make sure that below div is scrollable for the messages */}
          <div className="flex-6 overflow-y-auto p-5 gap-y-2" ref={messageContainerListRef}>

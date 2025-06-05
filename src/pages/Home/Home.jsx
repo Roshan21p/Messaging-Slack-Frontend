@@ -1,7 +1,7 @@
 import { UserButton } from '@/components/atoms/UserButton/UserButton';
 import { useFetchWorkspace } from '@/hooks/apis/workspaces/useFetchWorkspace';
-import { useAuth } from '@/hooks/context/useAuth';
 import { useCreateWorkspaceModal } from '@/hooks/context/useCreateWorkspaceModal';
+import { LucideLoader2 } from 'lucide-react';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -13,16 +13,25 @@ export const Home = () => {
    const { setOpenCreateWorkspaceModal } = useCreateWorkspaceModal();
 
    useEffect(() => {
-      if (isFetching) return;
+      if (!isFetching) {
+         console.log('Workspaces downloaded is', workspaces, error);
 
-      console.log('Workspaces downloaded is', workspaces, error);
-
-      if (workspaces?.length === 0 || !workspaces) {
-         setOpenCreateWorkspaceModal(true);
-      } else {
-         navigate(`/workspaces/${workspaces[0]?._id}`);
+         if (!workspaces || workspaces.length === 0) {
+            setOpenCreateWorkspaceModal(true);
+         } else {
+            navigate(`/workspaces/${workspaces[0]?._id}`);
+         }
       }
    }, [isFetching, workspaces, navigate]);
+
+    if (isFetching) {
+         return (
+            <div>
+               <LucideLoader2 className="animate-spin mx-auto mt-5" />
+               <span className="flex items-center justify-center">Loading...</span>
+            </div>
+         );
+      }
 
    return (
       <div className="h-[100vh] flex flex-col items-center justify-center bg-slack">

@@ -35,27 +35,6 @@ export const Editor = ({ onSubmit, disabled }) => {
       }
    }
 
-   // function handleTyping() {
-   //    if (!currentChannel || !auth?.user?.username) return; // 🔒 avoid emitting with undefined channelId
-
-   //    // Emit only when user starts typing
-   //    if(!isTyping) {
-   //       setIsTyping(true);
-   //       emitTyping(currentChannel, auth?.user?.username);
-   //    }
-
-   //    // Clear the existing timeout
-   //    if(typingTimeout.current){
-   //       clearTimeout(typingTimeout.current);
-   //    }
-
-   //    // Set new timeout to emit stop typing
-   //    typingTimeout.current = setTimeout(() => {
-   //       setIsTyping(false);
-   //       emitStopTyping(currentChannel, auth?.user?.username);
-   //    }, 1000);
-   // };
-
    useEffect(() => {
       if (!containerRef.current || quillRef.current) return; // if containerRef is not initialized, return
 
@@ -110,10 +89,10 @@ export const Editor = ({ onSubmit, disabled }) => {
          if (!isTyping) {
             setIsTyping(true);
             if (currentChannel) {
-               console.log("current",currentChannel, currentRoomId)
+               console.log('current', currentChannel, currentRoomId);
                emitTyping(currentChannel, auth?.user?.username);
             } else {
-               console.log("current1", currentRoomId)
+               console.log('current1', currentRoomId);
                emitTyping(currentRoomId, auth?.user?.username);
             }
          }
@@ -142,7 +121,31 @@ export const Editor = ({ onSubmit, disabled }) => {
          quill.off('text-change', handleTyping);
          clearTimeout(typingTimeout.current);
       };
-   }, [currentChannel]); // Run this effect when `currentChannel` changes
+   }, [currentChannel, currentRoomId]); // Run this effect when `currentChannel` changes
+
+   const handleSend = () => {
+      if (!quillRef.current) return;
+
+      const plainText = quillRef.current.getText().trim(); // Get plain text and trim whitespace/newlines
+
+      if (!plainText) {
+         // Don't send if empty message
+         return;
+      }
+      const content = quillRef.current?.getContents();
+      if (!content || !onSubmit) return;
+
+      onSubmit({ body: JSON.stringify(content), image });
+
+      //Stop typing after message is sent
+      const roomId = currentChannel || currentRoomId;
+      setIsTyping(false); // Reset typing state
+      emitStopTyping(roomId, auth?.user?.username);
+
+      quillRef.current?.setText('');
+      setImage(null);
+      if (imageInputRef.current) imageInputRef.current.value = '';
+   };
 
    return (
       <div className="flex flex-col">
@@ -209,18 +212,7 @@ export const Editor = ({ onSubmit, disabled }) => {
                <Hint label="Send Message">
                   <Button
                      className="ml-auto bg-[#007a6a] hover:bg-[#007a6a]/80 text-white cursor-pointer"
-                     onClick={() => {
-                        const messageContent = JSON.stringify(quillRef.current?.getContents());
-                        onSubmit({ body: messageContent, image });
-
-                        // Stop typing after message is sent
-                        emitStopTyping(currentChannel, auth?.user?.username);
-                        setIsTyping(false); // Reset typing state
-
-                        quillRef.current?.setText('');
-                        setImage(null);
-                        imageInputRef.current.value = '';
-                     }}
+                     onClick={handleSend}
                      disabled={disabled}
                   >
                      <MdSend className="size-4" />

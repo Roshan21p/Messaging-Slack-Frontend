@@ -43,7 +43,7 @@ export const ChatInput = () => {
 
             fileUrl = cloudinaryResponse?.data?.secure_url;
 
-            toast.success('Image uploaded!', { id: toastId });
+            toast.success('Image successfully uploaded!', { id: toastId });
          }
 
          socket?.emit(

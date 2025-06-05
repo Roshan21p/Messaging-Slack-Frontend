@@ -7,6 +7,8 @@ export const useFetchWorkspace = () => {
    const { auth } = useAuth();
    const { toast } = useToast();
 
+   if (!auth?.token) return;
+
    const {
       isFetching,
       isSuccess,
@@ -17,7 +19,8 @@ export const useFetchWorkspace = () => {
       queryFn: () => fetchWorkspaceRequest({ token: auth?.token }),
       queryKey: ['fetchWorkspaces'],
       enabled: !!auth?.token, // only fetch when token is available
-      staleTime: 30000,
+      staleTime: 20 * 60 * 1000,
+      gcTime: 30 * 60 * 1000,
       throwOnError: (error) => {
          toast({
             title: 'Failed to Fetch Workspace Details',

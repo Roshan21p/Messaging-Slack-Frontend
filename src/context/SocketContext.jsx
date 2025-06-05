@@ -50,6 +50,7 @@ export const SocketContextProvider = ({ children }) => {
       if (!socketRef.current) return;
 
       const handleTyping = ({ roomId, username }) => {
+         console.log('socket typing', roomId);
 
          if (roomId === currentChannel || roomId === currentRoomId) {
             setTypingUsers((prev) => {
@@ -99,7 +100,7 @@ export const SocketContextProvider = ({ children }) => {
    }, [currentChannel, currentRoomId]);
 
    function joinChannel(channelId) {
-      if (!socketRef.current) return;
+      if (!socketRef.current || !channelId) return;
 
       socketRef.current.emit('JoinChannel', { channelId }, (data) => {
          console.log('Successfully joined the channel', data);
@@ -111,41 +112,42 @@ export const SocketContextProvider = ({ children }) => {
 
    function leaveChannel(channelId) {
       if (!socketRef.current || !channelId) return;
-      console.log('leave');
-
       socketRef.current?.emit('LeaveChannel', { channelId }, (data) => {
          console.log('Successfully left the channel:', data);
          setCurrentRoomId(null);
+         setCurrentChannel(null);
       });
    }
 
    function emitTyping(roomId, username) {
+      if (!roomId || !username || !socketRef.current) return;
       socketRef.current?.emit('UserTyping', { roomId, username });
    }
 
    function emitStopTyping(roomId, username) {
+      if (!roomId || !username || !socketRef.current) return;
       socketRef.current?.emit('UserStopTyping', { roomId, username });
    }
 
    function joinDmRoom(roomId) {
-      if (!socketRef.current) return;
+      if (!socketRef.current || !roomId) return;
 
       socketRef.current.emit('JoinDmRoom', { roomId }, (data) => {
          console.log('Successfully joined the JoinDmRoom', data);
          setCurrentRoomId(data?.data?.roomId);
          setOnlineUsers(data?.data?.users);
          setCurrentChannel(null);
-
       });
    }
 
    function leaveDmRoom(roomId) {
-      if (!socketRef.current) return;
+      if (!socketRef.current || !roomId) return;
       console.log('leave');
 
       socketRef.current?.emit('LeaveDmRoom', { roomId }, (data) => {
          console.log('Successfully left the LeaveDmRoom:', data);
          setCurrentChannel(null);
+         setCurrentRoomId(null);
       });
    }
 

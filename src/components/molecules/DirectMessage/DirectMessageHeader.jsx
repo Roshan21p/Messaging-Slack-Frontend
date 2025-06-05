@@ -6,8 +6,6 @@ import { useSocket } from '@/hooks/context/useSocket';
 export const DirectMessageHeader = ({ name }) => {
    const { currentWorkspace: workspace } = useCurrentWorkspace();
 
-   console.log("name",name)
-
    const { onlineUsers } = useSocket();
 
    const userData = workspace?.members?.find((member) => member?.memberId?.username === name);
@@ -23,7 +21,7 @@ export const DirectMessageHeader = ({ name }) => {
    const hasValidImage = imageUrl && imageUrl !== '';
 
    return (
-      <div className="bg-white border-b h-[50px] flex items-center justify-between px-4 overflow-hidden">
+      <div className="bg-white border-b-2 h-[50px] flex items-center justify-between px-4 overflow-hidden">
          <div className="flex flex-col sm:items-center sm:flex-row sm:gap-x-2">
             <div className="flex items-center gap-x-4">
                <Dialog>
@@ -66,7 +64,7 @@ export const DirectMessageHeader = ({ name }) => {
 
             {/* Mobile view: online users under channel name */}
             {onlineUsers > 1 && (
-               <div className="sm:hidden flex items-center gap-1 text-xs text-gray-500 pl-3">
+               <div className="sm:hidden flex items-center gap-1 text-xs text-gray-500 pl-13">
                   <span className="text-green-500">{onlineUsers - 1} online</span>
                </div>
             )}

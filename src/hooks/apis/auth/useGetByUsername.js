@@ -17,7 +17,8 @@ export const useGetByUsername = ({ username, id }) => {
       queryFn: () => getUserByUsername({ username, id, token: auth?.token }),
       queryKey: [`get-user-${username}`],
       enabled: !!auth?.token,
-
+      staleTime: 10 * 60 * 1000,
+      gcTime: 20 * 60 * 1000,
       throwOnError: (error) => {
          toast({
             title: 'Failed to Fetch the user details',

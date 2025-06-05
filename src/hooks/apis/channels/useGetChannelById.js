@@ -16,8 +16,9 @@ export const useGetChannelById = (channelId) => {
       queryFn: () => getChannelById({ channelId, token: auth?.token }),
       queryKey: [`get-channel-${channelId}`],
       enabled: !!auth?.token, // only fetch when token is available
+      staleTime: 5 * 60 * 1000,
+      gcTime: 10 * 60 * 1000,
       retry: 1,
-      retryOnMount: true,
       throwOnError: (error) => {
          toast({
             title: 'Failed to Fetch channel details',
