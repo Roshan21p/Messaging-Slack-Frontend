@@ -74,6 +74,11 @@ export const Editor = ({ onSubmit, disabled }) => {
       const quill = new Quill(editorContainer, options);
 
       quillRef.current = quill;
+
+      quillRef.current.root.addEventListener('touchstart', () => {
+         quillRef.current.focus(); // Manually ensure the editor is focused when touched
+      });
+
       quillRef.current.focus();
 
       quill.setContents(defaultValueRef.current);
@@ -89,10 +94,10 @@ export const Editor = ({ onSubmit, disabled }) => {
          if (!isTyping) {
             setIsTyping(true);
             if (currentChannel) {
-               console.log('current', currentChannel, currentRoomId);
+               console.log('currentChannel Id', currentChannel, currentRoomId);
                emitTyping(currentChannel, auth?.user?.username);
             } else {
-               console.log('current1', currentRoomId);
+               console.log('Dm room Id', currentRoomId);
                emitTyping(currentRoomId, auth?.user?.username);
             }
          }
@@ -115,10 +120,14 @@ export const Editor = ({ onSubmit, disabled }) => {
 
       // Attach the event listener
       quill.on('text-change', handleTyping);
+      quill.on('selection-change', handleTyping); // for mobile triggers like cursor movement
+      quill.root.addEventListener('input', handleTyping); // native fallback for mobile
 
       return () => {
          // Clean up the event listener on unmount or channel change
          quill.off('text-change', handleTyping);
+         quill.off('selection-change', handleTyping);
+         quill.root.removeEventListener('input', handleTyping);
          clearTimeout(typingTimeout.current);
       };
    }, [currentChannel, currentRoomId]); // Run this effect when `currentChannel` changes

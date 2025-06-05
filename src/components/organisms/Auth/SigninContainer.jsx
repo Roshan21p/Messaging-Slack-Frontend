@@ -2,9 +2,12 @@ import { useSignin } from '@/hooks/apis/auth/useSignin';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Signincard } from './SigninCard';
+import { useQueryClient } from '@tanstack/react-query';
 
 export const SigninContainer = () => {
    const navigate = useNavigate();
+
+   const queryClient = useQueryClient();
 
    const [signinForm, setSigninForm] = useState({
       email: '',
@@ -34,6 +37,7 @@ export const SigninContainer = () => {
 
    useEffect(() => {
       if (isSuccess) {
+         queryClient.invalidateQueries(['fetchWorkspaces']);
          setTimeout(() => {
             navigate('/home');
          }, 2000);
