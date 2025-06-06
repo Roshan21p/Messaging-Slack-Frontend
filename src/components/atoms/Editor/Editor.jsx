@@ -56,14 +56,8 @@ export const Editor = ({ onSubmit, disabled }) => {
                   enter: {
                      key: 'Enter',
                      handler: () => {
-                        return;
-                     }
-                  },
-                  shift_enter: {
-                     key: 'Enter',
-                     shiftKey: true,
-                     handler: () => {
                         quill.insertText(quill.getSelection()?.index || 0, '\n'); // insert a new line
+                        return false; // prevent default
                      }
                   }
                }
@@ -137,7 +131,7 @@ export const Editor = ({ onSubmit, disabled }) => {
 
       const plainText = quillRef.current.getText().trim(); // Get plain text and trim whitespace/newlines
 
-      if (!plainText) {
+      if (!plainText && !image) {
          // Don't send if empty message
          return;
       }
@@ -160,6 +154,7 @@ export const Editor = ({ onSubmit, disabled }) => {
       <div className="flex flex-col">
          <div className="flex flex-col border border-slate-300 rounded-md overflow-hidden focus-within:shadow-sm focus-within:border-slate-400 bg-white">
             <div className="h-full ql-custom" ref={containerRef} />
+
             {image && (
                <div className="p-2">
                   <div className="relative size-[60px] flex items-center justify-center group/image">
@@ -231,7 +226,7 @@ export const Editor = ({ onSubmit, disabled }) => {
          </div>
 
          <p className="p-2 text-[10px] text-mutes-foreground flex justify-end">
-            <strong>Shift + enter</strong> &nbsp; to add a new line
+            <strong>Enter</strong> &nbsp; to add a new line
          </p>
       </div>
    );

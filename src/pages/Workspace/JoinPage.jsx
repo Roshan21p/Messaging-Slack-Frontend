@@ -1,16 +1,25 @@
 import { Button } from '@/components/ui/button';
 import { useJoinWorkspace } from '@/hooks/apis/workspaces/useJoinWorkspace';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import VerificationInput from 'react-verification-input';
+import { useEffect, useState } from 'react';
+import { useAuth } from '@/hooks/context/useAuth';
+import { toast } from 'sonner';
 
 export const JoinPage = () => {
    const { workspaceId } = useParams();
    const navigate = useNavigate();
+   const [searchParams] = useSearchParams();
+
+   const { auth } = useAuth();
 
    const { joinWorkspaceMutation } = useJoinWorkspace(workspaceId);
 
+   const [autoJoinAttempted, setAutoJoinAttempted] = useState(false);
+
+   const joinCodeFromURL = searchParams.get('code');
+
    async function handleJoinWorkspace(joinCode) {
-      console.log('Adding member to workspace', joinCode);
       try {
          await joinWorkspaceMutation(joinCode);
          navigate(`/workspaces/${workspaceId}`);
@@ -19,33 +28,75 @@ export const JoinPage = () => {
       }
    }
 
+   useEffect(() => {
+      if (!auth?.token) {
+         // Store invite info to join later
+         localStorage.setItem(
+            'pendingJoin',
+            JSON.stringify({
+               workspaceId,
+               joinCode: joinCodeFromURL
+            })
+         );
+         navigate('/auth/signin');
+         toast('Please login to Join the Workspace');
+         return;
+      }
+
+      if (joinCodeFromURL && !autoJoinAttempted) {
+         setAutoJoinAttempted(true);
+         handleJoinWorkspace(joinCodeFromURL);
+      }
+   }, [auth, joinCodeFromURL, autoJoinAttempted]);
+
    return (
-      <div className="h-[100vh] flex flex-col gap-y-8 items-center justify-center p-8 bg-white rounded-lg shadow-sm">
-         <div className="flex flex-col gap-y-4 items-center justify-center">
-            <div className="flex flex-col gap-y-2 items-center">
-               <h1 className="font-bold text-3xl">Join Workspace</h1>
-
-               <p>Enter the code you received to join the workspace</p>
+      <div
+         className="h-screen w-full flex items-center justify-center px-6"
+         style={{
+            background: 'linear-gradient(135deg, #5c3b58, #5e2c5f, #481349)',
+            color: 'white'
+         }}
+      >
+         <div className="bg-white/10 backdrop-blur-sm rounded-xl shadow-lg p-10 max-w-md w-full flex flex-col items-center gap-y-6">
+            <div className="text-center">
+               <h1 className="text-3xl font-bold mb-2 text-white">Join Workspace</h1>
+               {joinCodeFromURL ? (
+                  <p className="text-sm text-gray-200">
+                     Using invite code: <span className="font-semibold">{joinCodeFromURL}</span>
+                  </p>
+               ) : (
+                  <p className="text-sm text-gray-200">
+                     Enter the code you received to join the workspace
+                  </p>
+               )}
             </div>
-            <VerificationInput
-               onComplete={handleJoinWorkspace}
-               length={6}
-               classNames={{
-                  container: 'flex gap-x-2',
-                  character:
-                     'h-auto rounded-md border border-gray-300 flex items-center justify-center text-lg font-medium focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500',
-                  characterInactive: 'bg-muted',
-                  characterFilled: 'bg-white text-black',
-                  characterSelected: 'bg-white text-black'
-               }}
-               autoFocus
-            />
-         </div>
 
-         <div className="flex gap-x-4">
-            <Button size="lg" variant="outline" className="cursor-pointer hover:bg-gray-200">
-               <Link to={`/workspaces/${workspaceId}`}>Back to the Workspace</Link>
-            </Button>
+            {!joinCodeFromURL && (
+               <VerificationInput
+                  onComplete={handleJoinWorkspace}
+                  length={6}
+                  placeholder=""
+                  autoFocus
+                  classNames={{
+                     container: 'flex gap-x-3 justify-center',
+                     character:
+                        'w-12 h-12 text-xl text-white bg-[#5e2c5f] border border-white/30 rounded-md flex items-center justify-center transition focus:outline-none focus:border-white focus:ring-1 focus:ring-white',
+                     characterInactive: 'bg-white/10',
+                     characterFilled: 'bg-white text-[#5e2c5f] font-bold',
+                     characterSelected: 'bg-white text-[#5e2c5f]'
+                  }}
+               />
+            )}
+
+            <div className="flex gap-4 mt-4">
+               <Button
+                  size="lg"
+                  variant="outline"
+                  className="bg-white/20 text-white border-white/30 hover:bg-white/30 transition"
+               >
+                  <Link to={`/workspaces/${workspaceId}`}>Back to Workspace</Link>
+               </Button>
+            </div>
          </div>
       </div>
    );

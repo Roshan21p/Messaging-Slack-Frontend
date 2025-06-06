@@ -1,5 +1,6 @@
 import { UserButton } from '@/components/atoms/UserButton/UserButton';
 import { useFetchWorkspace } from '@/hooks/apis/workspaces/useFetchWorkspace';
+import { useAuth } from '@/hooks/context/useAuth';
 import { useCreateWorkspaceModal } from '@/hooks/context/useCreateWorkspaceModal';
 import { LucideLoader2 } from 'lucide-react';
 import { useEffect } from 'react';
@@ -9,6 +10,8 @@ export const Home = () => {
    const { isFetching, workspaces, error, isError } = useFetchWorkspace();
 
    const navigate = useNavigate();
+
+   const { logout } = useAuth();
 
    const { setOpenCreateWorkspaceModal } = useCreateWorkspaceModal();
 
@@ -30,8 +33,8 @@ export const Home = () => {
 
    if (isFetching) {
       return (
-         <div>
-            <LucideLoader2 className="animate-spin mx-auto mt-5" />
+         <div className="bg-slack h-[100vh] pt-10">
+            <LucideLoader2 className="animate-spin mx-auto" />
             <span className="flex items-center justify-center">Loading...</span>
          </div>
       );

@@ -43,6 +43,7 @@ export const Channel = () => {
    // Handle errors & auth
    useEffect(() => {
       if (!isFetching && isError && error?.status === 403) {
+         console.log('hello');
          logout();
          navigate('/auth/signin');
       }

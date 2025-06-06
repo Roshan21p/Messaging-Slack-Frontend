@@ -38,11 +38,19 @@ export const SigninContainer = () => {
    useEffect(() => {
       if (isSuccess) {
          queryClient.invalidateQueries(['fetchWorkspaces']);
-         setTimeout(() => {
-            navigate('/home');
-         }, 2000);
+
+         const pendingJoin = localStorage.getItem('pendingJoin');
+         if (pendingJoin) {
+            const { workspaceId, joinCode } = JSON.parse(pendingJoin);
+            localStorage.removeItem('pendingJoin');
+            navigate(`/workspaces/join/${workspaceId}?code=${joinCode}`);
+         } else {
+            setTimeout(() => {
+               navigate('/home');
+            }, 2000);
+         }
       }
-   }, [isSuccess, navigate]);
+   }, [isSuccess, navigate, queryClient]);
 
    return (
       <Signincard

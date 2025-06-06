@@ -14,7 +14,15 @@ export const WorkspaceLayout = ({ children }) => {
                   <WorkspacePanel />
                </ResizablePanel>
                <ResizableHandle withHandle />
-               <ResizablePanel minSize={20}>{children}</ResizablePanel>
+               <ResizablePanel minSize={20}>
+                  {children ?? (
+                     <div className="flex h-full items-center justify-center text-gray-500">
+                        <div className="text-center px-4 text-xl">
+                           Select a channel or direct message to start chatting
+                        </div>
+                     </div>
+                  )}
+               </ResizablePanel>
             </ResizablePanelGroup>
          </div>
       </div>

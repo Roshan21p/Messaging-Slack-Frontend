@@ -19,14 +19,14 @@ export const WorkspaceInviteModal = ({
    workspaceId
 }) => {
    const { toast } = useToast();
-
    const { resetJoinCodeMutation } = useResetJoinCode(workspaceId);
 
-   async function handleCopy() {
-      const inviteLink = `${joinCode}`;
+   const inviteLink = `${window.location.origin}/workspaces/join/${workspaceId}?code=${joinCode}`;
+
+   async function handleCopyInviteLink() {
       await navigator.clipboard.writeText(inviteLink);
       toast({
-         title: 'Join code copied to clipboard',
+         title: 'Invite link copied to clipboard',
          type: 'success'
       });
    }
@@ -46,37 +46,30 @@ export const WorkspaceInviteModal = ({
             <DialogHeader>
                <DialogTitle>Invite People to {workspaceName}</DialogTitle>
                <DialogDescription>
-                  Use the code shown below to invite people to your workspace
+                  Invite link below to invite people to your workspace
                </DialogDescription>
             </DialogHeader>
 
             <DialogClose>
                <div className="flex flex-col items-center justify-center py-10 gap-y-4">
-                  <p className="font-bold text-4xl uppercase">{joinCode}</p>
+                  {/* Join Code Display */}
+                  <div className="bg-gray-100 px-6 py-2 rounded text-2xl font-mono cursor-pointer select-all">
+                     {joinCode}
+                  </div>
 
                   <Button
                      size="sm"
                      variant="outline"
-                     onClick={handleCopy}
+                     onClick={handleCopyInviteLink}
                      className="cursor-pointer hover:bg-gray-300"
                   >
-                     Copy Code
+                     Copy Invite Link
                   </Button>
-
-                  {/* Link to redirect the user in a new tab to the join page */}
-                  <a
-                     href={`/workspaces/join/${workspaceId}`}
-                     target="_blank"
-                     rel="noreferrer"
-                     className="text-blue-500"
-                  >
-                     Redirect to join page
-                  </a>
                </div>
             </DialogClose>
 
             <DialogClose>
-               <div className="flex items-center justify-center w-full ">
+               <div className="flex items-center justify-center w-full">
                   <Button
                      variant="outline"
                      onClick={handleResetCode}
