@@ -43,3 +43,18 @@ export const getUserByUsername = async ({ username, id, token }) => {
       throw error?.response || error?.message;
    }
 };
+
+export const fetchAllUsers = async ({ token }) => {
+   try {
+      const response = await axios.get('/users', {
+         headers: {
+            'x-access-token': token
+         }
+      });
+
+      return response?.data?.data;
+   } catch (error) {
+      console.log('Error in getUserByUsername', error);
+      throw error?.response || error?.message;
+   }
+};
