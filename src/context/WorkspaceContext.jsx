@@ -4,9 +4,12 @@ const WorkspaceContext = createContext();
 
 export const WorkspaceContextProvider = ({ children }) => {
    const [currentWorkspace, setCurrentWorkspace] = useState(null);
+   const [openDmModal, setOpenDmModal] = useState(false);
 
    return (
-      <WorkspaceContext.Provider value={{ currentWorkspace, setCurrentWorkspace }}>
+      <WorkspaceContext.Provider
+         value={{ currentWorkspace, setCurrentWorkspace, openDmModal, setOpenDmModal }}
+      >
          {children}
       </WorkspaceContext.Provider>
    );

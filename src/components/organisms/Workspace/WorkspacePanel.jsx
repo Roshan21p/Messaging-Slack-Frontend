@@ -5,6 +5,7 @@ import { WorkspacePanelSection } from '@/components/molecules/Workspace/Workspac
 import { useGetWorkspaceById } from '@/hooks/apis/workspaces/useGetWorkspaceById';
 import { useAuth } from '@/hooks/context/useAuth';
 import { useCreateChannelModal } from '@/hooks/context/useCreateChannelModal';
+import { useCurrentWorkspace } from '@/hooks/context/useCurrentWorkspace';
 import {
    AlertTriangleIcon,
    HashIcon,
@@ -19,6 +20,7 @@ export const WorkspacePanel = () => {
 
    const { isFetching, isSuccess, workspace } = useGetWorkspaceById(workspaceId);
    const { setOpenCreateChannelModal } = useCreateChannelModal();
+   const { setOpenDmModal } = useCurrentWorkspace();
    const { auth } = useAuth();
 
    if (isFetching) {
@@ -76,7 +78,12 @@ export const WorkspacePanel = () => {
             })}
          </WorkspacePanelSection>
 
-         <WorkspacePanelSection label="Direct messages" onIconClick={() => {}}>
+         <WorkspacePanelSection
+            label="Direct messages"
+            onIconClick={() => {
+               setOpenDmModal(true);
+            }}
+         >
             {workspace?.members
                ?.filter((item) => item?.memberId?.username !== auth?.user?.username)
                ?.map((item) => {

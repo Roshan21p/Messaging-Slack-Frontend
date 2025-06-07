@@ -1,7 +1,6 @@
 import { ChatInput } from '@/components/molecules/ChatInput/ChatInput';
 import { DirectMessageHeader } from '@/components/molecules/DirectMessage/DirectMessageHeader';
 import { Message } from '@/components/molecules/Message/Message';
-import { useFetchAllUsers } from '@/hooks/apis/auth/useFetchAllUsers';
 import { useGetByUsername } from '@/hooks/apis/auth/useGetByUsername';
 import { useGetDirectMessages } from '@/hooks/apis/DirectMessage/useGetDirectMessages';
 import { useAuth } from '@/hooks/context/useAuth';
@@ -19,9 +18,7 @@ export const DirectMessage = () => {
       id
    });
 
-   const { userDetails } = useFetchAllUsers();
-
-   console.log('iduser', id, username, userDetails);
+   console.log('iduser', id, username);
 
    const { auth } = useAuth();
 

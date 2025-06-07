@@ -1,10 +1,19 @@
 import { Button } from '@/components/ui/button';
+import { useAuth } from '@/hooks/context/useAuth';
+import { useCurrentWorkspace } from '@/hooks/context/useCurrentWorkspace';
 import { PlusIcon } from 'lucide-react';
 import { useState } from 'react';
 import { FaCaretDown, FaCaretRight } from 'react-icons/fa';
 
 export const WorkspacePanelSection = ({ children, label, onIconClick }) => {
    const [open, setOpen] = useState(false);
+
+   const { auth } = useAuth();
+   const { currentWorkspace: workspace } = useCurrentWorkspace();
+
+   const isLoggedInUserAdminOfWorkspace = workspace?.members?.find(
+      (member) => member?.memberId?._id === auth?.user?._id && member.role === 'admin'
+   );
 
    return (
       <div className="flex flex-col mt-3 px-2">
@@ -24,7 +33,7 @@ export const WorkspacePanelSection = ({ children, label, onIconClick }) => {
                <span>{label}</span>
             </Button>
 
-            {onIconClick && (
+            {isLoggedInUserAdminOfWorkspace && onIconClick && (
                <Button
                   variant="primary"
                   size="sm"
