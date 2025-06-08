@@ -46,7 +46,7 @@ export const SigninContainer = () => {
             navigate(`/workspaces/join/${workspaceId}?code=${joinCode}`);
          } else {
             setTimeout(() => {
-               navigate('/home');
+               navigate('/');
             }, 2000);
          }
       }

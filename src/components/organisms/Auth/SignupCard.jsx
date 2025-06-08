@@ -18,7 +18,7 @@ export const SignupCard = ({
    const navigate = useNavigate();
 
    return (
-      <Card className="w-full h-full">
+      <Card className="w-full max-w-md">
          <CardHeader>
             <CardTitle>Sign Up</CardTitle>
             <CardDescription>Sign up to access your account</CardDescription>

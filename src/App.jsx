@@ -12,8 +12,8 @@ function App() {
    return (
       <QueryClientProvider client={queryClient}>
          <AppContextProvider>
-            <AppRoutes />
             <Modals />
+            <AppRoutes />
          </AppContextProvider>
       </QueryClientProvider>
    );

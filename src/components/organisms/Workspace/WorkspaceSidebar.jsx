@@ -9,7 +9,7 @@ export const WorkspaceSidebar = () => {
    return (
       <aside className="w-[70px] h-full bg-slack-dark flex flex-col gap-y-4 items-center pt-[10px] pb-[5px]">
          <WorkspaceSwitcher />
-         <SidebarButton Icon={HomeIcon} label="Home" onClick={() => navigate('/home')} />
+         <SidebarButton Icon={HomeIcon} label="Home" onClick={() => navigate('/')} />
 
          <SidebarButton Icon={MessageSquareIcon} label="DMs" />
 

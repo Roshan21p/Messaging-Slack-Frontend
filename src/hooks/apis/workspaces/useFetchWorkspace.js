@@ -3,11 +3,9 @@ import { useAuth } from '@/hooks/context/useAuth';
 import { useToast } from '@/hooks/use-toast';
 import { useQuery } from '@tanstack/react-query';
 
-export const useFetchWorkspace = () => {
+export const useFetchWorkspace = (options = {}) => {
    const { auth } = useAuth();
    const { toast } = useToast();
-
-   if (!auth?.token) return;
 
    const {
       isFetching,
@@ -18,9 +16,10 @@ export const useFetchWorkspace = () => {
    } = useQuery({
       queryFn: () => fetchWorkspaceRequest({ token: auth?.token }),
       queryKey: ['fetchWorkspaces'],
-      enabled: !!auth?.token, // only fetch when token is available
       staleTime: 20 * 60 * 1000,
       gcTime: 30 * 60 * 1000,
+      enabled: !!auth?.token && (options.enabled ?? true), // ✅ key fix
+      retry: false, // optional: prevent retries on failure
       throwOnError: (error) => {
          toast({
             title: 'Failed to Fetch Workspace Details',

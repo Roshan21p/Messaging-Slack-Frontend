@@ -13,7 +13,10 @@ import { DirectMessage } from './pages/Workspace/DirectMessage/DirectMessage';
 export const AppRoutes = () => {
    return (
       <Routes>
+         <Route path="/" element={<Home />} />
+
          <Route path="/auth" element={<Auth />} />
+
          <Route
             path="/auth/signup"
             element={
@@ -28,15 +31,6 @@ export const AppRoutes = () => {
                <Auth>
                   <SigninContainer />
                </Auth>
-            }
-         />
-
-         <Route
-            path="/home"
-            element={
-               <ProtectedRoute>
-                  <Home />
-               </ProtectedRoute>
             }
          />
 

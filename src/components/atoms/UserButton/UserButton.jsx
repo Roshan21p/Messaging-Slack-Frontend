@@ -28,19 +28,19 @@ export const UserButton = () => {
          title: 'Successfully signed out',
          type: 'success'
       });
-      navigate('/auth/signin');
+      navigate('/');
    }
 
    return (
       <DropdownMenu>
          <DropdownMenuTrigger className="outline-none relative">
-            <Avatar className="size-10 hover:opacity-65 transition">
+            <Avatar className="size-15 hover:opacity-65 transition border">
                <AvatarImage src={auth?.user?.avatar} />
                <AvatarFallback>{auth?.user?.username[0].toUpperCase()}</AvatarFallback>
             </Avatar>
          </DropdownMenuTrigger>
          <DropdownMenuContent>
-            <DropdownMenuItem onClick={() => navigate('/home')}>
+            <DropdownMenuItem onClick={() => navigate('/')}>
                <HomeIcon className="size-4 mr-2 h-10" />
                Home
             </DropdownMenuItem>
