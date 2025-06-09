@@ -11,6 +11,7 @@ import { useAuth } from '@/hooks/context/useAuth';
 import { useWorkspacePreferencesModal } from '@/hooks/context/useWorkspacePreferencesModal';
 import { ChevronDownCircle, ListFilterIcon, SquarePenIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { WorkspaceRemoveMemberModal } from '@/components/organisms/Modals/WorkspaceRemoveMemberModal';
 
 export const WorkspacePanelHeader = ({ workspace }) => {
    const workspaceMembers = workspace?.members;
@@ -18,11 +19,16 @@ export const WorkspacePanelHeader = ({ workspace }) => {
    const { auth } = useAuth();
 
    const [openInviteModal, setOpenInviteModal] = useState(false);
+   const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
    const { setOpenPreferences, setInitialValue, setWorkspace } = useWorkspacePreferencesModal();
 
    const isLoggedInUserAdminOfWorkspace = workspaceMembers?.find(
       (member) => member?.memberId?._id === auth?.user?._id && member.role === 'admin'
+   );
+
+   const deleteMembers = workspaceMembers?.filter(
+      (member) => member?.memberId?._id !== auth?.user?._id
    );
 
    useEffect(() => {
@@ -66,12 +72,23 @@ export const WorkspacePanelHeader = ({ workspace }) => {
                         >
                            Preferences
                         </DropdownMenuItem>
+
                         <DropdownMenuSeparator />
+
                         <DropdownMenuItem
                            className="cursor-pointer py-2"
                            onClick={() => setOpenInviteModal(true)}
                         >
                            Invite people to {workspace?.name}
+                        </DropdownMenuItem>
+
+                        <DropdownMenuSeparator />
+
+                        <DropdownMenuItem
+                           className="cursor-pointer py-2"
+                           onClick={() => setOpenDeleteModal(true)}
+                        >
+                           Delete people to {workspace?.name}
                         </DropdownMenuItem>
                      </>
                   )}
@@ -94,7 +111,14 @@ export const WorkspacePanelHeader = ({ workspace }) => {
             setOpenInviteModal={setOpenInviteModal}
             workspaceName={workspace?.name}
             joinCode={workspace?.joinCode}
-            workspaceId={workspace?._id}
+            workspace
+            Id={workspace?._id}
+         />
+
+         <WorkspaceRemoveMemberModal
+            openDeleteModal={openDeleteModal}
+            setOpenDeleteModal={setOpenDeleteModal}
+            deleteMembers={deleteMembers}
          />
       </>
    );

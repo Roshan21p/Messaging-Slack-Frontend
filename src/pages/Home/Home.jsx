@@ -20,6 +20,7 @@ export const Home = () => {
    useEffect(() => {
       if (isError && error?.status === 403) {
          logout();
+         return;
       }
    }, [isError, error]);
 

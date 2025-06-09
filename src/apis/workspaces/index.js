@@ -173,3 +173,21 @@ export const addMemberToWorkspace = async ({ workspaceId, memberId, token }) => 
       throw error?.response?.data || error?.message;
    }
 };
+
+export const deleteMemberFromWorkspace = async ({ workspaceId, memberId, token }) => {
+   console.log(token);
+   try {
+      const response = await axios.delete(`/workspaces/${workspaceId}/member/delete`, {
+         headers: {
+            'x-access-token': token
+         },
+         data: {
+            memberId
+         }
+      });
+      return response?.data?.data;
+   } catch (error) {
+      console.log('Error in delete member from workspace request', error);
+      throw error?.response?.data || error?.message;
+   }
+};

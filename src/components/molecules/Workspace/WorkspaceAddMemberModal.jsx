@@ -49,14 +49,22 @@ export const WorkspaceAddMemberModal = () => {
          await addMemberToWorkspaceMutation({ workspaceId, memberId: selectedUserId });
          queryClient.invalidateQueries([`fetchWorkspaceById-${workspaceId}`]);
          setOpenDmModal(false);
+         setSelectedUserId(null);
       } catch (error) {
          console.log('error in adding member to workspace', error);
       }
-      setSelectedUserId(null);
    };
 
    return (
-      <Dialog open={openDmModal} onOpenChange={setOpenDmModal}>
+      <Dialog
+         open={openDmModal}
+         onOpenChange={(open) => {
+            setOpenDmModal(open);
+            if (!open) {
+               setSelectedUserId(null);
+            }
+         }}
+      >
          <DialogContent>
             <form onSubmit={handleOnSubmit}>
                <DialogHeader>
