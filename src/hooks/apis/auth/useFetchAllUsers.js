@@ -3,7 +3,7 @@ import { useAuth } from '@/hooks/context/useAuth';
 import { useToast } from '@/hooks/use-toast';
 import { useQuery } from '@tanstack/react-query';
 
-export const useFetchAllUsers = () => {
+export const useFetchAllUsers = (options = {}) => {
    const { auth } = useAuth();
    const { toast } = useToast();
 
@@ -16,7 +16,7 @@ export const useFetchAllUsers = () => {
    } = useQuery({
       queryFn: () => fetchAllUsers({ token: auth?.token }),
       queryKey: ['fetchAllUsers'],
-      enabled: !!auth?.token,
+      enabled: !!auth?.token && (options.enabled ?? true),
       staleTime: 10 * 60 * 1000,
       gcTime: 20 * 60 * 1000,
       throwOnError: (error) => {

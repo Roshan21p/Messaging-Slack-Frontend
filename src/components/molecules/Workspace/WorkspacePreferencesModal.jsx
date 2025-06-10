@@ -55,7 +55,7 @@ export const WorkspacePreferencesModal = () => {
          if (!ok) return;
 
          await deleteWorkspaceMutation();
-         navigate('/home');
+         navigate('/');
          queryClient.invalidateQueries('fetchWorkspaces');
          setOpenPreferences(false);
       } catch (error) {
@@ -137,11 +137,11 @@ export const WorkspacePreferencesModal = () => {
                   </Dialog>
 
                   <button
-                     className="flex items-center gap-x-2 px-5 py-4 bg-white rounded-lg border cursor-pointer hover:bg-gray-200"
+                     className="flex items-center justify-center gap-x-2 px-5 py-4 bg-red-500 rounded-lg border cursor-pointer"
                      onClick={handleDelete}
                   >
-                     <TrashIcon className="size-5" />
-                     <p className="text-sm font-semibold">Delete Workspace</p>
+                     <TrashIcon className="size-5 text-white" />
+                     <p className="text-sm font-semibold text-white">Delete Workspace</p>
                   </button>
                </div>
             </DialogContent>

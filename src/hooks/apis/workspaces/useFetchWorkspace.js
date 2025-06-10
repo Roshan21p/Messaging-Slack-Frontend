@@ -18,7 +18,7 @@ export const useFetchWorkspace = (options = {}) => {
       queryKey: ['fetchWorkspaces'],
       staleTime: 20 * 60 * 1000,
       gcTime: 30 * 60 * 1000,
-      enabled: !!auth?.token && (options.enabled ?? true), // ✅ key fix
+      enabled: !!auth?.token && (options.enabled ?? true),
       retry: false, // optional: prevent retries on failure
       throwOnError: (error) => {
          toast({

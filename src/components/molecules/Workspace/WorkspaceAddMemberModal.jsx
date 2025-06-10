@@ -20,9 +20,9 @@ export const WorkspaceAddMemberModal = () => {
    const { auth } = useAuth();
    const queryClient = useQueryClient();
 
-   const { userDetails, isSuccess } = useFetchAllUsers();
    const { openDmModal, setOpenDmModal, currentWorkspace: workspace } = useCurrentWorkspace();
    const { isPending, addMemberToWorkspaceMutation } = useAddMemberToWorkspace();
+   const { userDetails, isSuccess } = useFetchAllUsers({ enabled: openDmModal });
 
    const [selectedUserId, setSelectedUserId] = useState(null);
 
@@ -48,11 +48,11 @@ export const WorkspaceAddMemberModal = () => {
       try {
          await addMemberToWorkspaceMutation({ workspaceId, memberId: selectedUserId });
          queryClient.invalidateQueries([`fetchWorkspaceById-${workspaceId}`]);
-         setOpenDmModal(false);
-         setSelectedUserId(null);
       } catch (error) {
          console.log('error in adding member to workspace', error);
       }
+      setOpenDmModal(false);
+      setSelectedUserId(null);
    };
 
    return (
@@ -93,15 +93,9 @@ export const WorkspaceAddMemberModal = () => {
                </div>
 
                <DialogFooter>
-                  <DialogClose asChild>
-                     <Button
-                        type="submit"
-                        disabled={!selectedUserId || isPending}
-                        className="w-full"
-                     >
-                        {isPending ? 'Adding...' : 'Add Member'}
-                     </Button>
-                  </DialogClose>
+                  <Button type="submit" disabled={!selectedUserId || isPending} className="w-full">
+                     {isPending ? 'Adding...' : 'Add Member'}
+                  </Button>
                </DialogFooter>
             </form>
          </DialogContent>
