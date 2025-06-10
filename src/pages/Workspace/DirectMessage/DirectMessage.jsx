@@ -1,5 +1,5 @@
 import { ChatInput } from '@/components/molecules/ChatInput/ChatInput';
-import { DirectMessageHeader } from '@/components/molecules/DirectMessageChannel/DirectMessageChannelHeader';
+import { DirectMessageChannelHeader } from '@/components/molecules/DirectMessageChannel/DirectMessageChannelHeader';
 import { Message } from '@/components/molecules/Message/Message';
 import { useGetByUsername } from '@/hooks/apis/auth/useGetByUsername';
 import { useGetDirectMessages } from '@/hooks/apis/DirectMessage/useGetDirectMessages';
@@ -85,7 +85,7 @@ export const DirectMessage = () => {
 
    return (
       <div className="flex flex-col h-full">
-         <DirectMessageHeader name={username} className="fixed top-0" />
+         <DirectMessageChannelHeader name={username} className="fixed top-0" />
 
          {/* We need to make sure that below div is scrollable for the messages */}
          <div className="flex-6 overflow-y-auto p-5 gap-y-2" ref={messageContainerListRef}>
