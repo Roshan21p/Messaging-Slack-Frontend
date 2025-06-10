@@ -9,6 +9,7 @@ import { WorkspaceLayout } from './pages/Workspace/Layout';
 import { JoinPage } from './pages/Workspace/JoinPage';
 import { Channel } from './pages/Workspace/Channel/Channel';
 import { DirectMessage } from './pages/Workspace/DirectMessage/DirectMessage';
+import { DirectMessageLayout } from './pages/DirectMessage/Layout';
 
 export const AppRoutes = () => {
    return (
@@ -61,6 +62,26 @@ export const AppRoutes = () => {
                   <WorkspaceLayout>
                      <DirectMessage />
                   </WorkspaceLayout>
+               </ProtectedRoute>
+            }
+         />
+
+         <Route
+            path="/direct-message"
+            element={
+               <ProtectedRoute>
+                  <DirectMessageLayout></DirectMessageLayout>
+               </ProtectedRoute>
+            }
+         />
+
+         <Route
+            path="/direct-message/:id/:username"
+            element={
+               <ProtectedRoute>
+                  <DirectMessageLayout>
+                     <DirectMessage />
+                  </DirectMessageLayout>
                </ProtectedRoute>
             }
          />

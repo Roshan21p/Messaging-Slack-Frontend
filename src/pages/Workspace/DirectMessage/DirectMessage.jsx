@@ -1,5 +1,5 @@
 import { ChatInput } from '@/components/molecules/ChatInput/ChatInput';
-import { DirectMessageHeader } from '@/components/molecules/DirectMessage/DirectMessageHeader';
+import { DirectMessageHeader } from '@/components/molecules/DirectMessageChannel/DirectMessageChannelHeader';
 import { Message } from '@/components/molecules/Message/Message';
 import { useGetByUsername } from '@/hooks/apis/auth/useGetByUsername';
 import { useGetDirectMessages } from '@/hooks/apis/DirectMessage/useGetDirectMessages';

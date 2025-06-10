@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useSocket } from '@/hooks/context/useSocket';
 
-export const DirectMessageHeader = ({ name }) => {
+export const DirectMessageChannelHeader = ({ name }) => {
    const { currentWorkspace: workspace } = useCurrentWorkspace();
 
    const { onlineUsers } = useSocket();

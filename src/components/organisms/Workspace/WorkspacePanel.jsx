@@ -13,15 +13,31 @@ import {
    MessageSquareTextIcon,
    SendHorizonalIcon
 } from 'lucide-react';
-import { useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export const WorkspacePanel = () => {
    const { workspaceId } = useParams();
+   const navigate = useNavigate();
 
-   const { isFetching, isSuccess, workspace } = useGetWorkspaceById(workspaceId);
+   const { isFetching, isSuccess, workspace, error } = useGetWorkspaceById(workspaceId);
+   const { setCurrentWorkspace } = useCurrentWorkspace();
    const { setOpenCreateChannelModal } = useCreateChannelModal();
    const { setOpenDmModal } = useCurrentWorkspace();
-   const { auth } = useAuth();
+   const { auth, logout } = useAuth();
+
+   useEffect(() => {
+      if (!isFetching && !isSuccess && error) {
+         if (error.status === 403) {
+            logout();
+            navigate('/auth/signin');
+         }
+      }
+
+      if (workspace) {
+         setCurrentWorkspace(workspace);
+      }
+   }, [workspace, setCurrentWorkspace, isFetching, error]);
 
    if (isFetching) {
       return (

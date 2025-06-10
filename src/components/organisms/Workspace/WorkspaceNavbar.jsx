@@ -1,40 +1,9 @@
 import { Button } from '@/components/ui/button';
-import { useGetWorkspaceById } from '@/hooks/apis/workspaces/useGetWorkspaceById';
-import { useAuth } from '@/hooks/context/useAuth';
 import { useCurrentWorkspace } from '@/hooks/context/useCurrentWorkspace';
-import { InfoIcon, LucideLoader2, SearchIcon } from 'lucide-react';
-import { useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { InfoIcon, SearchIcon } from 'lucide-react';
 
 export const WorkspaceNavbar = () => {
-   const { workspaceId } = useParams();
-   const navigate = useNavigate();
-
-   const { isFetching, workspace, error, isSuccess } = useGetWorkspaceById(workspaceId);
-   const { setCurrentWorkspace } = useCurrentWorkspace();
-   const { logout } = useAuth();
-
-   useEffect(() => {
-      if (!isFetching && !isSuccess && error) {
-         if (error.status === 403) {
-            logout();
-            navigate('/auth/signin');
-         }
-      }
-
-      if (workspace) {
-         setCurrentWorkspace(workspace);
-      }
-   }, [workspace, setCurrentWorkspace, isFetching, error]);
-
-   if (isFetching) {
-      return (
-         <div>
-            <LucideLoader2 className="animate-spin mx-auto mt-5" />
-            <span className="flex items-center justify-center">Loading...</span>
-         </div>
-      );
-   }
+   const { currentWorkspace: workspace } = useCurrentWorkspace();
 
    return (
       <nav className="flex items-center justify-center h-10 p-1.5 bg-slack-dark">

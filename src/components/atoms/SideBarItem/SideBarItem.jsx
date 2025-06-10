@@ -28,6 +28,8 @@ export const SideBarItem = ({
    const handleClick = () => {
       if (id === 'threads' || id === 'drafts') {
          navigate(`/workspaces/${workspaceId}`);
+      } else if (id === 'all-dms' || id === 'unread-dms' || id === 'mentions') {
+         navigate('/direct-message');
       } else {
          navigate(`/workspaces/${workspaceId}/channels/${id}`);
       }
