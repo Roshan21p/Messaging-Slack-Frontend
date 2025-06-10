@@ -9,11 +9,18 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useAuth } from '@/hooks/context/useAuth';
 import { useWorkspacePreferencesModal } from '@/hooks/context/useWorkspacePreferencesModal';
-import { ChevronDownCircle, ListFilterIcon, SquarePenIcon } from 'lucide-react';
+import { ChevronDownCircle, ListFilterIcon, LogOutIcon, SquarePenIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { WorkspaceRemoveMemberModal } from '@/components/organisms/Modals/WorkspaceRemoveMemberModal';
+import { useLeaveWorkspace } from '@/hooks/apis/workspaces/useLeaveWorkspace';
+import { useConfirm } from '@/hooks/useConfirm';
+import { useNavigate } from 'react-router-dom';
+import { useQueryClient } from '@tanstack/react-query';
 
 export const WorkspacePanelHeader = ({ workspace }) => {
+   const navigate = useNavigate();
+   const queryClient = useQueryClient();
+
    const workspaceMembers = workspace?.members;
 
    const { auth } = useAuth();
@@ -22,9 +29,19 @@ export const WorkspacePanelHeader = ({ workspace }) => {
    const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
    const { setOpenPreferences, setInitialValue, setWorkspace } = useWorkspacePreferencesModal();
+   const { isPending, leaveWorkspaceMutation } = useLeaveWorkspace();
+
+   const { confirmation, ConfirmDialog } = useConfirm({
+      title: 'Do you want to leave the workspace?',
+      message: 'This action cannot be undone.'
+   });
 
    const isLoggedInUserAdminOfWorkspace = workspaceMembers?.find(
       (member) => member?.memberId?._id === auth?.user?._id && member.role === 'admin'
+   );
+
+   const currentLoggedInUserMemberOfWorkspace = workspaceMembers?.find(
+      (member) => member?.memberId?._id === auth?.user?._id && member.role === 'member'
    );
 
    const deleteMembers = workspaceMembers?.filter(
@@ -35,8 +52,23 @@ export const WorkspacePanelHeader = ({ workspace }) => {
       setWorkspace(workspace);
    }, []);
 
+   const handleLeaveWorkspace = async () => {
+      try {
+         const ok = await confirmation();
+         console.log('Confirmation received');
+         if (!ok) return;
+
+         await leaveWorkspaceMutation({ workspaceId: workspace?._id });
+         navigate('/');
+         queryClient.invalidateQueries('fetchWorkspaces');
+      } catch (error) {
+         console.error('error while deleteing workspace', error);
+      }
+   };
+
    return (
       <>
+         <ConfirmDialog />
          <div className="flex items-center justify-between px-4 h-[50px] gap-0.5">
             <DropdownMenu>
                <DropdownMenuTrigger>
@@ -60,6 +92,20 @@ export const WorkspacePanelHeader = ({ workspace }) => {
                         <p className="text-xs text-muted-foreground">Active Workspace</p>
                      </div>
                   </DropdownMenuItem>
+
+                  {currentLoggedInUserMemberOfWorkspace && (
+                     <DropdownMenuItem>
+                        <Button
+                           variant="destructive"
+                           className="w-full text-white justify-center flex items-center gap-2 text-sm cursor-pointer"
+                           onClick={handleLeaveWorkspace}
+                           disabled={isPending}
+                        >
+                           <LogOutIcon className="size-4 text-white" />
+                           {isPending ? 'Leaving...' : 'Leave Workspace'}
+                        </Button>
+                     </DropdownMenuItem>
+                  )}
 
                   {isLoggedInUserAdminOfWorkspace && (
                      <>

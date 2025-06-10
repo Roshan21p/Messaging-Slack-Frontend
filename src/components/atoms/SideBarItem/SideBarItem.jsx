@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { cva } from 'class-variance-authority';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 const sideBarItemVariants = cva(
    'flex items-center justify-start gap-1.5 font-normal h-7 px-[20px] text-sm overflow-hidden',
@@ -23,16 +23,27 @@ export const SideBarItem = ({
    variant
 }) => {
    const { workspaceId } = useParams();
+   const navigate = useNavigate();
+
+   const handleClick = () => {
+      if (id === 'threads' || id === 'drafts') {
+         navigate(`/workspaces/${workspaceId}`);
+      } else {
+         navigate(`/workspaces/${workspaceId}/channels/${id}`);
+      }
+   };
 
    return (
-      <Button variant="transparent" size="sm" className={cn(sideBarItemVariants({ variant }))}>
-         <Link
-            className="flex items-center gap-1.5"
-            to={`/workspaces/${workspaceId}/channels/${id}`}
-         >
+      <Button
+         variant="transparent"
+         size="sm"
+         className={cn(sideBarItemVariants({ variant }))}
+         onClick={handleClick}
+      >
+         <div className="flex items-center gap-1.5">
             <Icon className="size-3.5 mr-1" />
             <span className="text-sm">{label}</span>
-         </Link>
+         </div>
       </Button>
    );
 };

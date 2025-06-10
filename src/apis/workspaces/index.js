@@ -201,7 +201,25 @@ export const deleteChannelWorkspaceRequest = async ({ workspaceId, channelId, to
       });
       return response?.data?.data;
    } catch (error) {
-      console.log('Error in deleting workspace request', error);
+      console.log('Error in deleting channel from workspace request', error);
+      throw error?.response?.data || error?.message;
+   }
+};
+
+export const LeaveWorkspaceRequest = async ({ workspaceId, token }) => {
+   try {
+      const response = await axios.post(
+         `/workspaces/${workspaceId}/leave`,
+         {},
+         {
+            headers: {
+               'x-access-token': token
+            }
+         }
+      );
+      return response?.data?.data;
+   } catch (error) {
+      console.log('Error in leaveing workspace request', error);
       throw error?.response?.data || error?.message;
    }
 };

@@ -27,7 +27,7 @@ export const useDeleteMemberFromWorkspace = () => {
             title: 'Failed to delete Member from workspace',
             message:
                error?.message ||
-               'Something went wrong while adding the member to workspace. Please try again.',
+               'Something went wrong while deleting the member from workspace. Please try again.',
             type: 'error'
          });
       }
