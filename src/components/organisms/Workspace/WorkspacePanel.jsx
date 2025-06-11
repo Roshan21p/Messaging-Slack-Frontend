@@ -17,7 +17,7 @@ import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 export const WorkspacePanel = () => {
-   const { workspaceId } = useParams();
+   const { workspaceId, id } = useParams();
    const navigate = useNavigate();
 
    const { isFetching, isSuccess, workspace, error } = useGetWorkspaceById(workspaceId);
@@ -108,7 +108,7 @@ export const WorkspacePanel = () => {
                         key={item?.memberId?._id}
                         username={item?.memberId?.username}
                         id={item?.memberId?._id}
-                        variant="active"
+                        variant={id === item?.memberId?._id ? 'active' : 'default'}
                         image={item?.memberId?.avatar}
                      />
                   );

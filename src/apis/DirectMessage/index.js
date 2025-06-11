@@ -13,7 +13,6 @@ export const getPaginatedDirectMessages = async ({ receiverId, limit, offset, to
       });
       return response?.data?.data;
    } catch (error) {
-      console.log('Error in getPaginatedDirectMessages', error);
       throw error?.response?.data || error?.message;
    }
 };

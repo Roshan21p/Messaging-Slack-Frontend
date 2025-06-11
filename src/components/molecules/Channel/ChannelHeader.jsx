@@ -38,8 +38,6 @@ export const ChannelHeader = ({ name }) => {
       (member) => member?.memberId?._id === auth?.user?._id && member.role === 'admin'
    );
 
-   console.log('workspace', workspace, workspace?._id);
-
    const { deleteChannelWorkspaceMutation } = useDeleteChannelFromWorkspace();
 
    const handleDelete = async () => {

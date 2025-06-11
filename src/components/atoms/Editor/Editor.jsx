@@ -88,7 +88,7 @@ export const Editor = ({ onSubmit, disabled }) => {
          if (!isTyping) {
             setIsTyping(true);
             if (currentChannel) {
-               console.log('currentChannel Id', currentChannel, currentRoomId);
+               console.log('currentChannel Id', currentChannel);
                emitTyping(currentChannel, auth?.user?.username);
             } else {
                console.log('Dm room Id', currentRoomId);
@@ -124,7 +124,7 @@ export const Editor = ({ onSubmit, disabled }) => {
          quill.root.removeEventListener('input', handleTyping);
          clearTimeout(typingTimeout.current);
       };
-   }, [currentChannel, currentRoomId]); // Run this effect when `currentChannel` changes
+   }, [currentChannel, currentRoomId]);
 
    const handleSend = () => {
       if (!quillRef.current) return;

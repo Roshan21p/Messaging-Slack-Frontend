@@ -2,21 +2,29 @@ import { useCurrentWorkspace } from '@/hooks/context/useCurrentWorkspace';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useSocket } from '@/hooks/context/useSocket';
+import { useLocation } from 'react-router-dom';
 
-export const DirectMessageChannelHeader = ({ name }) => {
+export const DirectMessageHeader = ({ name, userDetails }) => {
+   const location = useLocation();
+   const isDirectMessagePath = location.pathname.startsWith('/direct-message');
+
    const { currentWorkspace: workspace } = useCurrentWorkspace();
 
    const { onlineUsers } = useSocket();
 
-   const userData = workspace?.members?.find((member) => member?.memberId?.username === name);
+   let username = 'Unknown User';
+   let imageUrl = '';
 
-   if (!userData) {
-      return null; // or a loading state
+   if (isDirectMessagePath) {
+      username = userDetails?.username || 'Unknown User';
+      imageUrl = userDetails?.avatar;
+   } else {
+      const userData = workspace?.members?.find((member) => member?.memberId?.username === name);
+      if (!userData) return null;
+
+      username = userData?.memberId?.username || 'Unknown User';
+      imageUrl = userData?.memberId?.avatar;
    }
-
-   const { memberId } = userData;
-   const username = memberId?.username || 'Unknown User';
-   const imageUrl = memberId?.avatar;
 
    const hasValidImage = imageUrl && imageUrl !== '';
 

@@ -116,6 +116,7 @@ export const SocketContextProvider = ({ children }) => {
          console.log('Successfully left the channel:', data);
          setCurrentRoomId(null);
          setCurrentChannel(null);
+         setTypingUsers([]);
       });
    }
 
@@ -142,12 +143,12 @@ export const SocketContextProvider = ({ children }) => {
 
    function leaveDmRoom(roomId) {
       if (!socketRef.current || !roomId) return;
-      console.log('leave');
 
       socketRef.current?.emit('LeaveDmRoom', { roomId }, (data) => {
          console.log('Successfully left the LeaveDmRoom:', data);
          setCurrentChannel(null);
          setCurrentRoomId(null);
+         setTypingUsers([]);
       });
    }
 

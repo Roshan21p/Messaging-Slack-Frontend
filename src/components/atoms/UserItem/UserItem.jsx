@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { useCurrentWorkspace } from '@/hooks/context/useCurrentWorkspace';
 import { cn } from '@/lib/utils';
 import { cva } from 'class-variance-authority';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const userItemVariants = cva(
    'flex items-center gap-1.5 justify-start font-normal h-9 px-4 mt-2 text-sm',
@@ -14,7 +14,9 @@ const userItemVariants = cva(
             active: 'text-[#481350] bg-white/90 hover:bg-white/80'
          }
       },
-      defaultVariants: 'default'
+      defaultVariants: {
+         variant: 'default'
+      }
    }
 );
 
@@ -23,8 +25,6 @@ export const UserItem = ({ id, username = 'member', variant = 'default', image }
    const navigate = useNavigate();
    const location = useLocation();
    const isDirectMessagePath = location.pathname.startsWith('/direct-message');
-
-   console.log('isDirectMessagePath', isDirectMessagePath, location.pathname);
 
    const handleClick = () => {
       if (isDirectMessagePath) {

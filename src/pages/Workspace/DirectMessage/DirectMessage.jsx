@@ -1,5 +1,5 @@
 import { ChatInput } from '@/components/molecules/ChatInput/ChatInput';
-import { DirectMessageChannelHeader } from '@/components/molecules/DirectMessageChannel/DirectMessageChannelHeader';
+import { DirectMessageHeader } from '@/components/molecules/DirectMessage/DirectMessageHeader';
 import { Message } from '@/components/molecules/Message/Message';
 import { useGetByUsername } from '@/hooks/apis/auth/useGetByUsername';
 import { useGetDirectMessages } from '@/hooks/apis/DirectMessage/useGetDirectMessages';
@@ -13,12 +13,10 @@ import { useParams } from 'react-router-dom';
 export const DirectMessage = () => {
    const { id, username } = useParams();
 
-   const { isFetching, isError } = useGetByUsername({
+   const { isFetching, isError, userDetails } = useGetByUsername({
       username,
       id
    });
-
-   console.log('iduser', id, username);
 
    const { auth } = useAuth();
 
@@ -85,7 +83,7 @@ export const DirectMessage = () => {
 
    return (
       <div className="flex flex-col h-full">
-         <DirectMessageChannelHeader name={username} className="fixed top-0" />
+         <DirectMessageHeader name={username} userDetails={userDetails} className="fixed top-0" />
 
          {/* We need to make sure that below div is scrollable for the messages */}
          <div className="flex-6 overflow-y-auto p-5 gap-y-2" ref={messageContainerListRef}>

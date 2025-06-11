@@ -27,7 +27,6 @@ export const getPaginatedMessages = async ({ channelId, limit, offset, token }) 
       });
       return response?.data?.data;
    } catch (error) {
-      console.log('Error in getPaginatedMessagesRequest', error);
       throw error?.response?.data || error?.message;
    }
 };
