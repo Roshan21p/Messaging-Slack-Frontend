@@ -50,9 +50,10 @@ export const SocketContextProvider = ({ children }) => {
       if (!socketRef.current) return;
 
       const handleTyping = ({ roomId, username }) => {
-         console.log('socket typing', roomId);
+         console.log('socket typing', roomId, currentChannel, currentRoomId);
+         const currentRoom = currentChannel || currentRoomId;
 
-         if (roomId === currentChannel || roomId === currentRoomId) {
+         if (roomId === currentRoom) {
             setTypingUsers((prev) => {
                if (!prev.includes(username)) return [...prev, username];
                return prev;
@@ -61,7 +62,9 @@ export const SocketContextProvider = ({ children }) => {
       };
 
       const handleStopTyping = ({ roomId, username }) => {
-         if (roomId === currentChannel || roomId === currentRoomId) {
+         const currentRoom = currentChannel || currentRoomId;
+
+         if (roomId === currentRoom) {
             setTypingUsers((prev) => prev.filter((user) => user !== username));
          }
       };
@@ -140,6 +143,8 @@ export const SocketContextProvider = ({ children }) => {
          setCurrentChannel(null);
       });
    }
+
+   console.log(currentChannel, currentRoomId);
 
    function leaveDmRoom(roomId) {
       if (!socketRef.current || !roomId) return;

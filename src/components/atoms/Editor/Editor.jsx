@@ -17,6 +17,8 @@ export const Editor = ({ onSubmit, disabled }) => {
    const [image, setImage] = useState(null);
    const [isTyping, setIsTyping] = useState(false);
 
+   const lastRoomRef = useRef(null);
+
    const containerRef = useRef(); // Stores the container where the Quill editor is mounted and required to initialize the editor
 
    const defaultValueRef = useRef();
@@ -85,15 +87,17 @@ export const Editor = ({ onSubmit, disabled }) => {
       // Attach the typing event handler
       const quill = quillRef.current;
       const handleTyping = () => {
+         const roomId = currentChannel || currentRoomId;
          if (!isTyping) {
             setIsTyping(true);
-            if (currentChannel) {
-               console.log('currentChannel Id', currentChannel);
-               emitTyping(currentChannel, auth?.user?.username);
-            } else {
-               console.log('Dm room Id', currentRoomId);
-               emitTyping(currentRoomId, auth?.user?.username);
+
+            // Stop typing in previous room if different
+            if (lastRoomRef.current && lastRoomRef.current !== roomId) {
+               emitStopTyping(lastRoomRef.current, auth?.user?.username);
             }
+
+            lastRoomRef.current = roomId;
+            emitTyping(roomId, auth?.user?.username);
          }
 
          // Clear the existing timeout
@@ -104,11 +108,7 @@ export const Editor = ({ onSubmit, disabled }) => {
          // Set new timeout to emit stop typing
          typingTimeout.current = setTimeout(() => {
             setIsTyping(false);
-            if (currentChannel) {
-               emitStopTyping(currentChannel, auth?.user?.username);
-            } else {
-               emitStopTyping(currentRoomId, auth?.user?.username);
-            }
+            emitStopTyping(roomId, auth?.user?.username);
          }, 1000);
       };
 
@@ -119,6 +119,11 @@ export const Editor = ({ onSubmit, disabled }) => {
 
       return () => {
          // Clean up the event listener on unmount or channel change
+
+         if (lastRoomRef.current && auth?.user?.username) {
+            emitStopTyping(lastRoomRef.current, auth.user.username);
+         }
+
          quill.off('text-change', handleTyping);
          quill.off('selection-change', handleTyping);
          quill.root.removeEventListener('input', handleTyping);
