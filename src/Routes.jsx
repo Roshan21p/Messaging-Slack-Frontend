@@ -10,6 +10,7 @@ import { JoinPage } from './pages/Workspace/JoinPage';
 import { Channel } from './pages/Workspace/Channel/Channel';
 import { DirectMessage } from './pages/Workspace/DirectMessage/DirectMessage';
 import { DirectMessageLayout } from './pages/DirectMessage/Layout';
+import { UserProfile } from './pages/Profie/UserProfile';
 
 export const AppRoutes = () => {
    return (
@@ -40,6 +41,15 @@ export const AppRoutes = () => {
             element={
                <ProtectedRoute>
                   <WorkspaceLayout></WorkspaceLayout>
+               </ProtectedRoute>
+            }
+         />
+
+         <Route
+            path="/profile/:username"
+            element={
+               <ProtectedRoute>
+                  <UserProfile />
                </ProtectedRoute>
             }
          />

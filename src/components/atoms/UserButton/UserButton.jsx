@@ -8,7 +8,7 @@ import {
 import { useAuth } from '@/hooks/context/useAuth';
 import { useCreateWorkspaceModal } from '@/hooks/context/useCreateWorkspaceModal';
 import { useToast } from '@/hooks/use-toast';
-import { HomeIcon, LogOutIcon, PencilIcon, SettingsIcon } from 'lucide-react';
+import { HomeIcon, LogOutIcon, PencilIcon, UserIcon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export const UserButton = () => {
@@ -33,7 +33,7 @@ export const UserButton = () => {
 
    return (
       <DropdownMenu>
-         <DropdownMenuTrigger className="outline-none relative">
+         <DropdownMenuTrigger className="outline-none relative cursor-pointer">
             <Avatar className="size-15 hover:opacity-65 transition border">
                <AvatarImage src={auth?.user?.avatar} />
                <AvatarFallback>{auth?.user?.username[0].toUpperCase()}</AvatarFallback>
@@ -41,20 +41,20 @@ export const UserButton = () => {
          </DropdownMenuTrigger>
          <DropdownMenuContent>
             <DropdownMenuItem onClick={() => navigate('/')}>
-               <HomeIcon className="size-4 mr-2 h-10" />
-               Home
+               <HomeIcon className="size-4 mr-2 h-10 " />
+               <span className="cursor-pointer">Home</span>
             </DropdownMenuItem>
             <DropdownMenuItem onClick={openWorkspaceCreateModal}>
                <PencilIcon className="size-4 mr-2 h-10" />
-               Create Workspace
+               <span className="cursor-pointer">Create Workspace </span>
             </DropdownMenuItem>
-            <DropdownMenuItem>
-               <SettingsIcon className="size-4 mr-2 h-10" />
-               Settings
+            <DropdownMenuItem onClick={() => navigate(`/profile/${auth?.user?.username}`)}>
+               <UserIcon className="size-4 mr-2 h-10" />
+               <span className="cursor-pointer">Profile</span>
             </DropdownMenuItem>
             <DropdownMenuItem onClick={handleLogout}>
                <LogOutIcon className="size-4 mr-2 h-10" />
-               Logout
+               <span className="cursor-pointer">Logout</span>
             </DropdownMenuItem>
          </DropdownMenuContent>
       </DropdownMenu>
