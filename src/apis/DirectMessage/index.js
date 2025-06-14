@@ -1,11 +1,11 @@
 import axios from '@/config/axiosConfig';
 
-export const getPaginatedDirectMessages = async ({ receiverId, limit, offset, token }) => {
+export const getPaginatedDirectMessages = async ({ receiverId, limit, page, token }) => {
    try {
       const response = await axios.get(`/messages/dm/${receiverId}`, {
          params: {
             limit: limit || 50,
-            offset: offset || 0
+            page: page || 1
          },
          headers: {
             'x-access-token': token

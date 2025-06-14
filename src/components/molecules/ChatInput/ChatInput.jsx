@@ -1,5 +1,7 @@
 import { getGenerateSignedUrl, uploadImageToCloudinaryGeneratesignedUrl } from '@/apis/cloudinary';
 import { Editor } from '@/components/atoms/Editor/Editor';
+import { useRoom } from '@/hooks/context/socket/useRoom';
+import { useSocketConnection } from '@/hooks/context/socket/useSocketConnection';
 import { useAuth } from '@/hooks/context/useAuth';
 import { useCurrentWorkspace } from '@/hooks/context/useCurrentWorkspace';
 import { useSocket } from '@/hooks/context/useSocket';
@@ -9,7 +11,10 @@ import { toast } from 'sonner';
 
 export const ChatInput = () => {
    const { auth } = useAuth();
-   const { socket, currentChannel, currentRoomId } = useSocket();
+   // const { socket, currentChannel, currentRoomId } = useSocket();
+   const { socket } = useSocketConnection();
+   const { currentChannel, currentRoomId } = useRoom();
+
    const { currentWorkspace } = useCurrentWorkspace();
    const queryClient = useQueryClient();
    const [isUploading, setIsUploading] = useState(false);

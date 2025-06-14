@@ -8,6 +8,7 @@ import {
    DialogTrigger
 } from '@/components/ui/dialog';
 import { useDeleteChannelFromWorkspace } from '@/hooks/apis/workspaces/useDeleteChannelFromWorkspace';
+import { useRoom } from '@/hooks/context/socket/useRoom';
 import { useAuth } from '@/hooks/context/useAuth';
 import { useCurrentWorkspace } from '@/hooks/context/useCurrentWorkspace';
 import { useSocket } from '@/hooks/context/useSocket';
@@ -25,7 +26,9 @@ export const ChannelHeader = ({ name }) => {
    const navigate = useNavigate();
 
    const { currentWorkspace: workspace } = useCurrentWorkspace();
-   const { onlineUsers } = useSocket();
+   // const { onlineUsers } = useSocket();
+   const { onlineUsers } = useRoom();
+
    const workspaceMembers = workspace?.members;
    const { auth } = useAuth();
 

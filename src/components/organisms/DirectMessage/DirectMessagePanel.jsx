@@ -16,8 +16,6 @@ export const DirectMessagePanel = () => {
    const { auth, logout } = useAuth();
    const [open, setOpen] = useState(false);
 
-   console.log('error', error);
-
    useEffect(() => {
       if (isError && error?.status === 403) {
          logout();

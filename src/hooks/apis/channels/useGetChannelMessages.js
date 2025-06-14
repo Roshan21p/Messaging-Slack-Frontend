@@ -6,10 +6,8 @@ export const useGetChannelMessages = (channelId) => {
    const { auth } = useAuth();
 
    const { isFetching, isError, error, data, isSuccess } = useQuery({
-      queryFn: () => getPaginatedMessages({ channelId, limit: 20, offset: 0, token: auth?.token }),
+      queryFn: () => getPaginatedMessages({ channelId, limit: 100, page: 1, token: auth?.token }),
       queryKey: ['getPaginatedMessages', channelId],
-      staleTime: 0,
-      retry: 1,
       retryOnMount: true
    });
 

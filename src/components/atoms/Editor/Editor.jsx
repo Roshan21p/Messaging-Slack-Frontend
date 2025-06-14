@@ -10,6 +10,8 @@ import { Hint } from '../Hint/Hint';
 import { ImageIcon, XIcon } from 'lucide-react';
 import { useAuth } from '@/hooks/context/useAuth';
 import { useSocket } from '@/hooks/context/useSocket';
+import { useTyping } from '@/hooks/context/socket/useTyping';
+import { useRoom } from '@/hooks/context/socket/useRoom';
 
 export const Editor = ({ onSubmit, disabled }) => {
    const [isToolbarVisible, setIsToolbarVisible] = useState(false);
@@ -27,7 +29,9 @@ export const Editor = ({ onSubmit, disabled }) => {
    const typingTimeout = useRef(null);
 
    const { auth } = useAuth();
-   const { emitTyping, emitStopTyping, currentChannel, currentRoomId } = useSocket();
+   // const { emitTyping, emitStopTyping, currentChannel, currentRoomId } = useSocket();
+   const { emitTyping, emitStopTyping } = useTyping();
+   const { currentChannel, currentRoomId } = useRoom();
 
    function toggleToolbar() {
       setIsToolbarVisible(!isToolbarVisible);

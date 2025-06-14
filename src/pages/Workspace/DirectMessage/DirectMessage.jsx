@@ -3,6 +3,8 @@ import { DirectMessageHeader } from '@/components/molecules/DirectMessage/Direct
 import { Message } from '@/components/molecules/Message/Message';
 import { useGetByUsername } from '@/hooks/apis/auth/useGetByUsername';
 import { useGetDirectMessages } from '@/hooks/apis/DirectMessage/useGetDirectMessages';
+import { useRoom } from '@/hooks/context/socket/useRoom';
+import { useTyping } from '@/hooks/context/socket/useTyping';
 import { useAuth } from '@/hooks/context/useAuth';
 import { useChannelMessages } from '@/hooks/context/useChannelMessages';
 import { useSocket } from '@/hooks/context/useSocket';
@@ -26,7 +28,9 @@ export const DirectMessage = () => {
 
    const messageContainerListRef = useRef(null);
 
-   const { joinDmRoom, leaveDmRoom, typingUsers } = useSocket();
+   // const { joinDmRoom, leaveDmRoom, typingUsers } = useSocket();
+   const { joinDmRoom, leaveDmRoom } = useRoom();
+   const { typingUsers } = useTyping();
 
    const roomId = [auth?.user?._id, id].sort().join('_');
 
@@ -52,8 +56,7 @@ export const DirectMessage = () => {
    }, [id, username, isSuccess, isError, isFetching]);
 
    useEffect(() => {
-      if (!isFetching && !isError && id) {
-         console.log('roomid', roomId);
+      if (!isFetching && !isError && id && roomId) {
          joinDmRoom(roomId);
       }
    }, [id, username, isFetching, isError, isSuccess]);

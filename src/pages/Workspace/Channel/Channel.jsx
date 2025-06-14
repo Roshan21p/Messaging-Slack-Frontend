@@ -3,6 +3,8 @@ import { ChatInput } from '@/components/molecules/ChatInput/ChatInput';
 import { Message } from '@/components/molecules/Message/Message';
 import { useGetChannelById } from '@/hooks/apis/channels/useGetChannelById';
 import { useGetChannelMessages } from '@/hooks/apis/channels/useGetChannelMessages';
+import { useRoom } from '@/hooks/context/socket/useRoom';
+import { useTyping } from '@/hooks/context/socket/useTyping';
 import { useAuth } from '@/hooks/context/useAuth';
 import { useChannelMessages } from '@/hooks/context/useChannelMessages';
 import { useSocket } from '@/hooks/context/useSocket';
@@ -19,13 +21,17 @@ export const Channel = () => {
    const { isFetching, isError, channelDetails, error } = useGetChannelById(channelId);
    const { messageList, setMessageList } = useChannelMessages();
 
-   const { joinChannel, leaveChannel } = useSocket();
+   // const { joinChannel, leaveChannel } = useSocket();
+
+   const { joinChannel, leaveChannel } = useRoom();
 
    const { messages, isSuccess } = useGetChannelMessages(channelId);
 
    const messageContainerListRef = useRef(null);
 
-   const { typingUsers } = useSocket();
+   //const { typingUsers } = useSocket();
+   const { typingUsers } = useTyping();
+
    const { auth } = useAuth();
 
    const typingUsersToShow = typingUsers.filter((user) => user !== auth?.user?.username);
@@ -56,7 +62,7 @@ export const Channel = () => {
             leaveChannel(channelId);
          }
       };
-   }, [channelId]);
+   }, [channelId, isError, isFetching]);
 
    useEffect(() => {
       if (!isFetching && !isError && channelId) {

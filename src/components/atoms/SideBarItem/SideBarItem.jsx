@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button';
+import { useMessageStatus } from '@/hooks/context/useMessageStatus';
 import { cn } from '@/lib/utils';
 import { cva } from 'class-variance-authority';
 import { Link, useNavigate, useParams } from 'react-router-dom';
@@ -25,6 +26,11 @@ export const SideBarItem = ({
    const { workspaceId } = useParams();
    const navigate = useNavigate();
 
+   const { unreadMessageCount } = useMessageStatus();
+
+   const unreadCount =
+      unreadMessageCount?.find((item) => item?.channelId?._id === id)?.unreadCount || 0;
+
    const handleClick = () => {
       if (id === 'threads' || id === 'drafts') {
          navigate(`/workspaces/${workspaceId}`);
@@ -42,9 +48,17 @@ export const SideBarItem = ({
          className={cn(sideBarItemVariants({ variant }))}
          onClick={handleClick}
       >
-         <div className="flex items-center gap-1.5">
-            <Icon className="size-3.5 mr-1" />
-            <span className="text-sm">{label}</span>
+         <div className="flex items-center justify-between w-full">
+            <div className="flex items-center gap-1.5">
+               <Icon className="size-3.5 mr-1" />
+               <span className="text-sm">{label}</span>
+            </div>
+
+            {unreadCount > 0 && (
+               <span className="ml-auto bg-red-500 text-white text-xs px-2 py-0.5 rounded-full min-w-[18px] text-center">
+                  {unreadCount}
+               </span>
+            )}
          </div>
       </Button>
    );

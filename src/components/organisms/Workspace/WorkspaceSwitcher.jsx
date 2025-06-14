@@ -6,8 +6,10 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useFetchWorkspace } from '@/hooks/apis/workspaces/useFetchWorkspace';
 import { useGetWorkspaceById } from '@/hooks/apis/workspaces/useGetWorkspaceById';
+import { useSocketConnection } from '@/hooks/context/socket/useSocketConnection';
 import { DropdownMenuItem } from '@radix-ui/react-dropdown-menu';
 import { Loader } from 'lucide-react';
+import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 export const WorkspaceSwitcher = () => {
@@ -15,9 +17,27 @@ export const WorkspaceSwitcher = () => {
 
    const { workspaceId } = useParams();
 
+   const { socket } = useSocketConnection();
+
    const { isFetching, workspace } = useGetWorkspaceById(workspaceId);
 
    const { isFetching: isFetchingWorkspace, workspaces } = useFetchWorkspace();
+
+   useEffect(() => {
+      if (!socket || !workspaceId) return;
+
+      console.log('workspace', workspaceId);
+
+      socket?.emit('JoinWorkspace', { workspaceId }, (data) => {
+         console.log('JoinWorkspace', data);
+      });
+
+      return () => {
+         if (socket && workspaceId) {
+            socket?.emit('LeaveWorkspace', { workspaceId });
+         }
+      };
+   }, [workspaceId, isFetching, workspace]);
 
    return (
       <DropdownMenu>

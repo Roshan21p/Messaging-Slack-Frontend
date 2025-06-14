@@ -3,6 +3,7 @@ import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useSocket } from '@/hooks/context/useSocket';
 import { useLocation } from 'react-router-dom';
+import { useRoom } from '@/hooks/context/socket/useRoom';
 
 export const DirectMessageHeader = ({ name, userDetails }) => {
    const location = useLocation();
@@ -10,7 +11,8 @@ export const DirectMessageHeader = ({ name, userDetails }) => {
 
    const { currentWorkspace: workspace } = useCurrentWorkspace();
 
-   const { onlineUsers } = useSocket();
+   //const { onlineUsers } = useSocket();
+   const { onlineUsers } = useRoom();
 
    let username = 'Unknown User';
    let imageUrl = '';

@@ -7,10 +7,8 @@ export const useGetDirectMessages = (receiverId) => {
 
    const { isFetching, isError, error, data, isSuccess } = useQuery({
       queryFn: () =>
-         getPaginatedDirectMessages({ receiverId, limit: 20, offset: 0, token: auth?.token }),
+         getPaginatedDirectMessages({ receiverId, limit: 100, page: 1, token: auth?.token }),
       queryKey: ['getPaginatedDirectMessages', receiverId],
-      staleTime: 0,
-      retry: 1,
       retryOnMount: true
    });
 
