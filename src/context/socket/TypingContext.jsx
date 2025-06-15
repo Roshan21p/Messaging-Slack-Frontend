@@ -13,7 +13,6 @@ export const TypingContextProvider = ({ children }) => {
       if (!socket) return;
 
       const handleTyping = ({ roomId, username }) => {
-         console.log('socket typing', roomId, currentChannel, currentRoomId);
          const currentRoom = currentChannel || currentRoomId;
 
          if (roomId === currentRoom) {

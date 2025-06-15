@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 import { useQueryClient } from '@tanstack/react-query';
 import { cva } from 'class-variance-authority';
 import { useState } from 'react';
-import {  useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const sideBarItemVariants = cva(
    'flex items-center justify-start gap-1.5 font-normal h-7 px-[20px] text-sm overflow-hidden cursor-pointer',
@@ -32,7 +32,6 @@ export const SideBarItem = ({
    const [hasMarkedRead, setHasMarkedRead] = useState(false);
    const queryClient = useQueryClient();
 
-
    const { markMessageAsReadMutation } = useMarkMessageAsRead();
    const { unreadMessageCount } = useMessageStatus();
    const { auth } = useAuth();
@@ -41,10 +40,10 @@ export const SideBarItem = ({
       unreadMessageCount?.find((item) => item?.channelId?._id === id)?.unreadCount || 0;
 
    const handleClick = async () => {
-       if(unreadCount > 0  && !hasMarkedRead){
-         await markMessageAsReadMutation({ workspaceId, channelId: id })
-        setHasMarkedRead(true); // Prevent duplicate marking
-         queryClient.refetchQueries(['unreadMessageCount', workspaceId, auth?.user?._id])
+      if (unreadCount > 0 && !hasMarkedRead) {
+         await markMessageAsReadMutation({ workspaceId, channelId: id });
+         setHasMarkedRead(true); // Prevent duplicate marking
+         queryClient.refetchQueries(['unreadMessageCount', workspaceId, auth?.user?._id]);
          navigate(`/workspaces/${workspaceId}/channels/${id}`);
       }
 

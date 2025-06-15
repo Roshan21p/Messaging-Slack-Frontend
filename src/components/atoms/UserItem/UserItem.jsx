@@ -41,7 +41,7 @@ export const UserItem = ({ id, username = 'member', variant = 'default', image }
          size="sm"
          onClick={handleClick}
       >
-         <Avatar >
+         <Avatar>
             <AvatarImage src={image} className="rounded-md" />
             <AvatarFallback className="rounded-md bg-sky-500 text-white">
                {username?.charAt(0).toUpperCase()}

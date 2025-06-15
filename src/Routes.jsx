@@ -45,7 +45,7 @@ export const AppRoutes = () => {
             }
          />
 
-      <Route
+         <Route
             path="/workspaces/:workspaceId"
             element={
                <ProtectedRoute>
@@ -58,9 +58,7 @@ export const AppRoutes = () => {
             <Route path="members/:id/:username" element={<DirectMessage />} />
          </Route>
 
-       
-
-          <Route
+         <Route
             path="/direct-message"
             element={
                <ProtectedRoute>

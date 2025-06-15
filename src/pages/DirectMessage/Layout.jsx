@@ -5,7 +5,7 @@ import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/componen
 import { useOutlet } from 'react-router-dom';
 
 export const DirectMessageLayout = () => {
-      const outlet = useOutlet(); // detects if nested route is matched
+   const outlet = useOutlet(); // detects if nested route is matched
 
    return (
       <div className="h-[100vh]">

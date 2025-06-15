@@ -15,7 +15,7 @@ export const useGetWorkspaceById = (id) => {
       queryKey: [`fetchWorkspaceById-${id}`],
       enabled: !!auth?.token && !!id,
       staleTime: 20 * 60 * 1000,
-      gcTime: 30 * 60 * 1000,
+      gcTime: 30 * 60 * 1000
    });
 
    return {

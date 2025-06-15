@@ -25,8 +25,6 @@ export const WorkspacePanel = () => {
    const { setOpenCreateChannelModal } = useCreateChannelModal();
    const { setOpenDmModal } = useCurrentWorkspace();
    const { auth, logout } = useAuth();
-   
-
 
    useEffect(() => {
       if (!isFetching && !isSuccess && error) {
@@ -40,7 +38,6 @@ export const WorkspacePanel = () => {
          setCurrentWorkspace(workspace);
       }
    }, [workspace, setCurrentWorkspace, isFetching, error]);
-
 
    if (isFetching) {
       return (
@@ -88,7 +85,7 @@ export const WorkspacePanel = () => {
             {workspace?.channels?.map((channel, index) => {
                return (
                   <SideBarItem
-                       key={`${channel._id}-${index}`}
+                     key={`${channel._id}-${index}`}
                      label={channel?.name}
                      icon={HashIcon}
                      variant={channelId === channel?._id ? 'active' : 'default'}
