@@ -1,3 +1,4 @@
+import { markMessageAsRead } from '@/apis/MessageStatus';
 import { useRoom } from '@/hooks/context/socket/useRoom';
 import { useSocketConnection } from '@/hooks/context/socket/useSocketConnection';
 import { useAuth } from '@/hooks/context/useAuth';
@@ -17,12 +18,19 @@ export const MessageContextProvider = ({ children }) => {
    useEffect(() => {
       if (!socket) return;
 
-      socket?.on('NewMessageReceived', (data) => {
+
+      socket?.on('NewMessageReceived',  (data) => {
          setMessageList((prev) => [...prev, data]);
+
          console.log('new message', data);
       });
 
-      socket?.on('NewMessageNotification', ({ channelId, workspaceId }) => {
+      socket?.on('NewMessageNotification', async ({ channelId, workspaceId, senderId }) => {
+              const isCurrentChannel = channelId === currentChannelRef.current;
+               const isNotSender = senderId !== auth?.user?._id;
+                 if (isCurrentChannel && isNotSender) {
+              await markMessageAsRead({workspaceId, channelId:currentChannelRef.current, token : auth?.token});
+            }
          console.log(
             'NewMessageNotification',
             channelId,

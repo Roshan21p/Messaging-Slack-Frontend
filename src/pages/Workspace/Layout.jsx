@@ -2,8 +2,11 @@ import { WorkspaceNavbar } from '@/components/organisms/Workspace/WorkspaceNavba
 import { WorkspacePanel } from '@/components/organisms/Workspace/WorkspacePanel';
 import { WorkspaceSidebar } from '@/components/organisms/Workspace/WorkspaceSidebar';
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable';
+import {  useOutlet } from 'react-router-dom';
 
-export const WorkspaceLayout = ({ children }) => {
+export const WorkspaceLayout = () => {
+   const outlet = useOutlet(); // detects if nested route is matched
+
    return (
       <div className="h-[100vh]">
          <WorkspaceNavbar />
@@ -15,7 +18,7 @@ export const WorkspaceLayout = ({ children }) => {
                </ResizablePanel>
                <ResizableHandle withHandle />
                <ResizablePanel minSize={20}>
-                  {children ?? (
+                  {outlet || (
                      <div className="flex h-full items-center justify-center text-gray-500">
                         <div className="text-center px-4 text-xl">
                            Select a channel or direct message to start chatting

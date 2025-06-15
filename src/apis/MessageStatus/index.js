@@ -12,3 +12,20 @@ export const getUnreadMessageCount = async ({ workspaceId, token }) => {
       throw error?.response?.data || error?.message;
    }
 };
+
+export const markMessageAsRead = async ({ workspaceId, channelId, token }) => {
+   try {
+      const response = await axios.patch(
+         '/message-status/readMessage',
+         { workspaceId, channelId },
+         {
+            headers: {
+               'x-access-token': token
+            }
+         }
+      );
+      return response?.data?.data;
+   } catch (error) {
+      throw error?.response?.data || error?.message;
+   }
+};

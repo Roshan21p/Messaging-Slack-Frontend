@@ -37,15 +37,6 @@ export const AppRoutes = () => {
          />
 
          <Route
-            path="/workspaces/:workspaceId"
-            element={
-               <ProtectedRoute>
-                  <WorkspaceLayout></WorkspaceLayout>
-               </ProtectedRoute>
-            }
-         />
-
-         <Route
             path="/profile/:username"
             element={
                <ProtectedRoute>
@@ -54,47 +45,32 @@ export const AppRoutes = () => {
             }
          />
 
-         <Route
-            path="/workspaces/:workspaceId/channels/:channelId"
+      <Route
+            path="/workspaces/:workspaceId"
             element={
                <ProtectedRoute>
-                  <WorkspaceLayout>
-                     <Channel />
-                  </WorkspaceLayout>
+                  <WorkspaceLayout />
                </ProtectedRoute>
             }
-         />
+         >
+            {/* Nested routes under workspace layout */}
+            <Route path="channels/:channelId" element={<Channel />} />
+            <Route path="members/:id/:username" element={<DirectMessage />} />
+         </Route>
 
-         <Route
-            path="/workspaces/:workspaceId/members/:id/:username"
-            element={
-               <ProtectedRoute>
-                  <WorkspaceLayout>
-                     <DirectMessage />
-                  </WorkspaceLayout>
-               </ProtectedRoute>
-            }
-         />
+       
 
-         <Route
+          <Route
             path="/direct-message"
             element={
                <ProtectedRoute>
-                  <DirectMessageLayout></DirectMessageLayout>
+                  <DirectMessageLayout />
                </ProtectedRoute>
             }
-         />
-
-         <Route
-            path="/direct-message/:id/:username"
-            element={
-               <ProtectedRoute>
-                  <DirectMessageLayout>
-                     <DirectMessage />
-                  </DirectMessageLayout>
-               </ProtectedRoute>
-            }
-         />
+         >
+            {/* Nested routes under Direct message layout */}
+            <Route path=":id/:username" element={<DirectMessage />} />
+         </Route>
 
          <Route path="/workspaces/join/:workspaceId" element={<JoinPage />} />
 

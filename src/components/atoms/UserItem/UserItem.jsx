@@ -6,7 +6,7 @@ import { cva } from 'class-variance-authority';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const userItemVariants = cva(
-   'flex items-center gap-1.5 justify-start font-normal h-9 px-4 mt-2 text-sm',
+   'flex items-center gap-1.5 justify-start font-normal h-9 px-4 mt-2 text-sm cursor-pointer',
    {
       variants: {
          variant: {
@@ -41,7 +41,7 @@ export const UserItem = ({ id, username = 'member', variant = 'default', image }
          size="sm"
          onClick={handleClick}
       >
-         <Avatar>
+         <Avatar >
             <AvatarImage src={image} className="rounded-md" />
             <AvatarFallback className="rounded-md bg-sky-500 text-white">
                {username?.charAt(0).toUpperCase()}

@@ -17,7 +17,7 @@ import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 export const WorkspacePanel = () => {
-   const { workspaceId, id } = useParams();
+   const { workspaceId, id, channelId } = useParams();
    const navigate = useNavigate();
 
    const { isFetching, isSuccess, workspace, error } = useGetWorkspaceById(workspaceId);
@@ -25,6 +25,8 @@ export const WorkspacePanel = () => {
    const { setOpenCreateChannelModal } = useCreateChannelModal();
    const { setOpenDmModal } = useCurrentWorkspace();
    const { auth, logout } = useAuth();
+   
+
 
    useEffect(() => {
       if (!isFetching && !isSuccess && error) {
@@ -38,6 +40,7 @@ export const WorkspacePanel = () => {
          setCurrentWorkspace(workspace);
       }
    }, [workspace, setCurrentWorkspace, isFetching, error]);
+
 
    if (isFetching) {
       return (
@@ -82,12 +85,13 @@ export const WorkspacePanel = () => {
                setOpenCreateChannelModal(true);
             }}
          >
-            {workspace?.channels?.map((channel) => {
+            {workspace?.channels?.map((channel, index) => {
                return (
                   <SideBarItem
-                     key={channel?._id}
+                       key={`${channel._id}-${index}`}
                      label={channel?.name}
                      icon={HashIcon}
+                     variant={channelId === channel?._id ? 'active' : 'default'}
                      id={channel?._id}
                   />
                );

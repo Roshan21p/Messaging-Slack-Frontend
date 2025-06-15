@@ -30,7 +30,6 @@ export const fetchWorkspaceRequest = async ({ token }) => {
 
       return response?.data?.data;
    } catch (error) {
-      console.error('Error in fetch workspace request', error);
       throw error?.response || error?.message;
    }
 };
@@ -44,7 +43,6 @@ export const fetchWorkspaceDetailsRequest = async ({ workspaceId, token }) => {
       });
       return response?.data?.data;
    } catch (error) {
-      console.log('Error in fetching workspace details request', error, error?.response?.data);
       throw error?.response || error?.message;
    }
 };

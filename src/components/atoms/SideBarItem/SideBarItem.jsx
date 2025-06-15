@@ -1,11 +1,15 @@
 import { Button } from '@/components/ui/button';
+import { useMarkMessageAsRead } from '@/hooks/apis/MessageStatus/useMarkMessageAsRead';
+import { useAuth } from '@/hooks/context/useAuth';
 import { useMessageStatus } from '@/hooks/context/useMessageStatus';
 import { cn } from '@/lib/utils';
+import { useQueryClient } from '@tanstack/react-query';
 import { cva } from 'class-variance-authority';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useState } from 'react';
+import {  useNavigate, useParams } from 'react-router-dom';
 
 const sideBarItemVariants = cva(
-   'flex items-center justify-start gap-1.5 font-normal h-7 px-[20px] text-sm overflow-hidden',
+   'flex items-center justify-start gap-1.5 font-normal h-7 px-[20px] text-sm overflow-hidden cursor-pointer',
    {
       variants: {
          variant: {
@@ -25,13 +29,25 @@ export const SideBarItem = ({
 }) => {
    const { workspaceId } = useParams();
    const navigate = useNavigate();
+   const [hasMarkedRead, setHasMarkedRead] = useState(false);
+   const queryClient = useQueryClient();
 
+
+   const { markMessageAsReadMutation } = useMarkMessageAsRead();
    const { unreadMessageCount } = useMessageStatus();
+   const { auth } = useAuth();
 
    const unreadCount =
       unreadMessageCount?.find((item) => item?.channelId?._id === id)?.unreadCount || 0;
 
-   const handleClick = () => {
+   const handleClick = async () => {
+       if(unreadCount > 0  && !hasMarkedRead){
+         await markMessageAsReadMutation({ workspaceId, channelId: id })
+        setHasMarkedRead(true); // Prevent duplicate marking
+         queryClient.refetchQueries(['unreadMessageCount', workspaceId, auth?.user?._id])
+         navigate(`/workspaces/${workspaceId}/channels/${id}`);
+      }
+
       if (id === 'threads' || id === 'drafts') {
          navigate(`/workspaces/${workspaceId}`);
       } else if (id === 'all-dms' || id === 'unread-dms' || id === 'mentions') {
@@ -55,7 +71,7 @@ export const SideBarItem = ({
             </div>
 
             {unreadCount > 0 && (
-               <span className="ml-auto bg-red-500 text-white text-xs px-2 py-0.5 rounded-full min-w-[18px] text-center">
+               <span className="ml-auto bg-red-500 text-white text-xs px-1 py-1 rounded-full min-w-[25px] text-center">
                   {unreadCount}
                </span>
             )}
