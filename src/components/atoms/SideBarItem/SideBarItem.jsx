@@ -1,9 +1,8 @@
 import { Button } from '@/components/ui/button';
 import { useMarkMessageAsRead } from '@/hooks/apis/MessageStatus/useMarkMessageAsRead';
-import { useAuth } from '@/hooks/context/useAuth';
+import { useSocketConnection } from '@/hooks/context/socket/useSocketConnection';
 import { useMessageStatus } from '@/hooks/context/useMessageStatus';
 import { cn } from '@/lib/utils';
-import { useQueryClient } from '@tanstack/react-query';
 import { cva } from 'class-variance-authority';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -30,29 +29,29 @@ export const SideBarItem = ({
    const { workspaceId } = useParams();
    const navigate = useNavigate();
    const [hasMarkedRead, setHasMarkedRead] = useState(false);
-   const queryClient = useQueryClient();
 
    const { markMessageAsReadMutation } = useMarkMessageAsRead();
-   const { unreadMessageCount } = useMessageStatus();
-   const { auth } = useAuth();
+   const { unreadMessageCount, resetUnreadCount } = useMessageStatus();
+   const { socket } = useSocketConnection();
 
    const unreadCount =
       unreadMessageCount?.find((item) => item?.channelId?._id === id)?.unreadCount || 0;
 
    const handleClick = async () => {
-      if (unreadCount > 0 && !hasMarkedRead) {
-         await markMessageAsReadMutation({ workspaceId, channelId: id });
-         setHasMarkedRead(true); // Prevent duplicate marking
-         queryClient.refetchQueries(['unreadMessageCount', workspaceId, auth?.user?._id]);
-         navigate(`/workspaces/${workspaceId}/channels/${id}`);
-      }
-
       if (id === 'threads' || id === 'drafts') {
          navigate(`/workspaces/${workspaceId}`);
       } else if (id === 'all-dms' || id === 'unread-dms' || id === 'mentions') {
          navigate('/direct-message');
       } else {
          navigate(`/workspaces/${workspaceId}/channels/${id}`);
+      }
+
+      if (unreadCount > 0 && !hasMarkedRead) {
+         resetUnreadCount(id);
+         socket?.emit('MarkMessagesAsRead', { workspaceId, channelId: id }, (data) => {
+            console.log('Successfully Mark message as read', data);
+         });
+         setHasMarkedRead(true); // Prevent duplicate marking
       }
    };
 

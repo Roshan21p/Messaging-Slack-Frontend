@@ -26,8 +26,6 @@ export const WorkspaceSwitcher = () => {
    useEffect(() => {
       if (!socket || !workspaceId) return;
 
-      console.log('workspace', workspaceId);
-
       socket?.emit('JoinWorkspace', { workspaceId }, (data) => {
          console.log('JoinWorkspace', data);
       });

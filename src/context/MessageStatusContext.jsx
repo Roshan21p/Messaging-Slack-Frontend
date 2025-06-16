@@ -14,8 +14,9 @@ export const MessageStatusContextProvider = ({ children }) => {
 
    // Set initial unread message count from API
    useEffect(() => {
-      if (isSuccess && apiUnreadCount?.channels?.length > 0) {
+      if (isSuccess && apiUnreadCount?.channels) {
          setUnreadMessageCount(apiUnreadCount.channels); // store only channels here
+         console.log('Updated unreadMessageCount:', apiUnreadCount.channels);
       }
    }, [isSuccess, apiUnreadCount]);
 
@@ -24,8 +25,6 @@ export const MessageStatusContextProvider = ({ children }) => {
          const existing = prev.find((item) => item.channelId?._id === channelId);
 
          if (existing) {
-            console.log('existing');
-
             return prev.map((item) =>
                item.channelId?._id === channelId
                   ? { ...item, unreadCount: item.unreadCount + 1 }
@@ -37,11 +36,21 @@ export const MessageStatusContextProvider = ({ children }) => {
       });
    };
 
+   const resetUnreadCount = (channelId) => {
+      setUnreadMessageCount((prev) =>
+         prev.map((item) =>
+            item.channelId?._id === channelId ? { ...item, unreadCount: 0 } : item
+         )
+      );
+   };
+
    return (
       <MessageStatusContext.Provider
          value={{
             unreadMessageCount,
-            updateChannelUnreadCount
+            setUnreadMessageCount,
+            updateChannelUnreadCount,
+            resetUnreadCount
          }}
       >
          {children}
