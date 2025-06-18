@@ -10,8 +10,8 @@ const MessageContext = createContext();
 export const MessageContextProvider = ({ children }) => {
    const { socket } = useSocketConnection();
    const { auth } = useAuth();
-   const { currentChannelRef } = useRoom();
-   const { updateChannelUnreadCount } = useMessageStatus();
+   const { currentChannelRef, currentDmRef } = useRoom();
+   const { updateChannelUnreadCount, updateDmUnreadCount } = useMessageStatus();
    const { messageList, setMessageList } = useChannelMessages();
 
    useEffect(() => {
@@ -23,22 +23,29 @@ export const MessageContextProvider = ({ children }) => {
          console.log('new message', data);
       });
 
-      socket?.on('NewMessageNotification', ({ channelId, workspaceId, senderId }) => {
-         const isCurrentChannel = channelId === currentChannelRef.current;
+      socket?.on('NewMessageNotification', ({ channelId, roomId, workspaceId, senderId }) => {
+         const isCurrentChannel =
+            channelId && currentChannelRef.current && channelId === currentChannelRef.current;
+         const isCurrentDmRoom = roomId && currentDmRef.current && roomId === currentDmRef.current;
          const isNotSender = senderId !== auth?.user?._id;
 
-         if (isCurrentChannel && isNotSender) {
-            socket?.emit('MarkMessagesAsRead', { workspaceId, channelId }, (data) => {
+         if ((isCurrentChannel || isCurrentDmRoom) && isNotSender) {
+            socket?.emit('MarkMessagesAsRead', { workspaceId, channelId, roomId }, (data) => {
                console.log('Successfully Mark message as read', data);
             });
          }
          console.log(
             'NewMessageNotification',
+            'channelId',
             channelId,
             'workspaceId',
             workspaceId,
             'currentChannel',
-            currentChannelRef.current
+            currentChannelRef.current,
+            'roomId',
+            roomId,
+            'currentDmRef',
+            currentDmRef.current
          );
 
          if (channelId && channelId !== currentChannelRef.current) {
@@ -50,6 +57,17 @@ export const MessageContextProvider = ({ children }) => {
             );
 
             updateChannelUnreadCount(channelId);
+         }
+
+         if (roomId && roomId !== currentDmRef.current) {
+            console.log(
+               'newMessageNotification call back',
+               roomId,
+               'currentDmRef',
+               currentDmRef.current
+            );
+
+            updateDmUnreadCount(roomId);
          }
       });
 

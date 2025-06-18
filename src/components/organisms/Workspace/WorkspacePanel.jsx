@@ -85,7 +85,7 @@ export const WorkspacePanel = () => {
             {workspace?.channels?.map((channel, index) => {
                return (
                   <SideBarItem
-                     key={`${channel._id}-${index}`}
+                     key={`${channel?._id}-${index}`}
                      label={channel?.name}
                      icon={HashIcon}
                      variant={channelId === channel?._id ? 'active' : 'default'}
@@ -104,6 +104,11 @@ export const WorkspacePanel = () => {
             {workspace?.members
                ?.filter((item) => item?.memberId?.username !== auth?.user?.username)
                ?.map((item) => {
+                  const memberId = item?.memberId?._id;
+                  const currentUserId = auth?.user?._id;
+
+                  // construct roomId same as backend
+                  const roomId = [currentUserId, memberId].sort().join('_');
                   return (
                      <UserItem
                         key={item?.memberId?._id}
@@ -111,6 +116,7 @@ export const WorkspacePanel = () => {
                         id={item?.memberId?._id}
                         variant={id === item?.memberId?._id ? 'active' : 'default'}
                         image={item?.memberId?.avatar}
+                        roomId={roomId}
                      />
                   );
                })}

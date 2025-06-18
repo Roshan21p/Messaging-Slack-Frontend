@@ -11,15 +11,22 @@ export const MessageStatusContextProvider = ({ children }) => {
    const { unreadMessageCount: apiUnreadCount, isSuccess } = useGetUnreadMessageCount(workspaceId);
 
    const [unreadMessageCount, setUnreadMessageCount] = useState([]);
+   const [dmUnreadMessageCount, setDmUnreadMessageCount] = useState([]);
+
+   console.log('apiUnreadCount', apiUnreadCount);
 
    // Set initial unread message count from API
    useEffect(() => {
-      if (isSuccess && apiUnreadCount?.channels) {
+      if (isSuccess && apiUnreadCount) {
          setUnreadMessageCount(apiUnreadCount.channels); // store only channels here
-         console.log('Updated unreadMessageCount:', apiUnreadCount.channels);
+         setDmUnreadMessageCount(apiUnreadCount.dms);
+         console.log('Updated unreadMessageCount:', apiUnreadCount);
       }
    }, [isSuccess, apiUnreadCount]);
 
+   console.log('unreadMessageCount in message status', unreadMessageCount);
+
+   // for channel
    const updateChannelUnreadCount = (channelId) => {
       setUnreadMessageCount((prev) => {
          const existing = prev.find((item) => item.channelId?._id === channelId);
@@ -30,13 +37,12 @@ export const MessageStatusContextProvider = ({ children }) => {
                   ? { ...item, unreadCount: item.unreadCount + 1 }
                   : item
             );
-         } else {
-            return [...prev, { channelId, unreadCount: 1 }];
          }
       });
    };
 
-   const resetUnreadCount = (channelId) => {
+   const resetChannelUnreadCount = (channelId) => {
+      console.log('Resetting unread for channel:', channelId);
       setUnreadMessageCount((prev) =>
          prev.map((item) =>
             item.channelId?._id === channelId ? { ...item, unreadCount: 0 } : item
@@ -44,13 +50,34 @@ export const MessageStatusContextProvider = ({ children }) => {
       );
    };
 
+   // for dm
+   const updateDmUnreadCount = (roomId) => {
+      setDmUnreadMessageCount((prev) => {
+         const existing = prev.find((item) => item?.roomId === roomId);
+
+         if (existing) {
+            return prev.map((item) =>
+               item?.roomId === roomId ? { ...item, unreadCount: item.unreadCount + 1 } : item
+            );
+         }
+      });
+   };
+
+   const resetDmUnreadCount = (roomId) => {
+      setDmUnreadMessageCount((prev) =>
+         prev.map((item) => (item.roomId === roomId ? { ...item, unreadCount: 0 } : item))
+      );
+   };
+
    return (
       <MessageStatusContext.Provider
          value={{
             unreadMessageCount,
-            setUnreadMessageCount,
             updateChannelUnreadCount,
-            resetUnreadCount
+            resetChannelUnreadCount,
+            updateDmUnreadCount,
+            resetDmUnreadCount,
+            dmUnreadMessageCount
          }}
       >
          {children}

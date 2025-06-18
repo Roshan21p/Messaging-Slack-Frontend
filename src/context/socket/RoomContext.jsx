@@ -11,25 +11,28 @@ export const RoomContextProvider = ({ children }) => {
 
    const [onlineUsers, setOnlineUsers] = useState(0);
 
-   const currentChannelRef = useRef(null); // ✅ holds active roomId for comparison
+   const currentChannelRef = useRef(null);
+   const currentDmRef = useRef(null);
 
    useEffect(() => {
       currentChannelRef.current = currentChannel;
+      currentDmRef.current = currentRoomId;
       return () => {
          if (socket) {
             currentChannelRef.current = null;
+            currentDmRef.current = null;
          }
       };
-   }, [currentChannel]);
+   }, [currentChannel, currentRoomId]);
 
    // Handle online users
    useEffect(() => {
       if (!socket) return;
 
       const handleOnlineUsers = ({ roomId, count }) => {
-         if (roomId === currentChannel) {
+         if (roomId === currentChannelRef.current) {
             setOnlineUsers(count);
-         } else if (roomId === currentRoomId) {
+         } else if (roomId === currentDmRef.current) {
             setOnlineUsers(count);
          }
       };
@@ -70,6 +73,7 @@ export const RoomContextProvider = ({ children }) => {
       socket?.emit('JoinDmRoom', { roomId }, (data) => {
          console.log('Successfully joined the JoinDmRoom', data);
          setCurrentRoomId(data?.data?.roomId);
+         currentDmRef.current = data?.data?.roomId;
          setOnlineUsers(data?.data?.users);
          setCurrentChannel(null);
       });
@@ -95,7 +99,8 @@ export const RoomContextProvider = ({ children }) => {
             currentChannelRef,
             leaveDmRoom,
             joinDmRoom,
-            onlineUsers
+            onlineUsers,
+            currentDmRef
          }}
       >
          {children}

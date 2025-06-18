@@ -1,10 +1,9 @@
 import { Button } from '@/components/ui/button';
-import { useMarkMessageAsRead } from '@/hooks/apis/MessageStatus/useMarkMessageAsRead';
 import { useSocketConnection } from '@/hooks/context/socket/useSocketConnection';
 import { useMessageStatus } from '@/hooks/context/useMessageStatus';
 import { cn } from '@/lib/utils';
 import { cva } from 'class-variance-authority';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const sideBarItemVariants = cva(
@@ -28,14 +27,35 @@ export const SideBarItem = ({
 }) => {
    const { workspaceId } = useParams();
    const navigate = useNavigate();
-   const [hasMarkedRead, setHasMarkedRead] = useState(false);
 
-   const { markMessageAsReadMutation } = useMarkMessageAsRead();
-   const { unreadMessageCount, resetUnreadCount } = useMessageStatus();
+   const hasMarkedReadRef = useRef({}); // track marked state per channel
+
+   const { unreadMessageCount, resetChannelUnreadCount } = useMessageStatus();
    const { socket } = useSocketConnection();
 
-   const unreadCount =
-      unreadMessageCount?.find((item) => item?.channelId?._id === id)?.unreadCount || 0;
+   const [localUnread, setLocalUnread] = useState(
+      unreadMessageCount?.find((item) => item?.channelId?._id === id)?.unreadCount || 0
+   );
+
+   console.log('siderBar localUnread', unreadMessageCount, localUnread);
+
+   useEffect(() => {
+      const count =
+         unreadMessageCount?.find((item) => item?.channelId?._id === id)?.unreadCount || 0;
+      setLocalUnread(count);
+   }, [unreadMessageCount, id]);
+
+   // Automatically mark messages as read if this is the active channel
+   useEffect(() => {
+      if (variant === 'active' && localUnread > 0 && !hasMarkedReadRef.current[id]) {
+         hasMarkedReadRef.current[id] = true;
+         resetChannelUnreadCount(id);
+         socket?.emit('MarkMessagesAsRead', { workspaceId, channelId: id }, (data) => {
+            console.log('✅ Marked as read from useEffect:', id, data);
+         });
+         console.log('trigger');
+      }
+   }, [variant, id, localUnread, workspaceId, socket, resetChannelUnreadCount]);
 
    const handleClick = async () => {
       if (id === 'threads' || id === 'drafts') {
@@ -44,14 +64,6 @@ export const SideBarItem = ({
          navigate('/direct-message');
       } else {
          navigate(`/workspaces/${workspaceId}/channels/${id}`);
-      }
-
-      if (unreadCount > 0 && !hasMarkedRead) {
-         resetUnreadCount(id);
-         socket?.emit('MarkMessagesAsRead', { workspaceId, channelId: id }, (data) => {
-            console.log('Successfully Mark message as read', data);
-         });
-         setHasMarkedRead(true); // Prevent duplicate marking
       }
    };
 
@@ -68,9 +80,9 @@ export const SideBarItem = ({
                <span className="text-sm">{label}</span>
             </div>
 
-            {unreadCount > 0 && (
+            {localUnread > 0 && (
                <span className="ml-auto bg-red-500 text-white text-xs px-1 py-1 rounded-full min-w-[25px] text-center">
-                  {unreadCount}
+                  {localUnread}
                </span>
             )}
          </div>
