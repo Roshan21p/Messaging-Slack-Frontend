@@ -1,6 +1,8 @@
-import { Button } from '@/components/ui/button';
-import { useCurrentWorkspace } from '@/hooks/context/useCurrentWorkspace';
 import { InfoIcon, SearchIcon } from 'lucide-react';
+
+import { useCurrentWorkspace } from '@/hooks/context/useCurrentWorkspace';
+
+import { Button } from '@/components/ui/button';
 
 export const WorkspaceNavbar = () => {
    const { currentWorkspace: workspace } = useCurrentWorkspace();

@@ -1,6 +1,8 @@
-import { useAuth } from '@/hooks/context/useAuth';
-import { LucideLoader2 } from 'lucide-react';
 import { Navigate } from 'react-router-dom';
+
+import { LucideLoader2 } from 'lucide-react';
+
+import { useAuth } from '@/hooks/context/useAuth';
 
 export const ProtectedRoute = ({ children }) => {
    const { auth } = useAuth();

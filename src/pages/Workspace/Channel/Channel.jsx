@@ -1,6 +1,8 @@
-import { ChannelHeader } from '@/components/molecules/Channel/ChannelHeader';
-import { ChatInput } from '@/components/molecules/ChatInput/ChatInput';
-import { Message } from '@/components/molecules/Message/Message';
+import { useEffect, useRef } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+
+import { Loader2Icon, TriangleAlertIcon } from 'lucide-react';
+
 import { useGetChannelById } from '@/hooks/apis/channels/useGetChannelById';
 import { useGetChannelMessages } from '@/hooks/apis/channels/useGetChannelMessages';
 import { useRoom } from '@/hooks/context/socket/useRoom';
@@ -8,9 +10,10 @@ import { useTyping } from '@/hooks/context/socket/useTyping';
 import { useAuth } from '@/hooks/context/useAuth';
 import { useChannelMessages } from '@/hooks/context/useChannelMessages';
 import { useSocket } from '@/hooks/context/useSocket';
-import { Loader2Icon, TriangleAlertIcon } from 'lucide-react';
-import { useEffect, useRef } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+
+import { ChannelHeader } from '@/components/molecules/Channel/ChannelHeader';
+import { ChatInput } from '@/components/molecules/ChatInput/ChatInput';
+import { Message } from '@/components/molecules/Message/Message';
 
 export const Channel = () => {
    const { channelId } = useParams();

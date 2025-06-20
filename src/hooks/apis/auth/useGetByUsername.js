@@ -1,7 +1,9 @@
-import { getUserByUsername } from '@/apis/auth';
+import { useQuery } from '@tanstack/react-query';
+
 import { useAuth } from '@/hooks/context/useAuth';
 import { useToast } from '@/hooks/use-toast';
-import { useQuery } from '@tanstack/react-query';
+
+import { getUserByUsername } from '@/apis/auth';
 
 export const useGetByUsername = ({ username, id }) => {
    const { auth } = useAuth();

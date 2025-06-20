@@ -1,5 +1,6 @@
-import axiosConfig from '@/config/axiosConfig';
 import axios from 'axios';
+
+import axiosConfig from '@/config/axiosConfig';
 
 export const uploadImageToCloudinaryGeneratesignedUrl = async (formData) => {
    try {

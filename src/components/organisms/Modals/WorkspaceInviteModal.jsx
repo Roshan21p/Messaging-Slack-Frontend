@@ -1,3 +1,8 @@
+import { RefreshCcwIcon } from 'lucide-react';
+
+import { useResetJoinCode } from '@/hooks/apis/workspaces/useResetJoinCode';
+import { useToast } from '@/hooks/use-toast';
+
 import { Button } from '@/components/ui/button';
 import {
    Dialog,
@@ -7,9 +12,6 @@ import {
    DialogHeader,
    DialogTitle
 } from '@/components/ui/dialog';
-import { useResetJoinCode } from '@/hooks/apis/workspaces/useResetJoinCode';
-import { useToast } from '@/hooks/use-toast';
-import { RefreshCcwIcon } from 'lucide-react';
 
 export const WorkspaceInviteModal = ({
    openInviteModal,

@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from 'react';
-import { useSocketConnection } from '@/hooks/context/socket/useSocketConnection';
+
 import { useRoom } from '@/hooks/context/socket/useRoom';
+import { useSocketConnection } from '@/hooks/context/socket/useSocketConnection';
 
 export const TypingContext = createContext();
 

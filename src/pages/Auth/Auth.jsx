@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+
 import slack from '../../../public/Slack_Logo.jpg';
 
 export const Auth = ({ children }) => {

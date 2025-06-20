@@ -1,13 +1,17 @@
-import { getGenerateSignedUrl, uploadImageToCloudinaryGeneratesignedUrl } from '@/apis/cloudinary';
-import { Editor } from '@/components/atoms/Editor/Editor';
+import { useState } from 'react';
+
+import { useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
+
 import { useRoom } from '@/hooks/context/socket/useRoom';
 import { useSocketConnection } from '@/hooks/context/socket/useSocketConnection';
 import { useAuth } from '@/hooks/context/useAuth';
 import { useCurrentWorkspace } from '@/hooks/context/useCurrentWorkspace';
 import { useSocket } from '@/hooks/context/useSocket';
-import { useQueryClient } from '@tanstack/react-query';
-import { useState } from 'react';
-import { toast } from 'sonner';
+
+import { Editor } from '@/components/atoms/Editor/Editor';
+
+import { getGenerateSignedUrl, uploadImageToCloudinaryGeneratesignedUrl } from '@/apis/cloudinary';
 
 export const ChatInput = () => {
    const { auth } = useAuth();

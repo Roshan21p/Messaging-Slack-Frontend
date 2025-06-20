@@ -1,3 +1,14 @@
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import { useQueryClient } from '@tanstack/react-query';
+import { TrashIcon } from 'lucide-react';
+
+import { useDeleteWorkspace } from '@/hooks/apis/workspaces/useDeleteWorkspace';
+import { useUpdateWorkspace } from '@/hooks/apis/workspaces/useUpdateWorkspace';
+import { useWorkspacePreferencesModal } from '@/hooks/context/useWorkspacePreferencesModal';
+import { useConfirm } from '@/hooks/useConfirm';
+
 import { Button } from '@/components/ui/button';
 import {
    Dialog,
@@ -9,14 +20,6 @@ import {
    DialogTrigger
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
-import { useDeleteWorkspace } from '@/hooks/apis/workspaces/useDeleteWorkspace';
-import { useUpdateWorkspace } from '@/hooks/apis/workspaces/useUpdateWorkspace';
-import { useWorkspacePreferencesModal } from '@/hooks/context/useWorkspacePreferencesModal';
-import { useConfirm } from '@/hooks/useConfirm';
-import { useQueryClient } from '@tanstack/react-query';
-import { TrashIcon } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 export const WorkspacePreferencesModal = () => {
    const navigate = useNavigate();

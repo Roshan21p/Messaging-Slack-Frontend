@@ -1,5 +1,6 @@
-import Quill from 'quill';
 import { useEffect, useRef, useState } from 'react';
+
+import Quill from 'quill';
 
 export const MessageRenderer = ({ value }) => {
    const rendererRef = useRef(null);

@@ -1,6 +1,8 @@
-import { getPaginatedDirectMessages } from '@/apis/DirectMessage';
-import { useAuth } from '@/hooks/context/useAuth';
 import { useQuery } from '@tanstack/react-query';
+
+import { useAuth } from '@/hooks/context/useAuth';
+
+import { getPaginatedDirectMessages } from '@/apis/DirectMessage';
 
 export const useGetDirectMessages = (receiverId) => {
    const { auth } = useAuth();

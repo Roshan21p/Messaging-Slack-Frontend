@@ -1,6 +1,7 @@
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+
 import { MessageImageThumbnail } from '@/components/atoms/MessageImageThumbnail/MessageImageThumbnail';
 import { MessageRenderer } from '@/components/atoms/MessageRenderer/MessageRenderer';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 const formatToIST = (dateString) => {
    if (!dateString) return 'Just now';

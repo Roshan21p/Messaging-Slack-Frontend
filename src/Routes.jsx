@@ -1,16 +1,19 @@
 import { Route, Routes } from 'react-router-dom';
-import { SignupContainer } from '@/components/organisms/Auth/SignupContainer';
-import { Auth } from '@/pages/Auth/Auth';
-import { SigninContainer } from '@/components/organisms/Auth/SigninContainer';
-import { Notfound } from '@/pages/Notfound/Notfound';
+
 import { ProtectedRoute } from '@/components/molecules/ProtectedRoute/ProtectedRoute';
-import { Home } from '@/pages/Home/Home';
-import { WorkspaceLayout } from './pages/Workspace/Layout';
-import { JoinPage } from './pages/Workspace/JoinPage';
-import { Channel } from './pages/Workspace/Channel/Channel';
-import { DirectMessage } from './pages/Workspace/DirectMessage/DirectMessage';
+import { SigninContainer } from '@/components/organisms/Auth/SigninContainer';
+import { SignupContainer } from '@/components/organisms/Auth/SignupContainer';
+
 import { DirectMessageLayout } from './pages/DirectMessage/Layout';
 import { UserProfile } from './pages/Profie/UserProfile';
+import { Channel } from './pages/Workspace/Channel/Channel';
+import { DirectMessage } from './pages/Workspace/DirectMessage/DirectMessage';
+import { JoinPage } from './pages/Workspace/JoinPage';
+import { WorkspaceLayout } from './pages/Workspace/Layout';
+
+import { Auth } from '@/pages/Auth/Auth';
+import { Home } from '@/pages/Home/Home';
+import { Notfound } from '@/pages/Notfound/Notfound';
 
 export const AppRoutes = () => {
    return (

@@ -1,7 +1,9 @@
-import { updateChannelToWorkspaceRequest } from '@/apis/workspaces';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+
 import { useAuth } from '@/hooks/context/useAuth';
 import { useToast } from '@/hooks/use-toast';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+
+import { updateChannelToWorkspaceRequest } from '@/apis/workspaces';
 
 export const useUpdateChannelToWorkspace = (workspaceId) => {
    const { auth } = useAuth();
@@ -13,7 +15,7 @@ export const useUpdateChannelToWorkspace = (workspaceId) => {
       isPending,
       isSuccess,
       error,
-      mutateAsync: useUpdateChannelMutation
+      mutateAsync: UpdateChannelMutation
    } = useMutation({
       mutationFn: ({ channelId, channelName }) =>
          updateChannelToWorkspaceRequest({
@@ -44,6 +46,6 @@ export const useUpdateChannelToWorkspace = (workspaceId) => {
       isPending,
       isSuccess,
       error,
-      useUpdateChannelMutation
+      UpdateChannelMutation
    };
 };

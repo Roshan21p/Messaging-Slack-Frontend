@@ -1,3 +1,13 @@
+import { useState } from 'react';
+
+import { useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
+
+import { useFetchAllUsers } from '@/hooks/apis/auth/useFetchAllUsers';
+import { useAddMemberToWorkspace } from '@/hooks/apis/workspaces/useAddMemberToWorkspace';
+import { useAuth } from '@/hooks/context/useAuth';
+import { useCurrentWorkspace } from '@/hooks/context/useCurrentWorkspace';
+
 import { Button } from '@/components/ui/button';
 import {
    Dialog,
@@ -8,13 +18,6 @@ import {
    DialogHeader,
    DialogTitle
 } from '@/components/ui/dialog';
-import { useFetchAllUsers } from '@/hooks/apis/auth/useFetchAllUsers';
-import { useAddMemberToWorkspace } from '@/hooks/apis/workspaces/useAddMemberToWorkspace';
-import { useAuth } from '@/hooks/context/useAuth';
-import { useCurrentWorkspace } from '@/hooks/context/useCurrentWorkspace';
-import { useQueryClient } from '@tanstack/react-query';
-import { useState } from 'react';
-import { toast } from 'sonner';
 
 export const WorkspaceAddMemberModal = () => {
    const { auth } = useAuth();

@@ -1,17 +1,20 @@
 import 'quill/dist/quill.snow.css'; // ES6
 
-import Quill from 'quill';
 import { useEffect, useRef, useState } from 'react';
-import { PiTextAa } from 'react-icons/pi';
 import { MdSend } from 'react-icons/md';
+import { PiTextAa } from 'react-icons/pi';
 
-import { Button } from '@/components/ui/button';
-import { Hint } from '../Hint/Hint';
 import { ImageIcon, XIcon } from 'lucide-react';
+import Quill from 'quill';
+
+import { useRoom } from '@/hooks/context/socket/useRoom';
+import { useTyping } from '@/hooks/context/socket/useTyping';
 import { useAuth } from '@/hooks/context/useAuth';
 import { useSocket } from '@/hooks/context/useSocket';
-import { useTyping } from '@/hooks/context/socket/useTyping';
-import { useRoom } from '@/hooks/context/socket/useRoom';
+
+import { Button } from '@/components/ui/button';
+
+import { Hint } from '../Hint/Hint';
 
 export const Editor = ({ onSubmit, disabled }) => {
    const [isToolbarVisible, setIsToolbarVisible] = useState(false);

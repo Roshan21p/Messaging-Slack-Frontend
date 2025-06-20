@@ -1,10 +1,13 @@
-import { Button } from '@/components/ui/button';
-import { useJoinWorkspace } from '@/hooks/apis/workspaces/useJoinWorkspace';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import VerificationInput from 'react-verification-input';
-import { useEffect, useState } from 'react';
-import { useAuth } from '@/hooks/context/useAuth';
+
 import { toast } from 'sonner';
+
+import { useJoinWorkspace } from '@/hooks/apis/workspaces/useJoinWorkspace';
+import { useAuth } from '@/hooks/context/useAuth';
+
+import { Button } from '@/components/ui/button';
 
 export const JoinPage = () => {
    const { workspaceId } = useParams();

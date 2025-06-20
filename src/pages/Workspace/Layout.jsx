@@ -1,8 +1,10 @@
+import { useOutlet } from 'react-router-dom';
+
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable';
+
 import { WorkspaceNavbar } from '@/components/organisms/Workspace/WorkspaceNavbar';
 import { WorkspacePanel } from '@/components/organisms/Workspace/WorkspacePanel';
 import { WorkspaceSidebar } from '@/components/organisms/Workspace/WorkspaceSidebar';
-import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable';
-import { useOutlet } from 'react-router-dom';
 
 export const WorkspaceLayout = () => {
    const outlet = useOutlet(); // detects if nested route is matched

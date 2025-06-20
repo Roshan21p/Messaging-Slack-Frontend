@@ -1,10 +1,13 @@
-import { Button } from '@/components/ui/button';
-import { useSocketConnection } from '@/hooks/context/socket/useSocketConnection';
-import { useMessageStatus } from '@/hooks/context/useMessageStatus';
-import { cn } from '@/lib/utils';
-import { cva } from 'class-variance-authority';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+
+import { cva } from 'class-variance-authority';
+
+import { cn } from '@/lib/utils';
+import { useSocketConnection } from '@/hooks/context/socket/useSocketConnection';
+import { useMessageStatus } from '@/hooks/context/useMessageStatus';
+
+import { Button } from '@/components/ui/button';
 
 const sideBarItemVariants = cva(
    'flex items-center justify-start gap-1.5 font-normal h-7 px-[20px] text-sm overflow-hidden cursor-pointer',

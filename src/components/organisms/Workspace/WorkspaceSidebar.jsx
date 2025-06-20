@@ -1,16 +1,21 @@
-import { UserButton } from '@/components/atoms/UserButton/UserButton';
-import { SidebarButton } from '@/components/molecules/SidebarButton/SidebarButton';
-import { BellIcon, HomeIcon, MessageSquareIcon, MoreHorizontalIcon } from 'lucide-react';
-import { WorkspaceSwitcher } from './WorkspaceSwitcher';
 import { useLocation, useNavigate } from 'react-router-dom';
+
+import { BellIcon, HomeIcon, MessageSquareIcon, MoreHorizontalIcon } from 'lucide-react';
+
+import { useFetchWorkspace } from '@/hooks/apis/workspaces/useFetchWorkspace';
+
+import { Button } from '@/components/ui/button';
 import {
    DropdownMenu,
    DropdownMenuContent,
    DropdownMenuItem,
    DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
-import { Button } from '@/components/ui/button';
-import { useFetchWorkspace } from '@/hooks/apis/workspaces/useFetchWorkspace';
+
+import { UserButton } from '@/components/atoms/UserButton/UserButton';
+import { SidebarButton } from '@/components/molecules/SidebarButton/SidebarButton';
+
+import { WorkspaceSwitcher } from './WorkspaceSwitcher';
 
 export const WorkspaceSidebar = () => {
    const navigate = useNavigate();

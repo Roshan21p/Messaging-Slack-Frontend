@@ -1,9 +1,12 @@
-import { Button } from '@/components/ui/button';
-import { useAuth } from '@/hooks/context/useAuth';
-import { useCurrentWorkspace } from '@/hooks/context/useCurrentWorkspace';
-import { PlusIcon } from 'lucide-react';
 import { useState } from 'react';
 import { FaCaretDown, FaCaretRight } from 'react-icons/fa';
+
+import { PlusIcon } from 'lucide-react';
+
+import { useAuth } from '@/hooks/context/useAuth';
+import { useCurrentWorkspace } from '@/hooks/context/useCurrentWorkspace';
+
+import { Button } from '@/components/ui/button';
 
 export const WorkspacePanelSection = ({ children, label, onIconClick }) => {
    const [open, setOpen] = useState(false);

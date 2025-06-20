@@ -1,3 +1,11 @@
+import { useState } from 'react';
+
+import { useQueryClient } from '@tanstack/react-query';
+
+import { useAddChannelToWorkspace } from '@/hooks/apis/workspaces/useAddChannelToWorkspace';
+import { useCreateChannelModal } from '@/hooks/context/useCreateChannelModal';
+import { useCurrentWorkspace } from '@/hooks/context/useCurrentWorkspace';
+
 import { Button } from '@/components/ui/button';
 import {
    Dialog,
@@ -8,11 +16,6 @@ import {
    DialogTitle
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
-import { useAddChannelToWorkspace } from '@/hooks/apis/workspaces/useAddChannelToWorkspace';
-import { useCreateChannelModal } from '@/hooks/context/useCreateChannelModal';
-import { useCurrentWorkspace } from '@/hooks/context/useCurrentWorkspace';
-import { useQueryClient } from '@tanstack/react-query';
-import { useState } from 'react';
 
 export const CreateChannelModal = () => {
    const queryClient = useQueryClient();

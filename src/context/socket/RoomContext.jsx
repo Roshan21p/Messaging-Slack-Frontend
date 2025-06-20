@@ -1,5 +1,6 @@
-import { useSocketConnection } from '@/hooks/context/socket/useSocketConnection';
 import { createContext, useEffect, useRef, useState } from 'react';
+
+import { useSocketConnection } from '@/hooks/context/socket/useSocketConnection';
 
 const RoomContext = createContext();
 

@@ -1,7 +1,9 @@
-import { getChannelById } from '@/apis/channels';
+import { useQuery } from '@tanstack/react-query';
+
 import { useAuth } from '@/hooks/context/useAuth';
 import { useToast } from '@/hooks/use-toast';
-import { useQuery } from '@tanstack/react-query';
+
+import { getChannelById } from '@/apis/channels';
 
 export const useGetChannelById = (channelId) => {
    const { auth } = useAuth();

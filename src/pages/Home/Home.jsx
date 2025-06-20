@@ -1,11 +1,13 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import slack from '../../../public/Slack_Logo.jpg';
 
-import { useAuth } from '@/hooks/context/useAuth';
 import { useFetchWorkspace } from '@/hooks/apis/workspaces/useFetchWorkspace';
+import { useAuth } from '@/hooks/context/useAuth';
 import { useCreateWorkspaceModal } from '@/hooks/context/useCreateWorkspaceModal';
+
 import { UserButton } from '@/components/atoms/UserButton/UserButton';
+
+import slack from '../../../public/Slack_Logo.jpg';
 
 export const Home = () => {
    const navigate = useNavigate();

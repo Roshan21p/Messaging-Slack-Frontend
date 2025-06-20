@@ -1,12 +1,15 @@
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
+import { useEffect, useRef, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+
+import { cva } from 'class-variance-authority';
+
+import { cn } from '@/lib/utils';
 import { useSocketConnection } from '@/hooks/context/socket/useSocketConnection';
 import { useCurrentWorkspace } from '@/hooks/context/useCurrentWorkspace';
 import { useMessageStatus } from '@/hooks/context/useMessageStatus';
-import { cn } from '@/lib/utils';
-import { cva } from 'class-variance-authority';
-import { useEffect, useRef, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
 
 const userItemVariants = cva(
    'flex items-center gap-1.5 justify-start font-normal h-9 px-4 mt-2 text-sm cursor-pointer',

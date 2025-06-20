@@ -1,13 +1,16 @@
-import { SideBarItem } from '@/components/atoms/SideBarItem/SideBarItem';
-import { UserItem } from '@/components/atoms/UserItem/UserItem';
-import { Button } from '@/components/ui/button';
-import { useFetchAllUsers } from '@/hooks/apis/auth/useFetchAllUsers';
-import { useAuth } from '@/hooks/context/useAuth';
-
-import { AlertTriangleIcon, BookmarkIcon, Loader, SendHorizonalIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { FaCaretDown, FaCaretRight } from 'react-icons/fa';
 import { useParams } from 'react-router-dom';
+
+import { AlertTriangleIcon, BookmarkIcon, Loader, SendHorizonalIcon } from 'lucide-react';
+
+import { useFetchAllUsers } from '@/hooks/apis/auth/useFetchAllUsers';
+import { useAuth } from '@/hooks/context/useAuth';
+
+import { Button } from '@/components/ui/button';
+
+import { SideBarItem } from '@/components/atoms/SideBarItem/SideBarItem';
+import { UserItem } from '@/components/atoms/UserItem/UserItem';
 
 export const DirectMessagePanel = () => {
    const { id } = useParams();

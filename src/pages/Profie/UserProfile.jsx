@@ -1,8 +1,12 @@
-import { useNavigate } from 'react-router-dom';
-import slack from '../../../public/Slack_Logo.jpg';
-import { useAuth } from '@/hooks/context/useAuth';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import '../../App.css';
+
+import { useNavigate } from 'react-router-dom';
+
+import { useAuth } from '@/hooks/context/useAuth';
+
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+
+import slack from '../../../public/Slack_Logo.jpg';
 
 export const UserProfile = () => {
    const navigate = useNavigate();

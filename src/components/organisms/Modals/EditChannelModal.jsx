@@ -1,3 +1,8 @@
+import { useState } from 'react';
+
+import { useUpdateChannelToWorkspace } from '@/hooks/apis/workspaces/useUpdateChannelToWorkspace';
+import { useConfirm } from '@/hooks/useConfirm';
+
 import { Button } from '@/components/ui/button';
 import {
    Dialog,
@@ -7,10 +12,6 @@ import {
    DialogTitle
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
-import { useUpdateChannelToWorkspace } from '@/hooks/apis/workspaces/useUpdateChannelToWorkspace';
-
-import { useConfirm } from '@/hooks/useConfirm';
-import { useState } from 'react';
 
 export const EditChannelModal = ({
    ChannelName,
@@ -26,14 +27,14 @@ export const EditChannelModal = ({
       message: 'This action cannot be undone.'
    });
 
-   const { useUpdateChannelMutation } = useUpdateChannelToWorkspace(workspaceId);
+   const { UpdateChannelMutation } = useUpdateChannelToWorkspace(workspaceId);
 
    async function handleFormSubmit(e) {
       e.preventDefault();
       try {
          const ok = await updateConfirmation();
          if (!ok) return;
-         await useUpdateChannelMutation({
+         await UpdateChannelMutation({
             channelId,
             channelName: renameValue
          });

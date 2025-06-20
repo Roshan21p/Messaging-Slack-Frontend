@@ -1,7 +1,9 @@
-import { createWorkspaceRequest } from '@/apis/workspaces';
+import { useMutation } from '@tanstack/react-query';
+
 import { useAuth } from '@/hooks/context/useAuth';
 import { useToast } from '@/hooks/use-toast';
-import { useMutation } from '@tanstack/react-query';
+
+import { createWorkspaceRequest } from '@/apis/workspaces';
 
 export const useCreateWorkspace = () => {
    const { auth } = useAuth();

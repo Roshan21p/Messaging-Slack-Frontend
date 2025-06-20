@@ -1,6 +1,8 @@
-import { fetchWorkspaceDetailsRequest } from '@/apis/workspaces';
-import { useAuth } from '@/hooks/context/useAuth';
 import { useQuery } from '@tanstack/react-query';
+
+import { useAuth } from '@/hooks/context/useAuth';
+
+import { fetchWorkspaceDetailsRequest } from '@/apis/workspaces';
 
 export const useGetWorkspaceById = (id) => {
    const { auth } = useAuth();

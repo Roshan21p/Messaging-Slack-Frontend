@@ -1,3 +1,13 @@
+import { useState } from 'react';
+import { useParams } from 'react-router-dom';
+
+import { useQueryClient } from '@tanstack/react-query';
+import { TrashIcon } from 'lucide-react';
+import { toast } from 'sonner';
+
+import { useDeleteMemberFromWorkspace } from '@/hooks/apis/workspaces/useDeleteMemberFromWorkspace';
+import { useConfirm } from '@/hooks/useConfirm';
+
 import { Button } from '@/components/ui/button';
 import {
    Dialog,
@@ -7,13 +17,6 @@ import {
    DialogHeader,
    DialogTitle
 } from '@/components/ui/dialog';
-import { useDeleteMemberFromWorkspace } from '@/hooks/apis/workspaces/useDeleteMemberFromWorkspace';
-import { useConfirm } from '@/hooks/useConfirm';
-import { useQueryClient } from '@tanstack/react-query';
-import { TrashIcon } from 'lucide-react';
-import { useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { toast } from 'sonner';
 
 export const WorkspaceRemoveMemberModal = ({
    openDeleteModal,

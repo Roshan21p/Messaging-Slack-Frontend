@@ -1,9 +1,11 @@
-import { useCurrentWorkspace } from '@/hooks/context/useCurrentWorkspace';
-import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { useSocket } from '@/hooks/context/useSocket';
 import { useLocation } from 'react-router-dom';
+
 import { useRoom } from '@/hooks/context/socket/useRoom';
+import { useCurrentWorkspace } from '@/hooks/context/useCurrentWorkspace';
+import { useSocket } from '@/hooks/context/useSocket';
+
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 
 export const DirectMessageHeader = ({ name, userDetails }) => {
    const location = useLocation();

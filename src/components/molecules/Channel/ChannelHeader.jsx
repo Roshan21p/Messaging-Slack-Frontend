@@ -1,4 +1,17 @@
-import { EditChannelModal } from '@/components/organisms/Modals/EditChannelModal';
+import { useState } from 'react';
+import { FaChevronCircleDown } from 'react-icons/fa';
+import { useNavigate, useParams } from 'react-router-dom';
+
+import { useQueryClient } from '@tanstack/react-query';
+import { Pencil, TrashIcon } from 'lucide-react';
+
+import { useDeleteChannelFromWorkspace } from '@/hooks/apis/workspaces/useDeleteChannelFromWorkspace';
+import { useRoom } from '@/hooks/context/socket/useRoom';
+import { useAuth } from '@/hooks/context/useAuth';
+import { useCurrentWorkspace } from '@/hooks/context/useCurrentWorkspace';
+import { useSocket } from '@/hooks/context/useSocket';
+import { useConfirm } from '@/hooks/useConfirm';
+
 import { Button } from '@/components/ui/button';
 import {
    Dialog,
@@ -7,17 +20,8 @@ import {
    DialogTitle,
    DialogTrigger
 } from '@/components/ui/dialog';
-import { useDeleteChannelFromWorkspace } from '@/hooks/apis/workspaces/useDeleteChannelFromWorkspace';
-import { useRoom } from '@/hooks/context/socket/useRoom';
-import { useAuth } from '@/hooks/context/useAuth';
-import { useCurrentWorkspace } from '@/hooks/context/useCurrentWorkspace';
-import { useSocket } from '@/hooks/context/useSocket';
-import { useConfirm } from '@/hooks/useConfirm';
-import { useQueryClient } from '@tanstack/react-query';
-import { Pencil, TrashIcon } from 'lucide-react';
-import { useState } from 'react';
-import { FaChevronCircleDown } from 'react-icons/fa';
-import { useNavigate, useParams } from 'react-router-dom';
+
+import { EditChannelModal } from '@/components/organisms/Modals/EditChannelModal';
 
 export const ChannelHeader = ({ name }) => {
    const { channelId } = useParams();

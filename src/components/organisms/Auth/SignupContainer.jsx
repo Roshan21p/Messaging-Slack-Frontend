@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
-import { SignupCard } from './SignupCard';
-import { useSignup } from '@/hooks/apis/auth/useSignup';
 import { useNavigate } from 'react-router-dom';
+
+import { useSignup } from '@/hooks/apis/auth/useSignup';
+
+import { SignupCard } from './SignupCard';
 
 export const SignupContainer = () => {
    const navigate = useNavigate();

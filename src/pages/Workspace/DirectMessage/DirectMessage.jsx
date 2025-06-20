@@ -1,6 +1,8 @@
-import { ChatInput } from '@/components/molecules/ChatInput/ChatInput';
-import { DirectMessageHeader } from '@/components/molecules/DirectMessage/DirectMessageHeader';
-import { Message } from '@/components/molecules/Message/Message';
+import { useEffect, useRef } from 'react';
+import { useParams } from 'react-router-dom';
+
+import { Loader2Icon, TriangleAlertIcon } from 'lucide-react';
+
 import { useGetByUsername } from '@/hooks/apis/auth/useGetByUsername';
 import { useGetDirectMessages } from '@/hooks/apis/DirectMessage/useGetDirectMessages';
 import { useRoom } from '@/hooks/context/socket/useRoom';
@@ -8,9 +10,10 @@ import { useTyping } from '@/hooks/context/socket/useTyping';
 import { useAuth } from '@/hooks/context/useAuth';
 import { useChannelMessages } from '@/hooks/context/useChannelMessages';
 import { useSocket } from '@/hooks/context/useSocket';
-import { Loader2Icon, TriangleAlertIcon } from 'lucide-react';
-import { useEffect, useRef } from 'react';
-import { useParams } from 'react-router-dom';
+
+import { ChatInput } from '@/components/molecules/ChatInput/ChatInput';
+import { DirectMessageHeader } from '@/components/molecules/DirectMessage/DirectMessageHeader';
+import { Message } from '@/components/molecules/Message/Message';
 
 export const DirectMessage = () => {
    const { id, username } = useParams();

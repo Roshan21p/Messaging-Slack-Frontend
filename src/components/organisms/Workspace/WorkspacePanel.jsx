@@ -1,11 +1,6 @@
-import { SideBarItem } from '@/components/atoms/SideBarItem/SideBarItem';
-import { UserItem } from '@/components/atoms/UserItem/UserItem';
-import { WorkspacePanelHeader } from '@/components/molecules/Workspace/WorkspacePanelHeader';
-import { WorkspacePanelSection } from '@/components/molecules/Workspace/WorkspacePanelSection';
-import { useGetWorkspaceById } from '@/hooks/apis/workspaces/useGetWorkspaceById';
-import { useAuth } from '@/hooks/context/useAuth';
-import { useCreateChannelModal } from '@/hooks/context/useCreateChannelModal';
-import { useCurrentWorkspace } from '@/hooks/context/useCurrentWorkspace';
+import { useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+
 import {
    AlertTriangleIcon,
    HashIcon,
@@ -13,8 +8,16 @@ import {
    MessageSquareTextIcon,
    SendHorizonalIcon
 } from 'lucide-react';
-import { useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+
+import { useGetWorkspaceById } from '@/hooks/apis/workspaces/useGetWorkspaceById';
+import { useAuth } from '@/hooks/context/useAuth';
+import { useCreateChannelModal } from '@/hooks/context/useCreateChannelModal';
+import { useCurrentWorkspace } from '@/hooks/context/useCurrentWorkspace';
+
+import { SideBarItem } from '@/components/atoms/SideBarItem/SideBarItem';
+import { UserItem } from '@/components/atoms/UserItem/UserItem';
+import { WorkspacePanelHeader } from '@/components/molecules/Workspace/WorkspacePanelHeader';
+import { WorkspacePanelSection } from '@/components/molecules/Workspace/WorkspacePanelSection';
 
 export const WorkspacePanel = () => {
    const { workspaceId, id, channelId } = useParams();

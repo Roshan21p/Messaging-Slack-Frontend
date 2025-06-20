@@ -1,7 +1,9 @@
-import { deleteMemberFromWorkspace } from '@/apis/workspaces';
+import { useMutation } from '@tanstack/react-query';
+
 import { useAuth } from '@/hooks/context/useAuth';
 import { useToast } from '@/hooks/use-toast';
-import { useMutation } from '@tanstack/react-query';
+
+import { deleteMemberFromWorkspace } from '@/apis/workspaces';
 
 export const useDeleteMemberFromWorkspace = () => {
    const { auth } = useAuth();

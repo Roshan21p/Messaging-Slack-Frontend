@@ -1,7 +1,9 @@
-import { fetchAllUsers } from '@/apis/auth';
+import { useQuery } from '@tanstack/react-query';
+
 import { useAuth } from '@/hooks/context/useAuth';
 import { useToast } from '@/hooks/use-toast';
-import { useQuery } from '@tanstack/react-query';
+
+import { fetchAllUsers } from '@/apis/auth';
 
 export const useFetchAllUsers = (options = {}) => {
    const { auth } = useAuth();

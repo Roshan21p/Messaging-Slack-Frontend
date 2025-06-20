@@ -1,4 +1,14 @@
-import { WorkspaceInviteModal } from '@/components/organisms/Modals/WorkspaceInviteModal';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import { useQueryClient } from '@tanstack/react-query';
+import { ChevronDownCircle, ListFilterIcon, LogOutIcon, SquarePenIcon } from 'lucide-react';
+
+import { useLeaveWorkspace } from '@/hooks/apis/workspaces/useLeaveWorkspace';
+import { useAuth } from '@/hooks/context/useAuth';
+import { useWorkspacePreferencesModal } from '@/hooks/context/useWorkspacePreferencesModal';
+import { useConfirm } from '@/hooks/useConfirm';
+
 import { Button } from '@/components/ui/button';
 import {
    DropdownMenu,
@@ -7,15 +17,9 @@ import {
    DropdownMenuSeparator,
    DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
-import { useAuth } from '@/hooks/context/useAuth';
-import { useWorkspacePreferencesModal } from '@/hooks/context/useWorkspacePreferencesModal';
-import { ChevronDownCircle, ListFilterIcon, LogOutIcon, SquarePenIcon } from 'lucide-react';
-import { useEffect, useState } from 'react';
+
+import { WorkspaceInviteModal } from '@/components/organisms/Modals/WorkspaceInviteModal';
 import { WorkspaceRemoveMemberModal } from '@/components/organisms/Modals/WorkspaceRemoveMemberModal';
-import { useLeaveWorkspace } from '@/hooks/apis/workspaces/useLeaveWorkspace';
-import { useConfirm } from '@/hooks/useConfirm';
-import { useNavigate } from 'react-router-dom';
-import { useQueryClient } from '@tanstack/react-query';
 
 export const WorkspacePanelHeader = ({ workspace }) => {
    const navigate = useNavigate();

@@ -1,6 +1,8 @@
-import { markMessageAsRead } from '@/apis/MessageStatus';
-import { useAuth } from '@/hooks/context/useAuth';
 import { useMutation } from '@tanstack/react-query';
+
+import { useAuth } from '@/hooks/context/useAuth';
+
+import { markMessageAsRead } from '@/apis/MessageStatus';
 
 export const useMarkMessageAsRead = () => {
    const { auth } = useAuth();
