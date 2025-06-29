@@ -150,7 +150,18 @@ export const Editor = ({ onSubmit, disabled }) => {
       const content = quillRef.current?.getContents();
       if (!content || !onSubmit) return;
 
-      onSubmit({ body: JSON.stringify(content), image });
+      const cleanedContent = {
+         ...content,
+         ops: content.ops.map((op) => {
+            if (typeof op.insert === 'string') {
+               const cleaned = op.insert.replace(/\s+/g, ' ').trim();
+               return { ...op, insert: cleaned };
+            }
+            return op;
+         })
+      };
+
+      onSubmit({ body: JSON.stringify(cleanedContent), image });
 
       //Stop typing after message is sent
       const roomId = currentChannel || currentRoomId;

@@ -2,6 +2,7 @@ import { createContext, useEffect, useState } from 'react';
 
 import { useGetUnreadMessageCount } from '@/hooks/apis/MessageStatus/useGetUnreadMessageCount';
 import { useCurrentWorkspace } from '@/hooks/context/useCurrentWorkspace';
+import { useGetUnreadDmMessageCount } from '@/hooks/apis/MessageStatus/useGetUnreadDmMessageCont';
 
 const MessageStatusContext = createContext();
 
@@ -10,11 +11,12 @@ export const MessageStatusContextProvider = ({ children }) => {
    const workspaceId = currentWorkspace?._id;
 
    const { unreadMessageCount: apiUnreadCount, isSuccess } = useGetUnreadMessageCount(workspaceId);
+   const { unreadDmMessageCount, isSuccess: success } = useGetUnreadDmMessageCount();
 
    const [unreadMessageCount, setUnreadMessageCount] = useState([]);
    const [dmUnreadMessageCount, setDmUnreadMessageCount] = useState([]);
 
-   console.log('apiUnreadCount', apiUnreadCount);
+   console.log('apiUnreadCount', apiUnreadCount, unreadDmMessageCount);
 
    // Set initial unread message count from API
    useEffect(() => {
@@ -22,8 +24,10 @@ export const MessageStatusContextProvider = ({ children }) => {
          setUnreadMessageCount(apiUnreadCount.channels); // store only channels here
          setDmUnreadMessageCount(apiUnreadCount.dms);
          console.log('Updated unreadMessageCount:', apiUnreadCount);
+      } else if (success && unreadDmMessageCount) {
+         setDmUnreadMessageCount(unreadDmMessageCount);
       }
-   }, [isSuccess, apiUnreadCount]);
+   }, [isSuccess, apiUnreadCount, unreadDmMessageCount]);
 
    console.log('unreadMessageCount in message status', unreadMessageCount);
 

@@ -77,7 +77,7 @@ export const SideBarItem = ({
          className={cn(sideBarItemVariants({ variant }))}
          onClick={handleClick}
       >
-         <div className="flex items-center justify-between w-full">
+         <div className="flex items-center justify-between w-full h-full">
             <div className="flex items-center gap-1.5">
                <Icon className="size-3.5 mr-1" />
                <span className="text-sm">{label}</span>

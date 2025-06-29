@@ -83,6 +83,11 @@ export const DirectMessagePanel = () => {
                userDetails
                   ?.filter((user) => user?.username !== auth?.user?.username)
                   ?.map((user) => {
+                     const memberId = user?._id;
+                     const currentUserId = auth?.user?._id;
+
+                     // construct roomId same as backend
+                     const roomId = [currentUserId, memberId].sort().join('_');
                      return (
                         <UserItem
                            key={user?._id}
@@ -90,6 +95,7 @@ export const DirectMessagePanel = () => {
                            id={user?._id}
                            variant={id === user?._id ? 'active' : 'default'}
                            image={user?.avatar}
+                           roomId={roomId}
                         />
                      );
                   })}

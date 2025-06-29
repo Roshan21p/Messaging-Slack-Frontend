@@ -53,7 +53,7 @@ export const UserItem = ({ id, username = 'member', variant, image, roomId }) =>
       if (variant === 'active' && localUnread > 0 && !hasMarkedReadRef.current[id]) {
          hasMarkedReadRef.current[id] = true;
          resetDmUnreadCount(roomId);
-         socket?.emit('MarkMessagesAsRead', { workspaceId: workspace?._id, roomId }, (data) => {
+         socket?.emit('MarkMessagesAsRead', { roomId }, (data) => {
             console.log('Marked as read from useEffect:', roomId, data);
          });
          console.log('trigger');

@@ -10,9 +10,9 @@ export const WorkspaceLayout = () => {
    const outlet = useOutlet(); // detects if nested route is matched
 
    return (
-      <div className="h-[100vh]">
+      <div className=" flex flex-col h-screen">
          <WorkspaceNavbar />
-         <div className="flex h-[calc(100vh-40px)]">
+         <div className="flex flex-1">
             <WorkspaceSidebar />
             <ResizablePanelGroup direction="horizontal" autoSaveId={'workspace-resize'}>
                <ResizablePanel defaultSize={20} minSize={5} className="bg-slack-medium">

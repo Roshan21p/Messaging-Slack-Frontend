@@ -6,6 +6,8 @@ export const MessageRenderer = ({ value }) => {
    const rendererRef = useRef(null);
    const [isEmpty, setIsEmpty] = useState(false);
 
+   console.log('value', value);
+
    useEffect(() => {
       //  console.log('Renderer Ref: ', rendererRef.current);
       if (!rendererRef.current) return;

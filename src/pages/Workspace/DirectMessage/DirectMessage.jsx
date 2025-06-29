@@ -93,10 +93,10 @@ export const DirectMessage = () => {
 
          {/* We need to make sure that below div is scrollable for the messages */}
          <div className="flex-6 overflow-y-auto p-5 gap-y-2" ref={messageContainerListRef}>
-            {messageList?.map((message) => {
+            {messageList?.map((message, index) => {
                return (
                   <Message
-                     key={message?._id}
+                     key={message?._id || index}
                      body={message?.body}
                      authorImage={message?.senderId?.avatar}
                      authorName={message?.senderId?.username}
