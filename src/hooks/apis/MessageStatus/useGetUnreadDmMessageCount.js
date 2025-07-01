@@ -16,6 +16,7 @@ export const useGetUnreadDmMessageCount = () => {
       queryFn: () => getUnreadDmMessageCount({ token: auth?.token }),
       queryKey: ['unreadDmMessageCount', auth?.user?._id],
       enabled: !!auth?.token,
+      retry: false,
       staleTime: 5 * 60 * 1000,
       gcTime: 5 * 60 * 1000
    });

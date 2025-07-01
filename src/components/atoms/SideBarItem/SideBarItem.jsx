@@ -26,7 +26,8 @@ export const SideBarItem = ({
    label,
    id, // channelId
    icon: Icon,
-   variant
+   variant,
+   badgeCount = 0
 }) => {
    const { workspaceId } = useParams();
    const navigate = useNavigate();
@@ -82,6 +83,12 @@ export const SideBarItem = ({
                <Icon className="size-3.5 mr-1" />
                <span className="text-sm">{label}</span>
             </div>
+
+            {badgeCount > 0 && (
+               <span className="ml-auto bg-red-500 text-white text-xs px-1 py-1 rounded-full min-w-[25px] text-center">
+                  {badgeCount}
+               </span>
+            )}
 
             {localUnread > 0 && (
                <span className="ml-auto bg-red-500 text-white text-xs px-1 py-1 rounded-full min-w-[25px] text-center">

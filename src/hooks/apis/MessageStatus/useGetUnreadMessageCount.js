@@ -17,6 +17,7 @@ export const useGetUnreadMessageCount = (workspaceId) => {
       queryFn: () => getUnreadMessageCount({ workspaceId, token: auth?.token }),
       queryKey: ['unreadMessageCount', workspaceId, auth?.user?._id],
       enabled: !!auth?.token && !!workspaceId,
+      retry: false,
       staleTime: 5 * 60 * 1000,
       gcTime: 5 * 60 * 1000
    });

@@ -207,7 +207,7 @@ export const Editor = ({ onSubmit, disabled }) => {
                   <Button
                      size="iconSm"
                      variant="ghost"
-                     disabled={false}
+                     disabled={disabled}
                      onClick={toggleToolbar}
                      className="cursor-pointer"
                   >
@@ -219,7 +219,7 @@ export const Editor = ({ onSubmit, disabled }) => {
                   <Button
                      size="iconSm"
                      variant="ghost"
-                     disabled={false}
+                     disabled={disabled}
                      onClick={() => {
                         imageInputRef.current.click();
                      }}

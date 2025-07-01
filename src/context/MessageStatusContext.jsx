@@ -2,7 +2,7 @@ import { createContext, useEffect, useState } from 'react';
 
 import { useGetUnreadMessageCount } from '@/hooks/apis/MessageStatus/useGetUnreadMessageCount';
 import { useCurrentWorkspace } from '@/hooks/context/useCurrentWorkspace';
-import { useGetUnreadDmMessageCount } from '@/hooks/apis/MessageStatus/useGetUnreadDmMessageCont';
+import { useGetUnreadDmMessageCount } from '@/hooks/apis/MessageStatus/useGetUnreadDmMessageCount';
 
 const MessageStatusContext = createContext();
 

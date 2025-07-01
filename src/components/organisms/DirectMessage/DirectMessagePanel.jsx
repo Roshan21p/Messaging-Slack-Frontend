@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { FaCaretDown, FaCaretRight } from 'react-icons/fa';
 import { useParams } from 'react-router-dom';
 
-import { AlertTriangleIcon, BookmarkIcon, Loader, SendHorizonalIcon } from 'lucide-react';
+import { AlertTriangleIcon, Bell, Loader, SendHorizonalIcon } from 'lucide-react';
 
 import { useFetchAllUsers } from '@/hooks/apis/auth/useFetchAllUsers';
 import { useAuth } from '@/hooks/context/useAuth';
@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button';
 
 import { SideBarItem } from '@/components/atoms/SideBarItem/SideBarItem';
 import { UserItem } from '@/components/atoms/UserItem/UserItem';
+import { useMessageStatus } from '@/hooks/context/useMessageStatus';
 
 export const DirectMessagePanel = () => {
    const { id } = useParams();
@@ -18,6 +19,17 @@ export const DirectMessagePanel = () => {
    const { isFetching, isSuccess, isError, error, userDetails } = useFetchAllUsers();
    const { auth, logout } = useAuth();
    const [open, setOpen] = useState(false);
+   const { dmUnreadMessageCount } = useMessageStatus();
+
+   // Calculate total unread DMs
+   const totalUnreadDMs =
+      userDetails?.reduce((total, user) => {
+         if (user?._id === auth?.user?._id) return total;
+
+         const roomId = [auth?.user?._id, user?._id].sort().join('_');
+         const roomUnread = dmUnreadMessageCount?.find((item) => item?.roomId === roomId);
+         return total + (roomUnread?.unreadCount || 0);
+      }, 0) || 0;
 
    useEffect(() => {
       if (isError && error?.status === 403) {
@@ -49,10 +61,10 @@ export const DirectMessagePanel = () => {
          <div className="flex flex-col px-2 mt-2">
             <SideBarItem
                label="Unread"
-               icon={BookmarkIcon}
+               icon={Bell}
                id="unread-dms"
                variant="active"
-               badgeCount={5}
+               badgeCount={totalUnreadDMs}
             />
             <SideBarItem
                label="Mentions"
