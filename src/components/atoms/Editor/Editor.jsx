@@ -56,7 +56,6 @@ export const Editor = ({ onSubmit, disabled }) => {
          modules: {
             toolbar: [
                ['bold', 'italic', 'underline', 'strike'],
-               ['link'],
                [{ list: 'ordered' }, { list: 'bullet' }],
                ['clean']
             ],
@@ -87,7 +86,7 @@ export const Editor = ({ onSubmit, disabled }) => {
       quill.setContents(defaultValueRef.current);
    }, []);
 
-   // ✅ Attach the typing handler AFTER Quill is initialized
+   // Attach the typing handler AFTER Quill is initialized
    useEffect(() => {
       if (!quillRef.current) return;
 
