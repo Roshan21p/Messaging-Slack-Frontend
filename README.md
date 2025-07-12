@@ -22,7 +22,7 @@ This is the **frontend** of the application, built with **React**, **Tailwind CS
 - Track online users’ presence
 - Unread message counts per channel/DM
 - Workspace creation and member invitations
-- Email notifications using a message queue system (e.g., BullMQ + Redis)
+- Email notifications using a message queue system (e.g., Bull + Redis)
 - Channel and Direct Messaging support
 - Media upload support via Cloudinary
 - Toast notifications and error handling
